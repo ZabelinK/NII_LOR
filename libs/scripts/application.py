@@ -16,6 +16,7 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 class MediaPanel(wx.Panel):
     """"""
     #----------------------------------------------------------------------
+
     def __init__(self, parent):
         """Constructor"""
         wx.Panel.__init__(self, parent=parent)
@@ -39,29 +40,59 @@ class MediaPanel(wx.Panel):
         Create and layout the widgets
         """
         
+        wx.InitAllImageHandlers()
+
         try:
             self.mediaPlayer = wx.media.MediaCtrl(self, style=wx.SIMPLE_BORDER)
         except NotImplementedError:
             self.Destroy()
             raise
-                
-        self.recordBtn = wx.ToggleButton(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Начать запись")
+
+        self.recordBtn = wx.ToggleButton(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Начать запись", size=(120, 30))
         self.recordBtn.Bind(wx.EVT_TOGGLEBUTTON, self.onRecord)
 
         self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_WORDWRAP, 
             value="", name="Результаты распознавания", size=(400, 500))
 
+        self.helpLabel = wx.StaticText(self, label="Для того чтобы начать распознавать голос, " \
+                                        "нажмите на кнопку 'Начать запись', говорите фразы в микрофон, " \
+                                        "а затем нажмите на кнопку еще раз. Распознанный текст выведется " \
+                                        "на в текстовое поле, через 1-10 секунд.", size=(400, 90))
+
+        self.textLabel = wx.StaticText(self, label="Распознанный текст")
+
+        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_ANY), size=(32, 32))
+
+
         # Create sizers
         mainSizer = wx.BoxSizer(wx.VERTICAL)
-        hSizer = wx.BoxSizer(wx.VERTICAL)
-                
+        vSizer = wx.BoxSizer(wx.VERTICAL)
+        hSizer = wx.BoxSizer(wx.HORIZONTAL)
+        vvSizer = wx.BoxSizer(wx.VERTICAL)
+
+        vvSizer.Add(self.recordBtn, 0, wx.ALL, 5)
+        vvSizer.Add(self.redCircle, 0, wx.ALL, 5)
+
+
+    
+        object_methods = [method_name for method_name in dir(wx.StaticBitmap)
+                  if callable(getattr(wx.StaticBitmap, method_name))]
+        print("\n".join(object_methods))
+        self.redCircle.Hide()
+
+        hSizer.Add(vvSizer, 0, wx.ALL, 5)
+        hSizer.Add(self.helpLabel, 0, wx.ALL, 5)
+
         # layout widgets
-        hSizer.Add(self.recordBtn, 0, wx.ALL, 5)
-        hSizer.Add(self.textRes, 0, wx.ALL, 5)
-        mainSizer.Add(hSizer)
+        vSizer.Add(hSizer, 0, wx.ALL, 5)
+        vSizer.Add(self.textLabel, 0, wx.ALL, 5)
+        vSizer.Add(self.textRes, 0, wx.ALL, 5)
+        mainSizer.Add(vSizer)
         
         self.SetSizer(mainSizer)
         self.Layout()
+
+
 
     def saveDataToWav(self):
         """
@@ -80,15 +111,14 @@ class MediaPanel(wx.Panel):
 
         print("Data saved to {}".format(self.wav_name))
 
-        rsp = requests.post(self.recognize_service, data = wav_data)
 
-        print("Response from recognize service {}".format(str(rsp)))
         try:
+            rsp = requests.post(self.recognize_service, data = wav_data)
+            print("Response from recognize service {}".format(str(rsp)))
             return json.loads(rsp.text)["text"]
         except Exception as e:
-            print(rsp)
             print(e)
-            return None
+            return "< ERROR > Ошибка в консоле"
 
     def startRecord(self):
         """
@@ -100,6 +130,8 @@ class MediaPanel(wx.Panel):
         self.data = np.empty([1, 2])
         self.stream = sd.InputStream(samplerate=self.fs, channels=2, callback=callback)
         self.stream.start()
+        self.redCircle.Show()
+        self.redCircle.SetPosition((40,60))
         print("Start recording")
     
     def stopRecord(self):
@@ -107,6 +139,7 @@ class MediaPanel(wx.Panel):
         Stop Record
         """
         self.stream.stop()
+        self.redCircle.Hide()
         print("Stop Recording")
         self.saveDataToWav()
         text = self.recognizeWav()
@@ -118,6 +151,8 @@ class MediaPanel(wx.Panel):
             self.textRes.write("< Произошла ошибка, подробности в консоли >")
         else:
             self.textRes.write(text)
+        
+
 
     def onRecord(self, event):
         """
