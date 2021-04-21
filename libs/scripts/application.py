@@ -1,7 +1,7 @@
+import sys
 import os
 import wx
 import wx.media
-import wx.lib.buttons as buttons
 
 import sounddevice as sd
 import soundfile as sf
@@ -17,7 +17,7 @@ class MediaPanel(wx.Panel):
     """"""
     #----------------------------------------------------------------------
 
-    def __init__(self, parent):
+    def __init__(self, parent, tempDir):
         """Constructor"""
         wx.Panel.__init__(self, parent=parent)
         
@@ -33,7 +33,7 @@ class MediaPanel(wx.Panel):
         # record parameters
         self.fs = 8000
         self.data = np.empty([1, 2])
-        self.wav_name = "../workdir/out.wav"
+        self.wav_name = tempDir + "out.wav"
         self.recognize_service = 'https://asr.kube.plintum.dev/recognize?lang=ru'
         self.hideRecordCircle()
         
@@ -182,14 +182,15 @@ class MediaPanel(wx.Panel):
 class MediaFrame(wx.Frame):
  
     #----------------------------------------------------------------------
-    def __init__(self):
+    def __init__(self, tempDir):
         wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука")
-        panel = MediaPanel(self)
+        panel = MediaPanel(self, tempDir)
         
 #----------------------------------------------------------------------
 # Run the program
 if __name__ == "__main__":
+    tempDir = sys.argv[1]
     app = wx.App(False)
-    frame = MediaFrame()
+    frame = MediaFrame(tempDir)
     frame.Show()
     app.MainLoop()
