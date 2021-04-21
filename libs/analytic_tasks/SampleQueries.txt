@@ -1,0 +1,176 @@
+# Get all amount of records in log
+SELECT COUNT(*) FROM logs
+
+
+# Get unique user names
+select DISTINCT log_line -> 'username' AS user_name from logs
+
+
+# Get unique user names and their ids
+select log_line -> 'username' as user_name,
+       log_line #>> '{context, user_id}' AS user_id
+from logs
+GROUP BY user_name, user_id
+order by user_name
+
+
+# Get unique event types
+select DISTINCT log_line -> 'name' AS edx_event from logs
+
+
+# Count amount of established user sessions
+select
+	log_line ->> 'username' as User_Name,
+	log_line #>> '{context, user_id}' as User_Id,
+	count(log_line ->> 'session') as Sessions_used
+from logs
+where
+	log_line #>> '{context, user_id}' != 'null'
+	and log_line #>> '{session}' != 'null'
+group by
+	User_Name, User_Id
+order by Sessions_used desc
+
+
+# Count event number per user session
+select
+	log_line ->> 'username' as User_Name,
+	log_line #>> '{context, user_id}' as User_Id,
+	log_line ->> 'session' as Session_Id,
+	count(log_line ->> 'session') as Events_per_session
+from logs
+where
+	log_line #>> '{context, user_id}' != 'null'
+	and log_line #>> '{session}' != 'null'
+group by
+	User_Name, User_Id, Session_Id
+order by events_per_session desc
+
+# Calculate video start times per day
+select
+    TO_DATE(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS') as time_run,
+    count (*) as count_of_start
+from logs
+where log_line ->> 'event_type' = 'play_video'
+group by time_run
+order by time_run
+
+# Get video start time per user and page
+select
+  log_line -> 'username' as user_name,
+  log_line #>> '{context, user_id}' AS user_id,
+  log_line ->> 'page' AS page,
+  TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP as Video_Start_Time
+from logs
+WHERE log_line ->> 'name' = 'play_video'
+
+
+# Get video stop time per user
+select
+    log_line #>> '{context, user_id}' AS user_id,
+    log_line ->> 'page' AS page,
+    SUM(extract(epoch from TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as Video_Stop_Time
+from logs
+WHERE log_line ->> 'name' = 'stop_video'
+    or log_line ->> 'name' = 'pause_video'
+GROUP BY user_id, page
+
+
+#Get page(section) duration by user
+SELECT startTime.user_id, startTime.page, stopTime.Video_Stop_Time-startTime.Video_Start_Time as Duration FROM (
+	select
+		log_line #>> '{context, user_id}' AS user_id,
+		log_line ->> 'page' AS page,
+		SUM(extract(epoch from TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as Video_Stop_Time
+	from logs
+	WHERE log_line ->> 'name' = 'stop_video'
+	    or log_line ->> 'name' = 'page_close'
+	GROUP BY user_id, page) stopTime
+INNER JOIN (
+	select
+		log_line #>> '{context, user_id}' AS user_id,
+		log_line ->> 'page' AS page,
+		SUM(extract(epoch from TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as Video_Start_Time
+	from logs
+	WHERE log_line ->> 'name' = 'play_video'
+	GROUP BY user_id, page
+) startTime
+ON startTime.user_id=stopTime.user_id and startTime.page=stopTime.page
+
+
+# Users session duration
+select
+	log_line #>> '{context, user_id}' as session_user_id,
+	log_line -> 'session' as session_name,
+	MAX(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP) as session_stop_time,
+	MIN(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP) as session_start_time,
+	age(MAX(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP), MIN(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP))
+from logs
+where log_line ->> 'session' != 'null' and log_line ->> 'session' != ''
+group by session_user_id, session_name
+order by session_stop_time desc
+
+# User time on course
+select durationTable.session_user_id, SUM(durationTable.session_duration) as time_at_course from (
+	select
+		log_line #>> '{context, user_id}' as session_user_id,
+		log_line -> 'session' as session_name,
+		age(MAX(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP), MIN(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as session_duration
+	from logs
+	where log_line ->> 'session' != 'null' and log_line ->> 'session' != ''
+	group by session_user_id, session_name
+) durationTable
+group by durationTable.session_user_id
+order by time_at_course desc
+
+# User time on coures, but different approach
+select usersAndSessions.user_id, SUM(sessionDurationTable.session_duration) as time_at_course from (
+	select
+		log_line -> 'session' as session_name,
+		age(MAX(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP), MIN(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as session_duration
+	from logs
+	where log_line ->> 'session' != 'null' and log_line ->> 'session' != ''
+	group by session_name
+) sessionDurationTable
+INNER JOIN (
+	select
+		log_line #>> '{context, user_id}' AS user_id,
+		log_line -> 'session' as session_name
+	from logs
+	where log_line #>> '{context, user_id}' != 'null'
+		and log_line #>> '{context, user_id}' != ''
+		and log_line ->> 'session' != 'null'
+		and log_line ->> 'session' != ''
+	group by user_id, session_name
+) usersAndSessions
+ON sessionDurationTable.session_name=usersAndSessions.session_name
+group by usersAndSessions.user_id
+order by time_at_course desc
+
+# Distribution of user time per day, requires user id input as output huge enough by itself
+select durationTable.session_user_id, durationTable.session_date, SUM(durationTable.session_duration) as time_at_course from (
+	select
+		log_line #>> '{context, user_id}' as session_user_id,
+		log_line -> 'session' as session_name,
+		MAX(TO_DATE(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::DATE) as session_date,
+		age(MAX(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP), MIN(TO_TIMESTAMP(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS')::TIMESTAMP)) as session_duration
+	from logs
+	where log_line ->> 'session' != 'null' and log_line ->> 'session' != ''
+	where log_line #>> '{context, user_id}' = 'xxxxx'
+	group by session_user_id, session_name
+) durationTable
+group by durationTable.session_user_id, durationTable.session_date
+order by time_at_course desc
+
+# test names distribution count
+select
+	log_line #>> '{context, module, display_name}' as module_name,
+	TO_DATE(log_line ->> 'time', 'YYYY-MM-DD"T"HH24:MI:SS') as time_run,
+	count(*) as interaction_count
+from logs
+where log_line #>> '{context, module, display_name}' != 'null'
+group by module_name, time_run
+order by interaction_count desc
+
+#get pdfs text search words
+select    unescape(split_part(log_line ->> 'event', ',', 6)) as r  from logs where log_line ->> 'event_type' = 'textbook.pdf.search.executed';

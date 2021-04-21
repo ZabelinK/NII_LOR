@@ -1,0 +1,9 @@
+openEdu:
+  host: http://localhost:8765
+  userName: MariaIvanovna
+  password: Password@123
+
+analytics:
+  courceID: MyFirstCourse
+  teacherId: <optional>
+  studentId: <optional>
