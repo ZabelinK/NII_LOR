@@ -57,11 +57,11 @@ class MediaPanel(wx.Panel):
         self.helpLabel = wx.StaticText(self, label="Для того чтобы начать распознавать голос, " \
                                         "нажмите на кнопку 'Начать запись', говорите фразы в микрофон, " \
                                         "а затем нажмите на кнопку еще раз. Распознанный текст выведется " \
-                                        "на в текстовое поле, через 1-10 секунд.", size=(400, 90))
+                                        "в текстовое поле, через 1-10 секунд.", size=(400, 90))
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
 
-        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_ANY), size=(32, 32))
+        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_PNG), size=(32, 32))
 
 
         # Create sizers
@@ -73,11 +73,6 @@ class MediaPanel(wx.Panel):
         vvSizer.Add(self.recordBtn, 0, wx.ALL, 5)
         vvSizer.Add(self.redCircle, 0, wx.ALL, 5)
 
-
-    
-        object_methods = [method_name for method_name in dir(wx.StaticBitmap)
-                  if callable(getattr(wx.StaticBitmap, method_name))]
-        print("\n".join(object_methods))
         self.redCircle.Hide()
 
         hSizer.Add(vvSizer, 0, wx.ALL, 5)
