@@ -28,13 +28,18 @@ class MediaPanel(wx.Panel):
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
         
+
+
         # record parameters
         self.fs = 8000
         self.data = np.empty([1, 2])
         self.wav_name = "../workdir/out.wav"
         self.recognize_service = 'https://asr.kube.plintum.dev/recognize?lang=ru'
+        self.hideRecordCircle()
+        
         
     #----------------------------------------------------------------------
+
     def layoutControls(self):
         """
         Create and layout the widgets
@@ -57,37 +62,47 @@ class MediaPanel(wx.Panel):
         self.helpLabel = wx.StaticText(self, label="Для того чтобы начать распознавать голос, " \
                                         "нажмите на кнопку 'Начать запись', говорите фразы в микрофон, " \
                                         "а затем нажмите на кнопку еще раз. Распознанный текст выведется " \
-                                        "в текстовое поле, через 1-10 секунд.", size=(400, 90))
+                                        "в текстовое поле через 1-10 секунд.", size=(400, 90))
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
 
         self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_PNG), size=(32, 32))
 
+        self.recordLabel = wx.StaticText(self, label="Идет запись")
 
         # Create sizers
-        mainSizer = wx.BoxSizer(wx.VERTICAL)
-        vSizer = wx.BoxSizer(wx.VERTICAL)
-        hSizer = wx.BoxSizer(wx.HORIZONTAL)
-        vvSizer = wx.BoxSizer(wx.VERTICAL)
+        self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.vSizer = wx.BoxSizer(wx.VERTICAL)
+        self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.vvSizer = wx.BoxSizer(wx.VERTICAL)
 
-        vvSizer.Add(self.recordBtn, 0, wx.ALL, 5)
-        vvSizer.Add(self.redCircle, 0, wx.ALL, 5)
+        self.vvSizer.Add(self.recordBtn, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+        self.vvSizer.Add(self.redCircle, 0, wx.ALL|wx.ALIGN_CENTER, 5)
+        self.vvSizer.Add(self.recordLabel, 0, wx.ALL|wx.ALIGN_CENTER, 5)
 
-        self.redCircle.Hide()
 
-        hSizer.Add(vvSizer, 0, wx.ALL, 5)
-        hSizer.Add(self.helpLabel, 0, wx.ALL, 5)
+        self.hSizer.Add(self.vvSizer, 0, wx.ALL, 5)
+        self.hSizer.Add(self.helpLabel, 0, wx.ALL, 5)
 
         # layout widgets
-        vSizer.Add(hSizer, 0, wx.ALL, 5)
-        vSizer.Add(self.textLabel, 0, wx.ALL, 5)
-        vSizer.Add(self.textRes, 0, wx.ALL, 5)
-        mainSizer.Add(vSizer)
+        self.vSizer.Add(self.hSizer, 0, wx.ALL, 5)
+        self.vSizer.Add(self.textLabel, 0, wx.ALL, 5)
+        self.vSizer.Add(self.textRes, 0, wx.ALL, 5)
+        self.mainSizer.Add(self.vSizer)
         
-        self.SetSizer(mainSizer)
+        self.SetSizer(self.mainSizer)
         self.Layout()
 
 
+    def hideRecordCircle(self):
+        self.redCircle.Hide()
+        self.recordLabel.Hide()
+        self.Layout()
+
+    def showRecordCircle(self):
+        self.redCircle.Show()
+        self.recordLabel.Show()        
+        self.Layout()
 
     def saveDataToWav(self):
         """
@@ -125,8 +140,7 @@ class MediaPanel(wx.Panel):
         self.data = np.empty([1, 2])
         self.stream = sd.InputStream(samplerate=self.fs, channels=2, callback=callback)
         self.stream.start()
-        self.redCircle.Show()
-        self.redCircle.SetPosition((40,60))
+        self.showRecordCircle()
         print("Start recording")
     
     def stopRecord(self):
@@ -134,7 +148,7 @@ class MediaPanel(wx.Panel):
         Stop Record
         """
         self.stream.stop()
-        self.redCircle.Hide()
+        self.hideRecordCircle()
         print("Stop Recording")
         self.saveDataToWav()
         text = self.recognizeWav()
