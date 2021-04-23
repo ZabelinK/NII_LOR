@@ -1,23 +1,16 @@
-import wx
-import wx.media
 from patient_info_panel import *
 from audio_choosing_panel import *
 from patient_testing_panel import *
 from patient_result_panel import *
-from application import *
-import sys
+from recognition_simple_panel import *
 
-from patient_testing_model import *
-from recognition_service import *
-from microphone_service import *
 
 class MainFrame(wx.Frame):
-    def __init__(self):
+    def __init__(self, patient_testing_model, recognition_service_settings, test_settings):
         wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука")
 
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
-
         self.all_panels = []
 
         # Creating all panels
@@ -25,8 +18,9 @@ class MainFrame(wx.Frame):
         self.patient_testing = self.addPanel(PatientTestingPanel(self, next_panel=self.patient_result_panel))
         self.audio_choosing = self.addPanel(AudioChoosingPanel(self, next_panel=self.patient_testing))
         self.patient_info = self.addPanel(PatientInfoPanel(self, next_panel=self.audio_choosing))
-        self.record_audio = self.addPanel(MediaPanel(self, next_panel=self.patient_info, 
-            recognition_service_settings=recognition_service_settings))
+        self.record_audio = self.addPanel(RecognitionSimplePanel(self, next_panel=self.patient_info,
+                                                                 recognition_service_settings=recognition_service_settings,
+                                                                 patient_testing_model=patient_testing_model))
         self.patient_result_panel.next_panel = self.record_audio
 
         self.current_panel = self.record_audio
@@ -42,15 +36,3 @@ class MainFrame(wx.Frame):
     def addPanel(self, panel):
         self.all_panels.append(panel)
         return panel
-
-if __name__ == "__main__":
-    patient_testing_model = PatientTestingModel()
-    test_settings = TestSettings()
-    recognition_service_settings = RecognitionServiceSettings(sys.argv[1])
-
-    application = wx.App(False)
-
-    main_frame = MainFrame()
-    main_frame.Show()
-
-    application.MainLoop()

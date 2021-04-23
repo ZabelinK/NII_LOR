@@ -1,4 +1,3 @@
-import sys
 import os
 import wx
 import wx.media

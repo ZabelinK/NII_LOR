@@ -1,4 +1,3 @@
-import sys
 import os
 import wx
 import wx.media
@@ -24,7 +23,6 @@ class PatientInfoPanel(wx.Panel):
         self.currentFolder = sp.GetDocumentsDir()
 
 
-
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
@@ -39,6 +37,7 @@ class PatientInfoPanel(wx.Panel):
 
         self.SetSizer(self.mainSizer)
         self.Layout()
+
 
     def nextPanel(self, event):
         if self.next_panel == None:
