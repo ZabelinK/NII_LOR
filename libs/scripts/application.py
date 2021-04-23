@@ -7,17 +7,23 @@ from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
 
+from main_panel import *
+
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
 
 
 class MediaPanel(wx.Panel):
 
-    def __init__(self, parent):
+    def __init__(self, parent, next_panel, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.frame = parent
         self.layoutControls()
+
+        self.next_panel = next_panel
+
+        self.recognition_service_settings = recognition_service_settings
 
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
@@ -33,6 +39,9 @@ class MediaPanel(wx.Panel):
 
         self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_WORDWRAP,
             value="", name="Результаты распознавания", size=(400, 500))
+
+        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(120, 30))
+        self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
         self.helpLabel = wx.StaticText(self, label="Для того чтобы начать распознавать голос, " \
                                         "нажмите на кнопку 'Начать запись', говорите фразы в микрофон, " \
@@ -59,6 +68,7 @@ class MediaPanel(wx.Panel):
 
         self.vSizer.Add(self.hSizer, 0, wx.ALL, 5)
         self.vSizer.Add(self.textLabel, 0, wx.ALL, 5)
+        self.vSizer.Add(self.nextBtn, 0, wx.ALL, 5)
         self.vSizer.Add(self.textRes, 0, wx.ALL, 5)
         self.mainSizer.Add(self.vSizer)
 
@@ -80,18 +90,18 @@ class MediaPanel(wx.Panel):
 
     def startRecord(self):
         self.recording_data = RecordingData()
-        start_recording(self.recording_data, recognition_service_settings)
+        start_recording(self.recording_data, self.recognition_service_settings)
         self.showRecordCircle()
         print("Start recording")
 
 
     def stopRecord(self):
-        wav_file_with_speech = stop_recording(self.recording_data, recognition_service_settings)
+        wav_file_with_speech = stop_recording(self.recording_data, self.recognition_service_settings)
         self.hideRecordCircle()
         print("Stop Recording")
 
         text = recognize_wav_file(wav_file_with_speech,
-                                  recognition_service_settings.recognize_service_url)
+                                  self.recognition_service_settings.recognize_service_url)
 
         print("Result : {}".format(text))
 
@@ -113,21 +123,10 @@ class MediaPanel(wx.Panel):
             self.stopRecord()
             self.recordBtn.Enable()
 
-
-class MainFrame(wx.Frame):
-    def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука")
-        panel = MediaPanel(self)
-
-
-if __name__ == "__main__":
-    patient_testing_model = PatientTestingModel()
-    test_settings = TestSettings()
-    recognition_service_settings = RecognitionServiceSettings(sys.argv[1])
-
-    application = wx.App(False)
-
-    main_frame = MainFrame()
-    main_frame.Show()
-
-    application.MainLoop()
+    def nextPanel(self, event):
+        if self.next_panel == None:
+            return
+        
+        self.Hide()
+        self.next_panel.Show()
+        self.Layout()
