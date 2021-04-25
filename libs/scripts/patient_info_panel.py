@@ -25,6 +25,8 @@ class PatientInfoPanel(wx.Panel):
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
+    def update(self):
+        pass
 
     def layoutControls(self):
         wx.InitAllImageHandlers()
@@ -120,5 +122,7 @@ class PatientInfoPanel(wx.Panel):
         print(self.patient.middleName)
 
         self.Hide()
-        next(self.parent.current_panel).Show()
+        next_panel = next(self.parent.current_panel)
+        next_panel.update()
+        next_panel.Show()
         self.Layout()

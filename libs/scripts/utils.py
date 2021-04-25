@@ -2,7 +2,7 @@ import os
 
 def return_file_names_with_extension(path, extension=""):
     return list(filter(lambda file: file.endswith(extension), os.listdir(path)))
-
+    
 def obj_to_str(obj):
     obj_dict = {}
     not_private_fields = list(filter(lambda field: not field.startswith("__") 

@@ -22,6 +22,7 @@ class AudioChoosingPanel(wx.Panel):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
+
         self.testing_model = testing_model
         self.test_setting = test_setting
 
@@ -65,11 +66,14 @@ class AudioChoosingPanel(wx.Panel):
         self.SetSizer(self.mainSizer)
         self.Layout()
 
-    def nextPanel(self, event):
-        print("Testing Model content {}".format(self.testing_model))
+    def update(self):
+        pass
 
+    def nextPanel(self, event):
         self.Hide()
-        next(self.parent.current_panel).Show()
+        next_panel = next(self.parent.current_panel)
+        next_panel.update()
+        next_panel.Show()
         self.Layout()
 
     def addOrRemoveTestingItems(self, event):
@@ -78,7 +82,7 @@ class AudioChoosingPanel(wx.Panel):
         for item in self.filesBox.GetCheckedStrings():
             test_item = TestingItem()
             test_item.initialAudioFilePath = item
-            test_item.initialText = item.split('.')[0]
+            test_item.initialText = item.split('.')[0].lower()
             self.testing_model.testingItems.append(test_item)
 
         self.test_setting.audioFilesNumber = len(self.testing_model.testingItems)

@@ -23,6 +23,8 @@ class PatientResultPanel(wx.Panel):
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
+    def update(self):
+        pass
 
     def layoutControls(self):
         wx.InitAllImageHandlers()
@@ -41,5 +43,7 @@ class PatientResultPanel(wx.Panel):
 
     def nextPanel(self, event):
         self.Hide()
-        next(self.parent.current_panel).Show()
+        next_panel = next(self.parent.current_panel)
+        next_panel.update()
+        next_panel.Show()
         self.Layout()

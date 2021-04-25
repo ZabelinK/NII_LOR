@@ -15,13 +15,13 @@ def start_recording(recording_data, recognition_service_settings):
     recording_data.stream.start()
 
 
-def stop_recording(recording_data, recognition_service_settings):
+def stop_recording(file_name, recording_data, recognition_service_settings):
     recording_data.stream.stop()
-    return save_data_to_wav_file(recording_data, recognition_service_settings)
+    return save_data_to_wav_file(file_name, recording_data, recognition_service_settings)
 
 
-def save_data_to_wav_file(recording_data, recognition_service_settings):
-    file_name = recognition_service_settings.tempDir + recognition_service_settings.tempFileName
+def save_data_to_wav_file(file_name, recording_data, recognition_service_settings):
+    file_name = recognition_service_settings.tempDir + file_name
     sf.write(file_name,
              recording_data.data,
              recognition_service_settings.fs)

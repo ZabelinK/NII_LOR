@@ -23,7 +23,7 @@ class MainFrame(wx.Frame):
 
         self.patient_testing = self.addPanel(PatientTestingPanel(self, testing_model=patient_testing_model, 
                                                                  test_settings=test_settings,
-                                                                 recognition_service_setting=recognition_service_settings))
+                                                                 recognition_service_settings=recognition_service_settings))
 
         self.patient_result_panel = self.addPanel(PatientResultPanel(self, testing_model=patient_testing_model))
 
@@ -31,10 +31,11 @@ class MainFrame(wx.Frame):
         self.current_panel = itertools.cycle(self.all_panels_in_order)
 
         # Add them to sized and hide all except first
+        show_panel = next(self.current_panel)
         for panel in self.all_panels_in_order:
             sizer.Add(panel, 1, wx.EXPAND)
 
-            if panel != self.record_audio:
+            if panel != show_panel:
                 panel.Hide()
 
     def addPanel(self, panel):

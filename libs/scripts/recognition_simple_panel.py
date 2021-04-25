@@ -18,13 +18,16 @@ class RecognitionSimplePanel(wx.Panel):
 
         self.parent = parent
         self.recognition_service_settings = recognition_service_settings
-        
+
         self.layoutControls()
 
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
         self.hideRecordCircle()
+
+    def update(self):
+        pass
 
     def layoutControls(self):
         wx.InitAllImageHandlers()
@@ -87,7 +90,7 @@ class RecognitionSimplePanel(wx.Panel):
         print("Start recording")
 
     def stopRecord(self):
-        wav_file_with_speech = stop_recording(self.recording_data, self.recognition_service_settings)
+        wav_file_with_speech = stop_recording(self.recognition_service_settings.tempFileName, self.recording_data, self.recognition_service_settings)
         self.hideRecordCircle()
         print("Stop Recording")
 
@@ -117,5 +120,7 @@ class RecognitionSimplePanel(wx.Panel):
     def nextPanel(self, event):
 
         self.Hide()
-        next(self.parent.current_panel).Show()
+        next_panel = next(self.parent.current_panel)
+        next_panel.update()
+        next_panel.Show()
         self.Layout()

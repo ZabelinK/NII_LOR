@@ -1,4 +1,5 @@
 from utils import *
+from constants import DEFAULT_WORK_DIR
 
 class PatientTestingModel:
 
@@ -9,7 +10,6 @@ class PatientTestingModel:
         self.birthday = ''
         self.testDay = ''
         self.testingItems = []
-        self.testingSettings = TestSettings()
 
     def __repr__(self):
         return obj_to_str(self)
@@ -46,4 +46,7 @@ class RecognitionServiceSettings:
         self.recognize_service_url = 'https://asr.kube.plintum.dev/recognize?lang=ru'
         self.tempFileName = "out.wav"
         self.fs = 8000
-        self.tempDir = tempDir
+        if tempDir:
+            self.tempDir = tempDir
+        else:
+            self.tempDir = DEFAULT_WORK_DIR

@@ -6,6 +6,9 @@ import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
+from sound_service import *
+
+from constants import PATH_TO_WORDS, PATH_TO_NOISES
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -13,13 +16,13 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientTestingPanel(wx.Panel):
 
-    def __init__(self, parent, testing_model, test_settings, recognition_service_setting):
+    def __init__(self, parent, testing_model, test_settings, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
         self.testing_model = testing_model
         self.test_settings = test_settings
-        self.recognition_service_setting = recognition_service_setting
+        self.recognition_service_settings = recognition_service_settings
 
         self.current_testing_item = 0
 
@@ -87,20 +90,75 @@ class PatientTestingPanel(wx.Panel):
 
         self.playLabel.Hide()
         self.recordLabel.Hide()
-
+    
+    def update(self):
+        self.textRes.Clear()
+        if self.current_testing_item < self.test_settings.audioFilesNumber:
+            test_item = self.testing_model.testingItems[self.current_testing_item]
+            self.fileLabel.SetLabel(test_item.initialAudioFilePath)
+        else:
+            self.fileLabel.SetLabel("Все файлы кончились")
+            self.playBtn.Disable()
+            self.nextRecBtn.Disable()
+            self.recordBtn.Disable()
 
     def onPlay(self, event):
-        pass
+        self.playBtn.Disable()
+        test_item = self.testing_model.testingItems[self.current_testing_item]
+
+        self.playLabel.Show()
+        play_file(PATH_TO_WORDS + test_item.initialAudioFilePath, PATH_TO_NOISES + self.test_settings.noiseFile)
+        self.playLabel.Hide()
+        self.playBtn.Enable()
 
     def onRecord(self, event):
-        pass
-
+        if self.recordBtn.GetValue() == True:
+            self.recordBtn.SetLabel("Остановить запись")
+            self.startRecord()
+        else:
+            self.recordBtn.Disable()
+            self.stopRecord()
+            self.recordBtn.SetLabel("Начать запись")
+            self.recordBtn.Enable()
+        
     def nextRecord(self, event):
-        pass
+        self.current_testing_item += 1
+        self.update()
+
+    def startRecord(self):
+        self.recordLabel.Show()
+        self.recording_data = RecordingData()
+        start_recording(self.recording_data, self.recognition_service_settings)
+        #self.showRecordCircle()
+        print("Start recording")
+
+    def stopRecord(self):
+        test_item = self.testing_model.testingItems[self.current_testing_item]
+        test_item.resultAudioFilePath = test_item.initialAudioFilePath
+        wav_file_with_speech = stop_recording(test_item.resultAudioFilePath, self.recording_data, self.recognition_service_settings)
+        self.recordLabel.Hide()
+        print("Stop Recording")
+
+        text = recognize_wav_file(wav_file_with_speech,
+                                  self.recognition_service_settings.recognize_service_url)
+
+        print("Result : {}".format(text))
+
+        self.textRes.Clear()
+        if text is None:
+            self.textRes.write("< Произошла ошибка, подробности в консоли >")
+            return
+ 
+        self.textRes.write(text)
+        test_item.resultTest = text.lower()
+        test_item.isCorrect = test_item.initialText == test_item.resultTest
+
 
     def nextPanel(self, event):
         print("Testing Model content {}".format(self.testing_model))
 
         self.Hide()
-        next(self.parent.current_panel).Show()
+        next_panel = next(self.parent.current_panel)
+        next_panel.update()
+        next_panel.Show()
         self.Layout()
