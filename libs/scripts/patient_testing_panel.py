@@ -114,12 +114,18 @@ class PatientTestingPanel(wx.Panel):
     def onRecord(self, event):
         if self.recordBtn.GetValue() == True:
             self.recordBtn.SetLabel("Остановить запись")
+            self.playBtn.Disable()
+            self.nextBtn.Disable()
+            self.nextRecBtn.Disable()
             self.startRecord()
         else:
             self.recordBtn.Disable()
             self.stopRecord()
             self.recordBtn.SetLabel("Начать запись")
             self.recordBtn.Enable()
+            self.playBtn.Enable()
+            self.nextBtn.Enable()
+            self.nextRecBtn.Enable()
         
     def nextRecord(self, event):
         self.current_testing_item += 1
