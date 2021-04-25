@@ -14,16 +14,16 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientInfoPanel(wx.Panel):
 
-    def __init__(self, parent, next_panel, testing_model):
+    def __init__(self, parent, testing_model):
         wx.Panel.__init__(self, parent=parent)
 
-        self.frame = parent
+        self.parent = parent
+        self.patient = testing_model
+
         self.SetSize((800, 600))
         self.layoutControls()
-        self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
-        self.patient = testing_model
 
 
     def layoutControls(self):
@@ -90,8 +90,6 @@ class PatientInfoPanel(wx.Panel):
         print("Maximum length reached")
 
     def nextPanel(self, event):
-        if self.next_panel == None:
-            return
         fio = self.fioText.GetValue().split()
         if len(fio) > 3:
             print("Too many words, truncating to first 3")
@@ -122,5 +120,5 @@ class PatientInfoPanel(wx.Panel):
         print(self.patient.middleName)
 
         self.Hide()
-        self.next_panel.Show()
+        next(self.parent.current_panel).Show()
         self.Layout()

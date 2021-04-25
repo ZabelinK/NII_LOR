@@ -12,15 +12,14 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientResultPanel(wx.Panel):
 
-    def __init__(self, parent, next_panel, testing_model):
+    def __init__(self, parent, testing_model):
         wx.Panel.__init__(self, parent=parent)
 
+        self.parent = parent
         self.testing_model = testing_model
 
-        self.frame = parent
         self.SetSize((800, 600))
         self.layoutControls()
-        self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
@@ -41,9 +40,6 @@ class PatientResultPanel(wx.Panel):
         self.Layout()
 
     def nextPanel(self, event):
-        if self.next_panel == None:
-            return
-        
         self.Hide()
-        self.next_panel.Show()
+        next(self.parent.current_panel).Show()
         self.Layout()

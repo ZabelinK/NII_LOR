@@ -18,16 +18,15 @@ class AudioChoosingPanel(wx.Panel):
 
     filesNumberLabel = "Количество файлов: "
 
-    def __init__(self, parent, next_panel, testing_model):
+    def __init__(self, parent, testing_model, test_setting):
         wx.Panel.__init__(self, parent=parent)
 
-        self.frame = parent
-
+        self.parent = parent
         self.testing_model = testing_model
+        self.test_setting = test_setting
 
         self.SetSize((800, 600))
         self.layoutControls()
-        self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
@@ -47,7 +46,7 @@ class AudioChoosingPanel(wx.Panel):
         self.noisesBox = wx.Choice(self, choices=available_noises_wav, size=(150,30))
         self.noisesBox.Bind(wx.EVT_CHOICE, self.setNoise)
 
-        self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.testing_model.testingSettings.audioFilesNumber))
+        self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
 
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Начать воспроизведение", size=(150, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
@@ -67,13 +66,10 @@ class AudioChoosingPanel(wx.Panel):
         self.Layout()
 
     def nextPanel(self, event):
-        if self.next_panel == None:
-            return
-
         print("Testing Model content {}".format(self.testing_model))
 
         self.Hide()
-        self.next_panel.Show()
+        next(self.parent.current_panel).Show()
         self.Layout()
 
     def addOrRemoveTestingItems(self, event):
@@ -85,12 +81,12 @@ class AudioChoosingPanel(wx.Panel):
             test_item.initialText = item.split('.')[0]
             self.testing_model.testingItems.append(test_item)
 
-        self.testing_model.testingSettings.audioFilesNumber = len(self.testing_model.testingItems)
-        self.filesNumber.SetLabel("{} {}".format(self.filesNumberLabel, self.testing_model.testingSettings.audioFilesNumber))
+        self.test_setting.audioFilesNumber = len(self.testing_model.testingItems)
+        self.filesNumber.SetLabel("{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
 
     def setNoise(self, event):
         selected_item = self.noisesBox.GetString(self.noisesBox.GetSelection())
         if selected_item == WITHOUT_NOISE_OPTION:
-            self.testing_model.testingSettings.noiseFile = ''
+            self.test_setting.noiseFile = ''
         else:
-            self.testing_model.testingSettings.noiseFile = selected_item
+            self.test_setting.noiseFile = selected_item

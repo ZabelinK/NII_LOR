@@ -13,13 +13,13 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class RecognitionSimplePanel(wx.Panel):
 
-    def __init__(self, parent, next_panel, recognition_service_settings, patient_testing_model):
+    def __init__(self, parent, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
-        self.frame = parent
-        self.layoutControls()
-        self.next_panel = next_panel
+        self.parent = parent
         self.recognition_service_settings = recognition_service_settings
+        
+        self.layoutControls()
 
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
@@ -115,9 +115,7 @@ class RecognitionSimplePanel(wx.Panel):
             self.recordBtn.Enable()
 
     def nextPanel(self, event):
-        if self.next_panel == None:
-            return
-        
+
         self.Hide()
-        self.next_panel.Show()
+        next(self.parent.current_panel).Show()
         self.Layout()
