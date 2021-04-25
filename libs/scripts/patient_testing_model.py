@@ -2,6 +2,7 @@ class PatientTestingModel:
 
     def __init__(self):
         self.firstName = ''
+        self.middleName = ''
         self.secondName = ''
         self.birthday = ''
         self.testDay = ''

@@ -3,9 +3,11 @@ import wx
 import wx.media
 from datetime import datetime
 
+import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
+from wx.lib.pubsub import pub
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -22,6 +24,7 @@ class PatientInfoPanel(wx.Panel):
         self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
+        self.patient = patient_testing_model.PatientTestingModel()
 
 
     def layoutControls(self):
@@ -36,7 +39,7 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(helpBoxSizer)
 
         fioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        fioLabel = wx.StaticText(panel, -1, "ФИО")
+        fioLabel = wx.StaticText(panel, -1, "ФИО", size=(125,25))
         fioBoxSizer.Add(fioLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
 
         self.fioText = wx.TextCtrl(panel)
@@ -49,8 +52,8 @@ class PatientInfoPanel(wx.Panel):
         birthdayLabel = wx.StaticText(panel, -1, "Год гождения")
 
         hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT|wx.ALL,5)
-        self.birthdayText = wx.TextCtrl(panel, style = wx.TE_PASSWORD)
-        self.birthdayText.SetMaxLength(5)
+        self.birthdayText = wx.TextCtrl(panel, size=(125,25), style = wx.TE_PASSWORD)
+        self.birthdayText.SetMaxLength(4)
 
         hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(hbox2)
@@ -60,7 +63,7 @@ class PatientInfoPanel(wx.Panel):
         l4 = wx.StaticText(panel, -1, "Дата тестирования")
 
         hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
-        self.t4 = wx.TextCtrl(panel, value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
+        self.t4 = wx.TextCtrl(panel, size=(125,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
 
         hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
         verticalBoxSizer.Add(hbox4)
@@ -74,6 +77,7 @@ class PatientInfoPanel(wx.Panel):
         panel.SetSizer(verticalBoxSizer)
 
         self.Layout()
+
 
     def OnKeyTyped(self, event):
         print(event.GetString())
@@ -89,7 +93,35 @@ class PatientInfoPanel(wx.Panel):
     def nextPanel(self, event):
         if self.next_panel == None:
             return
-
+        fio = self.fioText.GetValue().split()
+        if len(fio) > 3:
+            print("Too many words, truncating to first 3")
+        if str.isalpha(fio[0]) is False:
+            print("Please enter valid second name")
+            return
+        if str.isalpha(fio[1]) is False:
+            print("Please enter valid first name")
+            return
+        self.patient.secondName = fio[0]
+        self.patient.firstName = fio[1]
+        if len(fio) == 3:
+            if str.isalpha(fio[2]) is False:
+                print("Please enter valid middle name")
+                return
+            self.patient.middleName = fio[2]
+        if str.isnumeric(self.birthdayText.GetValue()) is False:
+            print("Please enter valid birth year")
+            return
+        self.patient.birthday = int(self.birthdayText.GetValue(), base=10)
+        if self.patient.birthday < 1900:
+            print("Please enter valid birth year")
+            return
+        self.patient.testDay = self.t4.GetValue()
+        print(self.patient.birthday)
+        print(self.patient.secondName)
+        print(self.patient.firstName)
+        print(self.patient.middleName)
+        pub.sendMessage("panelListener", message=self.patient)
         self.Hide()
         self.next_panel.Show()
         self.Layout()
