@@ -1,3 +1,5 @@
+from utils import *
+
 class PatientTestingModel:
 
     def __init__(self):
@@ -7,6 +9,10 @@ class PatientTestingModel:
         self.birthday = ''
         self.testDay = ''
         self.testingItems = []
+        self.testingSettings = TestSettings()
+
+    def __repr__(self):
+        return obj_to_str(self)
 
 
 class TestingItem:
@@ -19,13 +25,19 @@ class TestingItem:
         self.isCorrect = ''
         self.commentText = ''
 
+    def __repr__(self):
+        return obj_to_str(self)
+
 
 class TestSettings:
 
     def __init__(self):
-        self.audioFilesNumber = ''
+        self.audioFilesNumber = 0
         self.noiseFile = ''
         self.volumeLevel = 50
+
+    def __repr__(self):
+        return obj_to_str(self)
 
 
 class RecognitionServiceSettings:

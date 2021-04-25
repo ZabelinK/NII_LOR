@@ -12,8 +12,10 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientResultPanel(wx.Panel):
 
-    def __init__(self, parent, next_panel):
+    def __init__(self, parent, next_panel, testing_model):
         wx.Panel.__init__(self, parent=parent)
+
+        self.testing_model = testing_model
 
         self.frame = parent
         self.SetSize((800, 600))

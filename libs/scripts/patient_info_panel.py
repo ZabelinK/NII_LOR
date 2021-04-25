@@ -7,7 +7,6 @@ import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
-from wx.lib.pubsub import pub
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -15,7 +14,7 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientInfoPanel(wx.Panel):
 
-    def __init__(self, parent, next_panel):
+    def __init__(self, parent, next_panel, testing_model):
         wx.Panel.__init__(self, parent=parent)
 
         self.frame = parent
@@ -24,7 +23,7 @@ class PatientInfoPanel(wx.Panel):
         self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
-        self.patient = patient_testing_model.PatientTestingModel()
+        self.patient = testing_model
 
 
     def layoutControls(self):
@@ -52,7 +51,7 @@ class PatientInfoPanel(wx.Panel):
         birthdayLabel = wx.StaticText(panel, -1, "Год гождения")
 
         hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT|wx.ALL,5)
-        self.birthdayText = wx.TextCtrl(panel, size=(125,25), style = wx.TE_PASSWORD)
+        self.birthdayText = wx.TextCtrl(panel, size=(125,25))
         self.birthdayText.SetMaxLength(4)
 
         hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -121,7 +120,7 @@ class PatientInfoPanel(wx.Panel):
         print(self.patient.secondName)
         print(self.patient.firstName)
         print(self.patient.middleName)
-        pub.sendMessage("panelListener", message=self.patient)
+
         self.Hide()
         self.next_panel.Show()
         self.Layout()

@@ -6,7 +6,6 @@ import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
-from wx.lib.pubsub import pub
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -14,9 +13,10 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class PatientTestingPanel(wx.Panel):
 
-    def __init__(self, parent, next_panel):
+    def __init__(self, parent, next_panel, testing_model):
         wx.Panel.__init__(self, parent=parent)
-        pub.subscribe(self.myListener, "panelListener")
+
+        self.testing_model = testing_model
 
         self.frame = parent
         self.SetSize((800, 600))
@@ -24,12 +24,6 @@ class PatientTestingPanel(wx.Panel):
         self.next_panel = next_panel
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
-        self.patient = patient_testing_model.PatientTestingModel()
-
-    def myListener(self, message):
-        self.patient = message
-        print("hi from next panel")
-        print(self.patient.birthday)
 
     def layoutControls(self):
         wx.InitAllImageHandlers()

@@ -13,14 +13,21 @@ class MainFrame(wx.Frame):
         self.SetSizer(sizer)
         self.all_panels = []
 
+        self.testing_model = PatientTestingModel()
+
         # Creating all panels
-        self.patient_result_panel = self.addPanel(PatientResultPanel(self, next_panel=None))
-        self.patient_testing = self.addPanel(PatientTestingPanel(self, next_panel=self.patient_result_panel))
-        self.audio_choosing = self.addPanel(AudioChoosingPanel(self, next_panel=self.patient_testing))
-        self.patient_info = self.addPanel(PatientInfoPanel(self, next_panel=self.audio_choosing))
+        self.patient_result_panel = self.addPanel(PatientResultPanel(self, next_panel=None,
+                                                                     testing_model=self.testing_model))
+        self.patient_testing = self.addPanel(PatientTestingPanel(self, next_panel=self.patient_result_panel,
+                                                                 testing_model=self.testing_model))
+        self.audio_choosing = self.addPanel(AudioChoosingPanel(self, next_panel=self.patient_testing,
+                                                               testing_model=self.testing_model))
+        self.patient_info = self.addPanel(PatientInfoPanel(self, next_panel=self.audio_choosing,
+                                                           testing_model=self.testing_model))
         self.record_audio = self.addPanel(RecognitionSimplePanel(self, next_panel=self.patient_info,
                                                                  recognition_service_settings=recognition_service_settings,
                                                                  patient_testing_model=patient_testing_model))
+
         self.patient_result_panel.next_panel = self.record_audio
 
         self.current_panel = self.record_audio
