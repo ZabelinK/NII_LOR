@@ -33,6 +33,9 @@ class PatientTestingPanel(wx.Panel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
+        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
+
         self.fileLabel = wx.StaticText(self, label="")
 
         self.playBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Прослушать", size=(120, 30))
@@ -59,6 +62,8 @@ class PatientTestingPanel(wx.Panel):
 
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.mainSizer.Add(self.fioLabel)
+        self.mainSizer.Add(self.birthdayLabel)
         self.mainSizer.Add(self.fileLabel, 0, wx.ALL, 5)
 
         self.vSizerPlay = wx.BoxSizer(wx.VERTICAL)
@@ -90,6 +95,8 @@ class PatientTestingPanel(wx.Panel):
         self.recordLabel.Hide()
     
     def update(self):
+        self.fioLabel.SetLabel("{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
         self.textRes.Clear()
         if self.current_testing_item < self.test_settings.audioFilesNumber:
             test_item = self.testing_model.testingItems[self.current_testing_item]

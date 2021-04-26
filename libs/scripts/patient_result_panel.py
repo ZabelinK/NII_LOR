@@ -79,15 +79,28 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
             self.all_check_box.append(checkBox)
 
+        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
+
+        self.resultsTestingLabel = wx.StaticText(self, label="Результаты тестирования:")
+
         self.countLabel = wx.StaticText(self, label="Правильно пройденных тестов {}".format(self.count))
 
-        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(120, 30))
+        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(200, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
+        self.printBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Напечатать результаты", size=(200, 30))
+        self.printBtn.Bind(wx.EVT_BUTTON, self.printResults)
+
+
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.mainSizer.Add(self.fioLabel)
+        self.mainSizer.Add(self.birthdayLabel)
+        self.mainSizer.Add(self.resultsTestingLabel)
         self.mainSizer.Add(self.grid)
         self.mainSizer.Add(self.countLabel)
         self.mainSizer.Add(self.nextBtn)
+        self.mainSizer.Add(self.printBtn)
 
         self.SetSizer(self.mainSizer)
         self.Layout()
@@ -119,3 +132,6 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         next_panel.update()
         next_panel.Show()
         self.Layout()
+
+    def printResults(self, event):
+        pass

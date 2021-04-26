@@ -14,9 +14,6 @@ class MainFrame(wx.Frame):
         self.all_panels_in_order = []
 
         # Creating all panels
-        self.record_audio = self.addPanel(RecognitionSimplePanel(self,
-                                                                 recognition_service_settings=recognition_service_settings))
-
         self.patient_info = self.addPanel(PatientInfoPanel(self, testing_model=patient_testing_model))
 
         self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
