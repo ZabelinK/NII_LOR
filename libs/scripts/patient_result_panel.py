@@ -57,7 +57,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             playRecBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
             playRecBtn.Bind(wx.EVT_BUTTON, self.playRecord)
             
-            self.btn_to_file[btn_count] = self.recognition_service_settings.tempDir + item.resultAudioFilePath
+            self.btn_to_file[btn_count] = self.recognition_service_settings.temp_dir + item.resultAudioFilePath
             btn_count +=1
 
             checkBox = wx.CheckBox(self)

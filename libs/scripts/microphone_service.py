@@ -21,7 +21,7 @@ def stop_recording(file_name, recording_data, recognition_service_settings):
 
 
 def save_data_to_wav_file(file_name, recording_data, recognition_service_settings):
-    file_name = recognition_service_settings.tempDir + file_name
+    file_name = recognition_service_settings.temp_dir + file_name
     sf.write(file_name,
              recording_data.data,
              recognition_service_settings.fs)

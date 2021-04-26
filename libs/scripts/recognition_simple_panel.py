@@ -37,7 +37,7 @@ class RecognitionSimplePanel(wx.Panel):
         self.recordBtn.Bind(wx.EVT_TOGGLEBUTTON, self.onRecord)
 
         self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_WORDWRAP,
-            value="", name="Результаты распознавания", size=(400, 500))
+            value="", name="Результаты распознавания", size=(640, 100))
 
         self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(120, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
@@ -68,8 +68,8 @@ class RecognitionSimplePanel(wx.Panel):
 
         self.vSizer.Add(self.hSizer, 0, wx.ALL, 5)
         self.vSizer.Add(self.textLabel, 0, wx.ALL, 5)
-        self.vSizer.Add(self.nextBtn, 0, wx.ALL, 5)
         self.vSizer.Add(self.textRes, 0, wx.ALL, 5)
+        self.vSizer.Add(self.nextBtn, 0, wx.ALL, 5)
         self.mainSizer.Add(self.vSizer)
 
         self.SetSizer(self.mainSizer)
