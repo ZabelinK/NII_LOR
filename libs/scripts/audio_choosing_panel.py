@@ -73,7 +73,8 @@ class AudioChoosingPanel(wx.Panel):
         self.Layout()
 
     def update(self):
-        self.layoutControls()
+        self.fioLabel.SetLabel("{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
 
     def nextPanel(self, event):
         self.Hide()
