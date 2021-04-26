@@ -35,7 +35,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
     def update(self):
 
         self.SetSize((1200, 600))
-        self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 5, 5, 5)
+        self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 6, 6, 6)
 
         self.all_check_box = []
         self.count = 0
@@ -71,11 +71,16 @@ class PatientResultPanel(scrolled.ScrolledPanel):
                 checkBox.SetLabel("Неправильно")
                 checkBox.SetValue(False)
 
+            textComment = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_WORDWRAP,
+                                      value="", name="Комментарий", size=(100, 30))
+            textComment.Bind(wx.EVT_TEXT, self.OnCommentText)
+
             self.grid.Add(labelCorrect, 0, wx.EXPAND)
             self.grid.Add(playOrigBtn, 0, wx.EXPAND)
             self.grid.Add(labelRecord, 0, wx.EXPAND)
             self.grid.Add(playRecBtn, 0, wx.EXPAND)
             self.grid.Add(checkBox, 0, wx.EXPAND)
+            self.grid.Add(textComment, 0, wx.EXPAND)
 
             self.all_check_box.append(checkBox)
 
@@ -86,7 +91,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
         self.countLabel = wx.StaticText(self, label="Правильно пройденных тестов {}".format(self.count))
 
-        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(200, 30))
+        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Начать заново", size=(200, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
         self.printBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Напечатать результаты", size=(200, 30))
@@ -99,8 +104,8 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.mainSizer.Add(self.resultsTestingLabel)
         self.mainSizer.Add(self.grid)
         self.mainSizer.Add(self.countLabel)
-        self.mainSizer.Add(self.nextBtn)
         self.mainSizer.Add(self.printBtn)
+        self.mainSizer.Add(self.nextBtn)
 
         self.SetSizer(self.mainSizer)
         self.Layout()
@@ -135,3 +140,6 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
     def printResults(self, event):
         pass
+
+    def OnCommentText(self, event):
+        print(event.GetString())
