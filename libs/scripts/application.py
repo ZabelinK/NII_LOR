@@ -8,7 +8,7 @@ if __name__ == "__main__":
     patient_testing_model = PatientTestingModel()
     print (sys.argv[3])
     recognition_service_settings = RecognitionServiceSettings(sys.argv[1], sys.argv[2], sys.argv[3],
-                                                              sys.argv[4], sys.argv[5])
+                                                              sys.argv[4], sys.argv[5], sys.argv[6])
     test_settings = TestSettings()
 
     application = wx.App(False)

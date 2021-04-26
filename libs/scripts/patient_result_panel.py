@@ -9,6 +9,7 @@ from microphone_service import *
 
 from sound_service import *
 from constants import *
+from docxtpl import DocxTemplate
 
 import wx.lib.scrolledpanel as scrolled
 
@@ -139,7 +140,17 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.Layout()
 
     def printResults(self, event):
-        pass
+        doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
+        context = {
+            'fio' : self.testing_model.firstName + " " + self.testing_model.secondName,
+            'birthday' : self.testing_model.birthday,
+            'testing_date' : self.testing_model.testDay,
+            'signature' : 'Иванов Иван Иванович'
+        }
+        doc.render(context)
+        result_file = self.recognition_service_settings.temp_dir + "generated_doc.docx"
+        doc.save(result_file)
+        os.system('start ' + result_file)
 
     def OnCommentText(self, event):
         print(event.GetString())
