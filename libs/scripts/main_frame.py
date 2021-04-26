@@ -7,7 +7,7 @@ import itertools
 
 class MainFrame(wx.Frame):
     def __init__(self, patient_testing_model, recognition_service_settings, test_settings):
-        wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука", size=(640, 480))
+        wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Речевая аудиометрия", size=(640, 480))
 
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
