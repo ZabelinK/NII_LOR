@@ -8,8 +8,6 @@ from recognition_service import *
 from microphone_service import *
 from sound_service import *
 
-from constants import PATH_TO_WORDS, PATH_TO_NOISES
-
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
 
@@ -107,7 +105,8 @@ class PatientTestingPanel(wx.Panel):
         test_item = self.testing_model.testingItems[self.current_testing_item]
 
         self.playLabel.Show()
-        play_file(PATH_TO_WORDS + test_item.initialAudioFilePath, PATH_TO_NOISES + self.test_settings.noiseFile)
+        play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath,
+                  self.recognition_service_settings.noises_dir + self.test_settings.noiseFile)
         self.playLabel.Hide()
         self.playBtn.Enable()
 

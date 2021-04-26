@@ -7,6 +7,8 @@ import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
+from constants import DEFAULT_USER_FIO
+from constants import DEFAULT_BIRTHDAY
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -92,29 +94,41 @@ class PatientInfoPanel(wx.Panel):
         print("Maximum length reached")
 
     def nextPanel(self, event):
-        fio = self.fioText.GetValue().split()
-        if len(fio) > 3:
+        fio = self.fioText.GetValue()
+
+        if not fio:
+            fio = DEFAULT_USER_FIO
+
+        fio_parts = fio.split()
+        if len(fio_parts) > 3:
             print("Too many words, truncating to first 3")
-        if str.isalpha(fio[0]) is False:
+        if str.isalpha(fio_parts[0]) is False:
             print("Please enter valid second name")
             return
-        if str.isalpha(fio[1]) is False:
+        if str.isalpha(fio_parts[1]) is False:
             print("Please enter valid first name")
             return
-        self.patient.secondName = fio[0]
-        self.patient.firstName = fio[1]
-        if len(fio) == 3:
-            if str.isalpha(fio[2]) is False:
+        self.patient.secondName = fio_parts[0]
+        self.patient.firstName = fio_parts[1]
+        if len(fio_parts) == 3:
+            if str.isalpha(fio_parts[2]) is False:
                 print("Please enter valid middle name")
                 return
-            self.patient.middleName = fio[2]
-        if str.isnumeric(self.birthdayText.GetValue()) is False:
+            self.patient.middleName = fio_parts[2]
+
+        birthdayText = self.birthdayText.GetValue()
+        if not birthdayText:
+            birthdayText = DEFAULT_BIRTHDAY
+
+        if str.isnumeric(birthdayText) is False:
             print("Please enter valid birth year")
             return
-        self.patient.birthday = int(self.birthdayText.GetValue(), base=10)
+
+        self.patient.birthday = int(birthdayText, base=10)
         if self.patient.birthday < 1900:
             print("Please enter valid birth year")
             return
+
         self.patient.testDay = self.t4.GetValue()
         print(self.patient.birthday)
         print(self.patient.secondName)

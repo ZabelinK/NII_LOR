@@ -1,5 +1,8 @@
 from utils import *
 from constants import DEFAULT_WORK_DIR
+from constants import PATH_TO_WORDS
+from constants import PATH_TO_NOISES
+from constants import PATH_TO_BITMAPS
 
 class PatientTestingModel:
 
@@ -42,11 +45,31 @@ class TestSettings:
 
 class RecognitionServiceSettings:
 
-    def __init__(self, tempDir):
+    def __init__(self, temp_dir, input_dir, words_dir, noises_dir, bitmaps_dir):
         self.recognize_service_url = 'https://asr.kube.plintum.dev/recognize?lang=ru'
         self.tempFileName = "out.wav"
         self.fs = 8000
-        if tempDir:
-            self.tempDir = tempDir
+        if temp_dir:
+            self.temp_dir = temp_dir
         else:
-            self.tempDir = DEFAULT_WORK_DIR
+            self.temp_dir = DEFAULT_WORK_DIR
+
+        if input_dir:
+            self.input_dir = input_dir
+        else:
+            self.input_dir = PATH_TO_WORDS
+
+        if words_dir:
+            self.words_dir = words_dir
+        else:
+            self.words_dir = PATH_TO_WORDS
+
+        if noises_dir:
+            self.noises_dir = noises_dir
+        else:
+            self.noises_dir = PATH_TO_NOISES
+
+        if bitmaps_dir:
+            self.bitmaps_dir = bitmaps_dir
+        else:
+            self.bitmaps_dir = PATH_TO_BITMAPS

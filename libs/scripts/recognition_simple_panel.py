@@ -3,6 +3,7 @@ import wx
 import wx.media
 
 from recognition_service import *
+from patient_testing_model import *
 from microphone_service import *
 
 from application import *
@@ -48,7 +49,8 @@ class RecognitionSimplePanel(wx.Panel):
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
 
-        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_PNG), size=(32, 32))
+        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap(self.recognition_service_settings.bitmaps_dir + "circle.png",
+                                                                wx.BITMAP_TYPE_PNG), size=(32, 32))
 
         self.recordLabel = wx.StaticText(self, label="Идет запись")
 

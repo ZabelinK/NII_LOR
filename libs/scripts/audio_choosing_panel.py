@@ -8,7 +8,7 @@ from recognition_service import *
 from microphone_service import *
 from utils import *
 
-from constants import PATH_TO_WORDS, PATH_TO_NOISES, WITHOUT_NOISE_OPTION
+from constants import WITHOUT_NOISE_OPTION
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -18,13 +18,14 @@ class AudioChoosingPanel(wx.Panel):
 
     filesNumberLabel = "Количество файлов: "
 
-    def __init__(self, parent, testing_model, test_setting):
+    def __init__(self, parent, testing_model, test_setting, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
 
         self.testing_model = testing_model
         self.test_setting = test_setting
+        self.recognition_service_settings = recognition_service_settings
 
         self.SetSize((800, 600))
         self.layoutControls()
@@ -34,10 +35,13 @@ class AudioChoosingPanel(wx.Panel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
-        available_words_wav = return_file_names_with_extension(PATH_TO_WORDS, extension=".wav")
+        available_words_wav = return_file_names_with_extension(self.recognition_service_settings.words_dir, extension=".wav")
 
         available_noises_wav = [WITHOUT_NOISE_OPTION]
-        available_noises_wav.extend(return_file_names_with_extension(PATH_TO_NOISES, extension=".wav"))
+        available_noises_wav.extend(return_file_names_with_extension(self.recognition_service_settings.noises_dir, extension=".wav"))
+
+        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
         self.filesBox = wx.CheckListBox(self, choices=available_words_wav)
         self.filesBox.Bind(wx.EVT_CHECKLISTBOX, self.addOrRemoveTestingItems)
@@ -55,6 +59,8 @@ class AudioChoosingPanel(wx.Panel):
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
 
+        self.mainSizer.Add(self.fioLabel)
+        self.mainSizer.Add(self.birthdayLabel)
         self.hSizer.Add(self.filesBox)
         self.hSizer.Add(self.noiseLabel)
         self.hSizer.Add(self.noisesBox)
@@ -67,7 +73,7 @@ class AudioChoosingPanel(wx.Panel):
         self.Layout()
 
     def update(self):
-        pass
+        self.layoutControls()
 
     def nextPanel(self, event):
         self.Hide()

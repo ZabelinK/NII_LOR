@@ -7,19 +7,22 @@ import itertools
 
 class MainFrame(wx.Frame):
     def __init__(self, patient_testing_model, recognition_service_settings, test_settings):
-        wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука")
+        wx.Frame.__init__(self, None, wx.ID_ANY, "НИИ ЛОР - Тестирование звука", size=(640, 480))
 
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
         self.all_panels_in_order = []
 
         # Creating all panels
-        self.record_audio = self.addPanel(RecognitionSimplePanel(self, recognition_service_settings=recognition_service_settings))
+        self.record_audio = self.addPanel(RecognitionSimplePanel(self,
+                                                                 recognition_service_settings=recognition_service_settings))
 
         self.patient_info = self.addPanel(PatientInfoPanel(self, testing_model=patient_testing_model))
 
-        self.audio_choosing = self.addPanel(AudioChoosingPanel(self, testing_model=patient_testing_model, 
-                                                               test_setting=test_settings))
+        self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
+                                                               testing_model=patient_testing_model,
+                                                               test_setting=test_settings,
+                                                               recognition_service_settings=recognition_service_settings))
 
         self.patient_testing = self.addPanel(PatientTestingPanel(self, testing_model=patient_testing_model, 
                                                                  test_settings=test_settings,
@@ -39,6 +42,7 @@ class MainFrame(wx.Frame):
 
             if panel != show_panel:
                 panel.Hide()
+
 
     def addPanel(self, panel):
         self.all_panels_in_order.append(panel)

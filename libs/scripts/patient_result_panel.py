@@ -43,7 +43,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         btn_count = 0
         noise_path = None
         if self.test_settings.noiseFile:
-            noise_path = PATH_TO_NOISES + self.test_settings.noiseFile
+            noise_path = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile
 
         for item in self.testing_model.testingItems:
             labelCorrect = wx.StaticText(self, label=item.initialText)
@@ -51,7 +51,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             playOrigBtn.Bind(wx.EVT_BUTTON, self.playRecord)
             labelRecord = wx.StaticText(self, label=item.resultTest)
 
-            self.btn_to_file[btn_count] = PATH_TO_WORDS + item.initialAudioFilePath
+            self.btn_to_file[btn_count] = self.recognition_service_settings.words_dir + item.initialAudioFilePath
             btn_count +=1
 
             playRecBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
