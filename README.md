@@ -26,4 +26,4 @@ The script then perform following actions:
 
 ## The Second run
 If the software (Python and its packages) is already installed, then user may use only:
-- launch `query_application.bat` script from 'bin' directory' in order to bring up the application.
+- run `launch_application.bat` script from 'bin' directory' in order to bring up the application.
