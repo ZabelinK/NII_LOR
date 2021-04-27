@@ -9,6 +9,7 @@ TBD
 
 ## Pre-requisites
 - Windows 10 (x64)
+- Microsoft Office (MS Word)
 - Internet connection
 - 1Gb free space on hard drive
 
