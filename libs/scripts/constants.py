@@ -6,3 +6,5 @@ PATH_TO_DOCS_TEMPALTES = "../libs/scripts/templates/"
 WITHOUT_NOISE_OPTION = "Без шумов"
 DEFAULT_USER_FIO = "Неизвестный Пользователь Системы"
 DEFAULT_BIRTHDAY = '1990'
+DEFAULT_DOCTOR_FIO = "Неизвестный Врач Системы"
+

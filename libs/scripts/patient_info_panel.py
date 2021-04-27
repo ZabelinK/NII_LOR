@@ -9,6 +9,7 @@ from recognition_service import *
 from microphone_service import *
 from constants import DEFAULT_USER_FIO
 from constants import DEFAULT_BIRTHDAY
+from constants import DEFAULT_DOCTOR_FIO
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -71,6 +72,16 @@ class PatientInfoPanel(wx.Panel):
         hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
         verticalBoxSizer.Add(hbox4)
 
+        doctorFioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
+        doctorFioLabel = wx.StaticText(panel, -1, "ФИО врача", size=(125, 25))
+        doctorFioBoxSizer.Add(doctorFioLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
+        self.doctorFioText = wx.TextCtrl(panel)
+        doctorFioBoxSizer.Add(self.doctorFioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.doctorFioText.Bind(wx.EVT_TEXT, self.OnKeyTyped)
+
+        verticalBoxSizer.Add(doctorFioBoxSizer)
+
         nextButtonBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(120, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
@@ -130,10 +141,36 @@ class PatientInfoPanel(wx.Panel):
             return
 
         self.patient.testDay = self.t4.GetValue()
+
+        doctorFio = self.doctorFioText.GetValue()
+
+        if not doctorFio:
+            doctorFio = DEFAULT_DOCTOR_FIO
+
+        doctorFio_parts = doctorFio.split()
+        if len(doctorFio_parts) > 3:
+            print("Too many words, truncating to first 3")
+        if str.isalpha(doctorFio_parts[0]) is False:
+            print("Please enter valid second name")
+            return
+        if str.isalpha(doctorFio_parts[1]) is False:
+            print("Please enter valid first name")
+            return
+        self.patient.doctorSecondName = doctorFio_parts[0]
+        self.patient.doctorFirstName = doctorFio_parts[1]
+        if len(doctorFio_parts) == 3:
+            if str.isalpha(doctorFio_parts[2]) is False:
+                print("Please enter valid middle name")
+                return
+            self.patient.doctorMiddleName = doctorFio_parts[2]
+
         print(self.patient.birthday)
         print(self.patient.secondName)
         print(self.patient.firstName)
         print(self.patient.middleName)
+        print(self.patient.doctorSecondName)
+        print(self.patient.doctorFirstName)
+        print(self.patient.doctorMiddleName)
 
         self.Hide()
         next_panel = next(self.parent.current_panel)

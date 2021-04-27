@@ -14,6 +14,9 @@ class PatientTestingModel:
         self.birthday = ''
         self.testDay = ''
         self.testingItems = []
+        self.doctorFirstName = ''
+        self.doctorMiddleName = ''
+        self.doctorSecondName = ''
 
     def __repr__(self):
         return obj_to_str(self)
