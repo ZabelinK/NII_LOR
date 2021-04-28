@@ -37,13 +37,22 @@ class PatientInfoPanel(wx.Panel):
         panel = self
         verticalBoxSizer = wx.BoxSizer(wx.VERTICAL)
 
+        hbox4 = wx.BoxSizer(wx.HORIZONTAL)
+        l4 = wx.StaticText(panel, -1, "Дата тестирования")
+
+        hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
+        self.t4 = wx.TextCtrl(panel, size=(125,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
+
+        hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
+        verticalBoxSizer.Add(hbox4)
+
         helpBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.helpLabel = wx.StaticText(self, label="Заполните информацию о пациенте")
         helpBoxSizer.Add(self.helpLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
         verticalBoxSizer.Add(helpBoxSizer)
 
         fioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        fioLabel = wx.StaticText(panel, -1, "ФИО", size=(125,25))
+        fioLabel = wx.StaticText(panel, -1, "ФИО пациента", size=(125,25))
         fioBoxSizer.Add(fioLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
 
         self.fioText = wx.TextCtrl(panel)
@@ -63,14 +72,10 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(hbox2)
         self.birthdayText.Bind(wx.EVT_TEXT_MAXLEN, self.OnMaxLen)
 
-        hbox4 = wx.BoxSizer(wx.HORIZONTAL)
-        l4 = wx.StaticText(panel, -1, "Дата тестирования")
-
-        hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
-        self.t4 = wx.TextCtrl(panel, size=(125,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
-
-        hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
-        verticalBoxSizer.Add(hbox4)
+        helpDoctorBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.helpDoctorLabel = wx.StaticText(self, label="Заполните информацию о враче")
+        helpDoctorBoxSizer.Add(self.helpDoctorLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
+        verticalBoxSizer.Add(helpDoctorBoxSizer)
 
         doctorFioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         doctorFioLabel = wx.StaticText(panel, -1, "ФИО врача", size=(125, 25))

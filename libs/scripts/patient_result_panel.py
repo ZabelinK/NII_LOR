@@ -145,7 +145,10 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'fio' : self.testing_model.firstName + " " + self.testing_model.secondName,
             'birthday' : self.testing_model.birthday,
             'testing_date' : self.testing_model.testDay,
-            'signature' : 'Иванов Иван Иванович'
+            'signature_fio' : self.testing_model.doctorFirstName
+                              + " " + self.testing_model.doctorMiddleName
+                              + " " + self.testing_model.doctorSecondName,
+            'signature_position' : 'Сурдолог'
         }
         doc.render(context)
         result_file = self.recognition_service_settings.temp_dir + "generated_doc.docx"
