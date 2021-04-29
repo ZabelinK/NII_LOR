@@ -42,11 +42,13 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.count = 0
         self.btn_to_file = {}
         btn_count = 0
+        self.comment_count = 0
         noise_path = None
         if self.test_settings.noiseFile:
             noise_path = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile
 
         for item in self.testing_model.testingItems:
+            self.comment_count = 0
             labelCorrect = wx.StaticText(self, label=item.initialText)
             playOrigBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
             playOrigBtn.Bind(wx.EVT_BUTTON, self.playRecord)
@@ -74,7 +76,9 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
             textComment = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_WORDWRAP,
                                       value="", name="Комментарий", size=(100, 30))
-            textComment.Bind(wx.EVT_TEXT, self.OnCommentText)
+            textComment.Bind(wx.EVT_TEXT, self.updateCommentText)
+            self.comment_count += 1
+
 
             self.grid.Add(labelCorrect, 0, wx.EXPAND)
             self.grid.Add(playOrigBtn, 0, wx.EXPAND)
@@ -139,21 +143,39 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         next_panel.Show()
         self.Layout()
 
+    def updateCommentText(self, event):
+        self.testing_model.testingItems[self.comment_count].commentText = event.GetString()
+
     def printResults(self, event):
         doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
+        patient_name = self.testing_model.firstName + " " + self.testing_model.secondName
+        doctor_name = self.testing_model.doctorFirstName + " " + self.testing_model.doctorSecondName
+        correct_number = self._getCorrectTests()
+
         context = {
-            'fio' : self.testing_model.firstName + " " + self.testing_model.secondName,
-            'birthday' : self.testing_model.birthday,
-            'testing_date' : self.testing_model.testDay,
-            'signature_fio' : self.testing_model.doctorFirstName
-                              + " " + self.testing_model.doctorMiddleName
-                              + " " + self.testing_model.doctorSecondName,
-            'signature_position' : 'Сурдолог'
+            'test_date': self.testing_model.testDay,
+            'patient_name': patient_name,
+            'patient_birthday': self.testing_model.birthday,
+            'patient_results': self.testing_model.testingItems,
+            'noise': self.test_settings.noiseFile,
+            'countOfWords': self.test_settings.audioFilesNumber,
+            'correctWords': correct_number,
+            'percentOfCorrect': self._getPercentValue(correct_number, self.test_settings.audioFilesNumber),
+            'doctor_name': doctor_name,
+            'doctor_rank': "Самый главный доктор"
         }
         doc.render(context)
         result_file = self.recognition_service_settings.temp_dir + "generated_doc.docx"
         doc.save(result_file)
         os.system('start ' + result_file)
 
-    def OnCommentText(self, event):
-        print(event.GetString())
+    def _getPercentValue(self, value, count):
+        return str(int(value / count * 100)) + "%"
+
+    def _getCorrectTests(self):
+        result = 0
+        for item in self.testing_model.testingItems:
+            print(" Comment:", item.commentText, "\n")
+            if item.isCorrect:
+                result += 1
+        return result
