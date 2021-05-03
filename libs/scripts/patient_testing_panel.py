@@ -112,8 +112,10 @@ class PatientTestingPanel(wx.Panel):
         test_item = self.testing_model.testingItems[self.current_testing_item]
 
         self.playLabel.Show()
-        play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath,
-                  self.recognition_service_settings.noises_dir + self.test_settings.noiseFile)
+        noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
+                        if self.test_settings.noiseFile != '' \
+                        else None
+        play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
         self.playLabel.Hide()
         self.playBtn.Enable()
 
@@ -143,7 +145,7 @@ class PatientTestingPanel(wx.Panel):
         start_recording(self.recording_data, self.recognition_service_settings)
         #self.showRecordCircle()
         print("Start recording")
-
+ 
     def stopRecord(self):
         test_item = self.testing_model.testingItems[self.current_testing_item]
         test_item.resultAudioFilePath = test_item.initialAudioFilePath

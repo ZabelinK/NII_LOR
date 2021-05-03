@@ -4,8 +4,14 @@ import soundfile as sf
 
 
 def play_file(file_path, noise_path=None):
-    #TODO: Implement noise overlapping
-
     data, fs = sf.read(file_path, dtype='float32')
-    sd.play(data, fs)
+
+    if noise_path != None:
+        noise_data, noise_fs = sf.read(noise_path, dtype='float32')    
+        assert noise_fs == fs
+        res = 0.5 * data + 0.5 * noise_data[:len(data)] 
+    else:
+        res = data
+
+    sd.play(res, fs)
     sd.wait()
