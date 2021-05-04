@@ -7,9 +7,8 @@ import patient_testing_model
 from patient_testing_model import *
 from recognition_service import *
 from microphone_service import *
-from constants import DEFAULT_USER_FIO
-from constants import DEFAULT_BIRTHDAY
-from constants import DEFAULT_DOCTOR_FIO
+from error_panel import *
+from constants import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -41,7 +40,7 @@ class PatientInfoPanel(wx.Panel):
         l4 = wx.StaticText(panel, -1, "Дата тестирования")
 
         hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
-        self.t4 = wx.TextCtrl(panel, size=(125,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
+        self.t4 = wx.TextCtrl(panel, size=(150,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
 
         hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
         verticalBoxSizer.Add(hbox4)
@@ -55,20 +54,25 @@ class PatientInfoPanel(wx.Panel):
         fioLabel = wx.StaticText(panel, -1, "ФИО пациента", size=(125,25))
         fioBoxSizer.Add(fioLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
 
-        self.fioText = wx.TextCtrl(panel)
+        self.fioText = wx.TextCtrl(panel, size=(150,25))
         fioBoxSizer.Add(self.fioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.fioText.Bind(wx.EVT_TEXT, self.OnKeyTyped)
+        fioExLabel = wx.StaticText(panel, -1, "пр. Иванов Иван Иванович", size=(150, 25))
+        fioBoxSizer.Add(fioExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
         verticalBoxSizer.Add(fioBoxSizer)
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
+
         birthdayLabel = wx.StaticText(panel, -1, "Год гождения")
 
-        hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT|wx.ALL,5)
-        self.birthdayText = wx.TextCtrl(panel, size=(125,25))
+        hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT | wx.ALL, 5)
+        self.birthdayText = wx.TextCtrl(panel, size=(150,25))
         self.birthdayText.SetMaxLength(4)
 
         hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        birthdayExLabel = wx.StaticText(panel, -1, "пр. 1990", size=(125, 25))
+        hbox2.Add(birthdayExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(hbox2)
         self.birthdayText.Bind(wx.EVT_TEXT_MAXLEN, self.OnMaxLen)
 
@@ -81,11 +85,21 @@ class PatientInfoPanel(wx.Panel):
         doctorFioLabel = wx.StaticText(panel, -1, "ФИО врача", size=(125, 25))
         doctorFioBoxSizer.Add(doctorFioLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
-        self.doctorFioText = wx.TextCtrl(panel)
+        self.doctorFioText = wx.TextCtrl(panel, size=(150,25))
         doctorFioBoxSizer.Add(self.doctorFioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.doctorFioText.Bind(wx.EVT_TEXT, self.OnKeyTyped)
 
+        doctorFioExLabel = wx.StaticText(panel, -1, "пр. Иванов Иван Иванович", size=(150, 25))
+        doctorFioBoxSizer.Add(doctorFioExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(doctorFioBoxSizer)
+
+        doctorPositionBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
+        doctorPositionLabel = wx.StaticText(panel, -1, "Должность врача", size=(125, 25))
+        doctorPositionBoxSizer.Add(doctorPositionLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
+        self.doctorPositionText = wx.TextCtrl(panel, size=(150,25))
+        doctorPositionBoxSizer.Add(self.doctorPositionText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        verticalBoxSizer.Add(doctorPositionBoxSizer)
 
         nextButtonBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Продолжить", size=(120, 30))
@@ -116,18 +130,26 @@ class PatientInfoPanel(wx.Panel):
             fio = DEFAULT_USER_FIO
 
         fio_parts = fio.split()
-        if len(fio_parts) > 3:
-            print("Too many words, truncating to first 3")
         if str.isalpha(fio_parts[0]) is False:
+            self.error_message = "Введите правильную фамилию"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid second name")
             return
         if str.isalpha(fio_parts[1]) is False:
+            self.error_message = "Введите правильное имя"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid first name")
             return
         self.patient.secondName = fio_parts[0]
         self.patient.firstName = fio_parts[1]
-        if len(fio_parts) == 3:
+        if len(fio_parts) > 3 or len(fio_parts) == 3:
+            if len(fio_parts) > 3:
+                self.error_message = "Введено слишком много слов, берутся первые три"
+                self.next_frame = ErrorFrame(self.error_message)
+                print("Too many words, truncating to first 3")
             if str.isalpha(fio_parts[2]) is False:
+                self.error_message = "Введите правильное отчество"
+                self.next_frame = ErrorFrame(self.error_message)
                 print("Please enter valid middle name")
                 return
             self.patient.middleName = fio_parts[2]
@@ -137,11 +159,15 @@ class PatientInfoPanel(wx.Panel):
             birthdayText = DEFAULT_BIRTHDAY
 
         if str.isnumeric(birthdayText) is False:
+            self.error_message = "Введите корректный год рождения"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid birth year")
             return
 
         self.patient.birthday = int(birthdayText, base=10)
         if self.patient.birthday < 1900:
+            self.error_message = "Введите корректный год рождения"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid birth year")
             return
 
@@ -153,21 +179,35 @@ class PatientInfoPanel(wx.Panel):
             doctorFio = DEFAULT_DOCTOR_FIO
 
         doctorFio_parts = doctorFio.split()
-        if len(doctorFio_parts) > 3:
-            print("Too many words, truncating to first 3")
+
         if str.isalpha(doctorFio_parts[0]) is False:
+            self.error_message = "Введите правильную фамилию"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid second name")
             return
         if str.isalpha(doctorFio_parts[1]) is False:
+            self.error_message = "Введите правильное имя"
+            self.next_frame = ErrorFrame(self.error_message)
             print("Please enter valid first name")
             return
         self.patient.doctorSecondName = doctorFio_parts[0]
         self.patient.doctorFirstName = doctorFio_parts[1]
-        if len(doctorFio_parts) == 3:
+        if len(doctorFio_parts) > 3 or len(doctorFio_parts) == 3:
+            if len(doctorFio_parts) > 3:
+                self.error_message = "Введено слишком много слов, берутся первые три"
+                self.next_frame = ErrorFrame(self.error_message)
             if str.isalpha(doctorFio_parts[2]) is False:
+                self.error_message = "Введите правильное отчество"
+                self.next_frame = ErrorFrame(self.error_message)
                 print("Please enter valid middle name")
                 return
             self.patient.doctorMiddleName = doctorFio_parts[2]
+
+        position = self.doctorPositionText.GetValue()
+
+        if not position:
+            position = DEFAULT_DOCTOR_POSITION
+        self.patient.doctorPosition = position
 
         print(self.patient.birthday)
         print(self.patient.secondName)
@@ -182,3 +222,9 @@ class PatientInfoPanel(wx.Panel):
         next_panel.update()
         next_panel.Show()
         self.Layout()
+
+class ErrorFrame(wx.Frame):
+    def __init__(self, error_message):
+        wx.Frame.__init__(self, None, wx.ID_ANY, "Ошибка ввода данных")
+        panel = ErrorPanel(self, message=error_message)
+        self.Show()

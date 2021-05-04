@@ -3,7 +3,10 @@ from audio_choosing_panel import *
 from patient_testing_panel import *
 from patient_result_panel import *
 from recognition_simple_panel import *
+from constants import *
+
 import itertools
+import webbrowser
 
 class MainFrame(wx.Frame):
     def __init__(self, patient_testing_model, recognition_service_settings, test_settings):
@@ -14,14 +17,21 @@ class MainFrame(wx.Frame):
         menubar = wx.MenuBar()
         fileMenu = wx.Menu()
         checkItem = fileMenu.Append(wx.ID_ANY, 'Проверить сервис распознавания речи')
-        aboutItem = fileMenu.Append(wx.ID_ANY, 'О программе')
         exitItem = fileMenu.Append(wx.ID_EXIT, 'Выход', 'Выйти из приложения')
         menubar.Append(fileMenu, '&Файл')
+        editMenu = wx.Menu()
+        menubar.Append(editMenu, '&Правка')
+        helpMenu = wx.Menu()
+        helpItem = helpMenu.Append(wx.ID_ANY, 'Открыть руководство пользователя')
+        aboutItem = helpMenu.Append(wx.ID_ANY, 'О программе')
+        menubar.Append(helpMenu, '&Помощь')
+
 
         self.SetMenuBar(menubar)
         self.Bind(wx.EVT_MENU, self.OnCheckService, checkItem)
         self.Bind(wx.EVT_MENU, self.OnAbout, aboutItem)
         self.Bind(wx.EVT_MENU, self.OnQuit, exitItem)
+        self.Bind(wx.EVT_MENU, self.OnHelp, helpItem)
 
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
@@ -64,6 +74,10 @@ class MainFrame(wx.Frame):
 
     def OnAbout(self, e):
         self.Close()
+
+    def OnHelp(self, e):
+        help_file = PATH_TO_DOCS + '"Руководство пользователя.docx"'
+        os.system('start ' + help_file)
 
     def OnQuit(self, e):
         self.Close()

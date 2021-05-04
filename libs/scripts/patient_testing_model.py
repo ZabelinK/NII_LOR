@@ -17,6 +17,7 @@ class PatientTestingModel:
         self.doctorFirstName = ''
         self.doctorMiddleName = ''
         self.doctorSecondName = ''
+        self.doctorPosition = ''
 
     def __repr__(self):
         return obj_to_str(self)
