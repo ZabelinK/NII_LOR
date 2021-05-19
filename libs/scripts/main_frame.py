@@ -20,6 +20,7 @@ class MainFrame(wx.Frame):
         exitItem = fileMenu.Append(wx.ID_EXIT, 'Выход', 'Выйти из приложения')
         menubar.Append(fileMenu, '&Файл')
         editMenu = wx.Menu()
+        settingsItem = editMenu.Append(wx.ID_ANY, 'Настройки')
         menubar.Append(editMenu, '&Правка')
         helpMenu = wx.Menu()
         helpItem = helpMenu.Append(wx.ID_ANY, 'Открыть руководство пользователя')
@@ -32,6 +33,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnAbout, aboutItem)
         self.Bind(wx.EVT_MENU, self.OnQuit, exitItem)
         self.Bind(wx.EVT_MENU, self.OnHelp, helpItem)
+        self.Bind(wx.EVT_MENU, self.OnSettings, settingsItem)
 
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
@@ -79,6 +81,9 @@ class MainFrame(wx.Frame):
         help_file = PATH_TO_DOCS + '"Руководство пользователя.docx"'
         os.system('start ' + help_file)
 
+    def OnSettings(self, e):
+        self.next_frame = ErrorFrame("")
+
     def OnQuit(self, e):
         self.Close()
 
@@ -86,4 +91,10 @@ class CheckFrame(wx.Frame):
     def __init__(self, recognition_service_settings):
         wx.Frame.__init__(self, None, wx.ID_ANY, "Проверка сервиса распознавания речи", size=(640, 480))
         panel = RecognitionSimplePanel(self, recognition_service_settings=recognition_service_settings)
+        self.Show()
+
+class ErrorFrame(wx.Frame):
+    def __init__(self, error_message):
+        wx.Frame.__init__(self, None, wx.ID_ANY, "Настройки")
+        panel = ErrorPanel(self, message="")
         self.Show()

@@ -131,13 +131,15 @@ class PatientInfoPanel(wx.Panel):
 
         fio_parts = fio.split()
         if str.isalpha(fio_parts[0]) is False:
-            self.error_message = "Введите правильную фамилию"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Фамилия должна содержать только буквы!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                          style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid second name")
             return
         if str.isalpha(fio_parts[1]) is False:
-            self.error_message = "Введите правильное имя"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Имя должно содержать только буквы!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                      style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid first name")
             return
         self.patient.secondName = fio_parts[0]
@@ -145,11 +147,13 @@ class PatientInfoPanel(wx.Panel):
         if len(fio_parts) > 3 or len(fio_parts) == 3:
             if len(fio_parts) > 3:
                 self.error_message = "Введено слишком много слов, берутся первые три"
-                self.next_frame = ErrorFrame(self.error_message)
+                dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                          style=wx.OK | wx.CENTRE).ShowModal()
                 print("Too many words, truncating to first 3")
             if str.isalpha(fio_parts[2]) is False:
-                self.error_message = "Введите правильное отчество"
-                self.next_frame = ErrorFrame(self.error_message)
+                self.error_message = "Отчество должно содержать только буквы!"
+                dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                          style=wx.OK | wx.CENTRE).ShowModal()
                 print("Please enter valid middle name")
                 return
             self.patient.middleName = fio_parts[2]
@@ -159,15 +163,17 @@ class PatientInfoPanel(wx.Panel):
             birthdayText = DEFAULT_BIRTHDAY
 
         if str.isnumeric(birthdayText) is False:
-            self.error_message = "Введите корректный год рождения"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Год рождения должен содержать только цифры!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                      style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid birth year")
             return
 
         self.patient.birthday = int(birthdayText, base=10)
         if self.patient.birthday < 1900:
-            self.error_message = "Введите корректный год рождения"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Год рождения должен быть больше 1900!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                      style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid birth year")
             return
 
@@ -181,13 +187,15 @@ class PatientInfoPanel(wx.Panel):
         doctorFio_parts = doctorFio.split()
 
         if str.isalpha(doctorFio_parts[0]) is False:
-            self.error_message = "Введите правильную фамилию"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Фамилия должна содержать только буквы!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                      style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid second name")
             return
         if str.isalpha(doctorFio_parts[1]) is False:
-            self.error_message = "Введите правильное имя"
-            self.next_frame = ErrorFrame(self.error_message)
+            self.error_message = "Имя должно содержать только буквы!"
+            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                      style=wx.OK | wx.CENTRE).ShowModal()
             print("Please enter valid first name")
             return
         self.patient.doctorSecondName = doctorFio_parts[0]
@@ -195,10 +203,12 @@ class PatientInfoPanel(wx.Panel):
         if len(doctorFio_parts) > 3 or len(doctorFio_parts) == 3:
             if len(doctorFio_parts) > 3:
                 self.error_message = "Введено слишком много слов, берутся первые три"
-                self.next_frame = ErrorFrame(self.error_message)
+                dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                          style=wx.OK | wx.CENTRE).ShowModal()
             if str.isalpha(doctorFio_parts[2]) is False:
-                self.error_message = "Введите правильное отчество"
-                self.next_frame = ErrorFrame(self.error_message)
+                self.error_message = "Отчество должно содержать только буквы!"
+                dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
+                                          style=wx.OK | wx.CENTRE).ShowModal()
                 print("Please enter valid middle name")
                 return
             self.patient.doctorMiddleName = doctorFio_parts[2]
@@ -223,8 +233,3 @@ class PatientInfoPanel(wx.Panel):
         next_panel.Show()
         self.Layout()
 
-class ErrorFrame(wx.Frame):
-    def __init__(self, error_message):
-        wx.Frame.__init__(self, None, wx.ID_ANY, "Ошибка ввода данных")
-        panel = ErrorPanel(self, message=error_message)
-        self.Show()
