@@ -1,6 +1,9 @@
 import os
 import wx
 import wx.media
+from wx.lib.intctrl import IntCtrl
+
+import random
 
 import patient_testing_model
 from patient_testing_model import *
@@ -35,7 +38,7 @@ class AudioChoosingPanel(wx.Panel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
-        available_words_wav = return_file_names_with_extension(self.recognition_service_settings.words_dir, extension=".wav")
+        self.available_words_wav = return_file_names_with_extension(self.recognition_service_settings.words_dir, extension=".wav")
 
         available_noises_wav = [WITHOUT_NOISE_OPTION]
         available_noises_wav.extend(return_file_names_with_extension(self.recognition_service_settings.noises_dir, extension=".wav"))
@@ -43,7 +46,7 @@ class AudioChoosingPanel(wx.Panel):
         self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
-        self.filesBox = wx.CheckListBox(self, choices=available_words_wav)
+        self.filesBox = wx.CheckListBox(self, choices=self.available_words_wav)
         self.filesBox.Bind(wx.EVT_CHECKLISTBOX, self.addOrRemoveTestingItems)
 
         self.noiseLabel = wx.StaticText(self, label="Шумы: ")
@@ -56,14 +59,29 @@ class AudioChoosingPanel(wx.Panel):
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Начать воспроизведение", size=(150, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
+        self.randomRecordLabel = wx.StaticText(self, label="Кол-во случайных записей")
+        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.available_words_wav), limited=True)
+        self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150,30))
+        self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
+
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.vNoiseSizer = wx.BoxSizer(wx.VERTICAL)
+        self.vRandomSizer = wx.BoxSizer(wx.VERTICAL)
 
         self.mainSizer.Add(self.fioLabel)
         self.mainSizer.Add(self.birthdayLabel)
+
+        self.vNoiseSizer.Add(self.noiseLabel)
+        self.vNoiseSizer.Add(self.noisesBox)
+        
+        self.vRandomSizer.Add(self.randomRecordLabel)
+        self.vRandomSizer.Add(self.randomRecordCnt)
+        self.vRandomSizer.Add(self.chooseRandomBtn)
+
         self.hSizer.Add(self.filesBox)
-        self.hSizer.Add(self.noiseLabel)
-        self.hSizer.Add(self.noisesBox)
+        self.hSizer.Add(self.vNoiseSizer)
+        self.hSizer.Add(self.vRandomSizer)
 
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
@@ -82,6 +100,16 @@ class AudioChoosingPanel(wx.Panel):
         next_panel.update()
         next_panel.Show()
         self.Layout()
+
+    def resetFilesBox(self):
+        for item in self.filesBox.GetCheckedItems():
+            self.filesBox.Check(item, check=False)
+
+    def chooseRandom(self, event):
+        self.resetFilesBox()
+        choosenItems = random.sample(range(len(self.available_words_wav)), self.randomRecordCnt.GetValue())
+        for item in choosenItems:
+            self.filesBox.Check(item, check=True)
 
     def addOrRemoveTestingItems(self, event):
         self.testing_model.testingItems = []
