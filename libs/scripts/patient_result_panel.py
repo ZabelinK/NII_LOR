@@ -170,7 +170,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         os.system('start ' + result_file)
 
     def _getPercentValue(self, value, count):
-        return str(int(value / count * 100)) + "%"
+        return str(int(value / count * 100)) + "%" if count > 0 else 0
 
     def _getCorrectTests(self):
         result = 0
