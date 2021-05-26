@@ -110,6 +110,8 @@ class AudioChoosingPanel(wx.Panel):
         choosenItems = random.sample(range(len(self.available_words_wav)), self.randomRecordCnt.GetValue())
         for item in choosenItems:
             self.filesBox.Check(item, check=True)
+        
+        self.addOrRemoveTestingItems(None)
 
     def addOrRemoveTestingItems(self, event):
         self.testing_model.testingItems = []
