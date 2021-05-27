@@ -3,6 +3,7 @@ from audio_choosing_panel import *
 from patient_testing_panel import *
 from patient_result_panel import *
 from recognition_simple_panel import *
+from about_panel import *
 from constants import *
 
 import itertools
@@ -75,7 +76,7 @@ class MainFrame(wx.Frame):
         self.next_frame = CheckFrame(self.recognition_service_settings)
 
     def OnAbout(self, e):
-        self.Close()
+        self.next_frame = AboutFrame("")
 
     def OnHelp(self, e):
         help_file = PATH_TO_DOCS + '"Руководство пользователя.docx"'
@@ -97,4 +98,10 @@ class ErrorFrame(wx.Frame):
     def __init__(self, error_message):
         wx.Frame.__init__(self, None, wx.ID_ANY, "Настройки")
         panel = ErrorPanel(self, message="")
+        self.Show()
+
+class AboutFrame(wx.Frame):
+    def __init__(self, error_message):
+        wx.Frame.__init__(self, None, wx.ID_ANY, "О программе")
+        panel = AboutPanel(self, message="")
         self.Show()
