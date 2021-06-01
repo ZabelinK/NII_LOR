@@ -98,6 +98,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
         self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Начать заново", size=(200, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
+        self.nextBtn.Hide()
 
         self.printBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Напечатать результаты", size=(200, 30))
         self.printBtn.Bind(wx.EVT_BUTTON, self.printResults)
