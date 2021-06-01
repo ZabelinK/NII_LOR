@@ -38,7 +38,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.SetSize((1200, 600))
         self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 6, 6, 6)
 
-        self.all_check_box = []
+        self.all_check_box = {}
         self.count = 0
         self.btn_to_file = {}
         btn_count = 0
@@ -51,14 +51,14 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             self.comment_count = 0
             labelCorrect = wx.StaticText(self, label=item.initialText)
             playOrigBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
-            playOrigBtn.Bind(wx.EVT_BUTTON, self.playRecord)
+            playOrigBtn.Bind(wx.EVT_BUTTON, self.playOrigRecord)
             labelRecord = wx.StaticText(self, label=item.resultTest)
 
             self.btn_to_file[btn_count] = self.recognition_service_settings.words_dir + item.initialAudioFilePath
             btn_count +=1
 
             playRecBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
-            playRecBtn.Bind(wx.EVT_BUTTON, self.playRecord)
+            playRecBtn.Bind(wx.EVT_BUTTON, self.playCustomerRecord)
             
             self.btn_to_file[btn_count] = self.recognition_service_settings.temp_dir + item.resultAudioFilePath
             btn_count +=1
@@ -87,7 +87,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             self.grid.Add(checkBox, 0, wx.EXPAND)
             self.grid.Add(textComment, 0, wx.EXPAND)
 
-            self.all_check_box.append(checkBox)
+            self.all_check_box[checkBox] = item
 
         self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
@@ -118,12 +118,16 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
     def updateCheckBox(self, event):
         check_box = event.GetEventObject()
+        test_item = self.all_check_box[check_box]
         if check_box.IsChecked():
             check_box.SetLabel("Правильно")
             self.count += 1
+            test_item.isCorrect = True
         else:
             check_box.SetLabel("Неправильно")
             self.count -= 1
+            test_item.isCorrect = False
+
         self.updateCountLabel()
 
     def updateCountLabel(self):
@@ -132,10 +136,17 @@ class PatientResultPanel(scrolled.ScrolledPanel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
-    def playRecord(self, event):
+    def playOrigRecord(self, event):
+        btn = event.GetEventObject()
+        noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
+                if self.test_settings.noiseFile != '' \
+                else None
+        play_file(self.btn_to_file[btn.GetId()], noise_file)
+        
+    def playCustomerRecord(self, event):
         btn = event.GetEventObject()
         play_file(self.btn_to_file[btn.GetId()])
-        
+
     def nextPanel(self, event):
         self.Hide()
         next_panel = next(self.parent.current_panel)
@@ -150,8 +161,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
         patient_name = self.testing_model.firstName + " " + self.testing_model.secondName
         doctor_name = self.testing_model.doctorFirstName + " " + self.testing_model.doctorSecondName
-        correct_number = self._getCorrectTests()
-
+        
         context = {
             'test_date': self.testing_model.testDay,
             'patient_name': patient_name,
@@ -159,8 +169,8 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'patient_results': self.testing_model.testingItems,
             'noise': self.test_settings.noiseFile,
             'countOfWords': self.test_settings.audioFilesNumber,
-            'correctWords': correct_number,
-            'percentOfCorrect': self._getPercentValue(correct_number, self.test_settings.audioFilesNumber),
+            'correctWords': self.count,
+            'percentOfCorrect': self._getPercentValue(self.count, self.test_settings.audioFilesNumber),
             'doctor_name': doctor_name,
             'doctor_rank': "Самый главный доктор"
         }
@@ -172,10 +182,3 @@ class PatientResultPanel(scrolled.ScrolledPanel):
     def _getPercentValue(self, value, count):
         return str(int(value / count * 100)) + "%" if count > 0 else 0
 
-    def _getCorrectTests(self):
-        result = 0
-        for item in self.testing_model.testingItems:
-            print(" Comment:", item.commentText, "\n")
-            if item.isCorrect:
-                result += 1
-        return result

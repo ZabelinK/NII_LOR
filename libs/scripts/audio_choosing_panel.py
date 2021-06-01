@@ -52,6 +52,7 @@ class AudioChoosingPanel(wx.Panel):
         self.noiseLabel = wx.StaticText(self, label="Шумы: ")
 
         self.noisesBox = wx.Choice(self, choices=available_noises_wav, size=(150,30))
+        self.noisesBox.SetSelection(0)
         self.noisesBox.Bind(wx.EVT_CHOICE, self.setNoise)
 
         self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
@@ -60,7 +61,8 @@ class AudioChoosingPanel(wx.Panel):
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
         self.randomRecordLabel = wx.StaticText(self, label="Кол-во случайных записей")
-        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.available_words_wav), limited=True)
+        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.available_words_wav),
+                                                      value=len(self.available_words_wav) // 2, limited=True)
         self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150,30))
         self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
 
@@ -95,6 +97,12 @@ class AudioChoosingPanel(wx.Panel):
         self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
 
     def nextPanel(self, event):
+        if len(self.testing_model.testingItems) == 0:
+            dial = wx.MessageDialog(self.parent, message="Нужно выбрать хотя бы одну запись", caption="Ошибка",
+                             style=wx.OK|wx.CENTER, pos=wx.DefaultPosition)
+            dial.ShowModal()
+            return
+        
         self.Hide()
         next_panel = next(self.parent.current_panel)
         next_panel.update()
