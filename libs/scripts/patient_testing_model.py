@@ -14,6 +14,8 @@ class PatientTestingModel:
         self.birthday = ''
         self.testDay = ''
         self.testingItems = []
+        self.diagnosis = ''
+        self.operationDay = ''
         self.doctorFirstName = ''
         self.doctorMiddleName = ''
         self.doctorSecondName = ''
@@ -43,6 +45,13 @@ class TestSettings:
         self.audioFilesNumber = 0
         self.noiseFile = ''
         self.volumeLevel = 50
+        self.soundTool = ''
+        self.voice = ''
+        self.leftTool = ''
+        self.rightTool = ''
+        self.leftMethod = ''
+        self.rightMethod = ''
+        self.hearingAidType = ''
 
     def __repr__(self):
         return obj_to_str(self)
