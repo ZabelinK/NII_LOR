@@ -76,6 +76,22 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(hbox2)
         self.birthdayText.Bind(wx.EVT_TEXT_MAXLEN, self.OnMaxLen)
 
+        diagnosisBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
+        diagnosisLabel = wx.StaticText(panel, -1, "Диагноз", size=(125, 25))
+        diagnosisBoxSizer.Add(diagnosisLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
+        self.diagnosisText = wx.TextCtrl(panel, size=(150, 25))
+        diagnosisBoxSizer.Add(self.diagnosisText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        verticalBoxSizer.Add(diagnosisBoxSizer)
+
+        operationBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
+        operationLabel = wx.StaticText(panel, -1, "Инф-ция об оперативном вмешательстве", size=(125, 30))
+        operationBoxSizer.Add(operationLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
+        self.operationText = wx.TextCtrl(panel, size=(150, 25))
+        operationBoxSizer.Add(self.operationText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        verticalBoxSizer.Add(operationBoxSizer)
+
         helpDoctorBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.helpDoctorLabel = wx.StaticText(self, label="Заполните информацию о враче")
         helpDoctorBoxSizer.Add(self.helpDoctorLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
@@ -214,6 +230,12 @@ class PatientInfoPanel(wx.Panel):
             self.patient.doctorMiddleName = doctorFio_parts[2]
 
         position = self.doctorPositionText.GetValue()
+
+        diagnosis = self.diagnosisText.GetValue()
+        self.patient.diagnosis = diagnosis
+
+        operation = self.operationText.GetValue()
+        self.patient.operation = operation
 
         if not position:
             position = DEFAULT_DOCTOR_POSITION
