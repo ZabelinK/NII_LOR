@@ -7,6 +7,7 @@ class RecordingData:
     data = np.empty([1, 2])
     stream = 'null'
 
+
 def start_recording(recording_data, recognition_service_settings):
     def callback(indata, frames, time, status):
         recording_data.data = np.append(recording_data.data, indata, axis=0)

@@ -1,9 +1,7 @@
-from utils import *
-from constants import DEFAULT_WORK_DIR
-from constants import PATH_TO_WORDS
-from constants import PATH_TO_NOISES
-from constants import PATH_TO_BITMAPS
-from constants import PATH_TO_DOCS_TEMPALTES
+from libs.scripts.src.utils.utils import *
+from libs.scripts.src.utils.constants import DEFAULT_WORK_DIR, PATH_TO_WORDS, \
+    PATH_TO_NOISES, PATH_TO_BITMAPS, PATH_TO_DOCS_TEMPALTES
+
 
 class PatientTestingModel:
 

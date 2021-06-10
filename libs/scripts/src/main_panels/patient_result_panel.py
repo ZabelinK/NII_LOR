@@ -2,20 +2,13 @@ import os
 import wx
 import wx.media
 import wx.grid
-
-from patient_testing_model import *
-from recognition_service import *
-from microphone_service import *
-
-from sound_service import *
-from constants import *
+import wx.lib.scrolledpanel as scrolled
 from docxtpl import DocxTemplate
 
-import wx.lib.scrolledpanel as scrolled
+from libs.scripts.src.services.sound_service import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
-bitmapDir = os.path.join(dirName, 'bitmaps')
-
+bitmapDir = os.path.join(dirName, '../../bitmaps')
 
 
 class PatientResultPanel(scrolled.ScrolledPanel):

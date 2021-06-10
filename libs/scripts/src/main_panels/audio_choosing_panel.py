@@ -1,17 +1,11 @@
-import os
+import random
 import wx
 import wx.media
 from wx.lib.intctrl import IntCtrl
 
-import random
-
-import patient_testing_model
-from patient_testing_model import *
-from recognition_service import *
-from microphone_service import *
-from utils import *
-
-from constants import WITHOUT_NOISE_OPTION
+from libs.scripts.src.models.patient_testing_model import *
+from libs.scripts.src.utils.utils import *
+from libs.scripts.src.utils.constants import WITHOUT_NOISE_OPTION
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')

@@ -1,12 +1,9 @@
-import os
-import wx
 import wx.media
+import os
 
-from recognition_service import *
-from patient_testing_model import *
-from microphone_service import *
-
-from application import *
+from libs.scripts.src.services.recognition_service import *
+from libs.scripts.src.services.microphone_service import *
+from libs.scripts.src.application import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')

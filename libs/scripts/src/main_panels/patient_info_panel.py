@@ -1,17 +1,12 @@
 import os
-import wx
 import wx.media
 from datetime import datetime
 
-import patient_testing_model
-from patient_testing_model import *
-from recognition_service import *
-from microphone_service import *
-from error_panel import *
-from constants import *
+from libs.scripts.src.extra_panels.error_panel import *
+from libs.scripts.src.utils.constants import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
-bitmapDir = os.path.join(dirName, 'bitmaps')
+bitmapDir = os.path.join(dirName, '../../bitmaps')
 
 
 class PatientInfoPanel(wx.Panel):
@@ -127,14 +122,11 @@ class PatientInfoPanel(wx.Panel):
 
         self.Layout()
 
-
     def OnKeyTyped(self, event):
         print(event.GetString())
 
-
     def OnEnterPressed(self,event):
         print("Enter pressed")
-
 
     def OnMaxLen(self,event):
         print("Maximum length reached")

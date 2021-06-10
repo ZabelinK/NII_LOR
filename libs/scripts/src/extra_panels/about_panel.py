@@ -1,8 +1,6 @@
-import os
-import wx
 import wx.media
 
-from application import *
+from libs.scripts.src.application import *
 
 
 class AboutPanel(wx.Panel):

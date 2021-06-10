@@ -2,14 +2,12 @@ import os
 import wx
 import wx.media
 
-import patient_testing_model
-from patient_testing_model import *
-from recognition_service import *
-from microphone_service import *
-from sound_service import *
+from libs.scripts.src.services.recognition_service import *
+from libs.scripts.src.services.microphone_service import *
+from libs.scripts.src.services.sound_service import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
-bitmapDir = os.path.join(dirName, 'bitmaps')
+bitmapDir = os.path.join(dirName, '../../bitmaps')
 
 
 class PatientTestingPanel(wx.Panel):
