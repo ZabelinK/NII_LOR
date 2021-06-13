@@ -1,13 +1,13 @@
 import itertools
 
-from libs.scripts.src.extra_panels.error_panel import *
-from libs.scripts.src.main_panels.patient_info_panel import *
-from libs.scripts.src.main_panels.audio_choosing_panel import *
-from libs.scripts.src.main_panels.patient_testing_panel import *
-from libs.scripts.src.main_panels.patient_result_panel import *
-from libs.scripts.src.extra_panels.recognition_simple_panel import *
-from libs.scripts.src.extra_panels.about_panel import *
-from libs.scripts.src.utils.constants import *
+from extra_panels.error_panel import *
+from main_panels.patient_info_panel import *
+from main_panels.audio_choosing_panel import *
+from main_panels.patient_testing_panel import *
+from main_panels.patient_result_panel import *
+from extra_panels.recognition_simple_panel import *
+from extra_panels.about_panel import *
+from utils.constants import *
 
 class MainFrame(wx.Frame):
     def __init__(self, patient_testing_model, recognition_service_settings, test_settings):

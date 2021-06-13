@@ -2,9 +2,9 @@ import os
 import wx
 import wx.media
 
-from libs.scripts.src.services.recognition_service import *
-from libs.scripts.src.services.microphone_service import *
-from libs.scripts.src.services.sound_service import *
+from services.recognition_service import *
+from services.microphone_service import *
+from services.sound_service import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, '../../bitmaps')

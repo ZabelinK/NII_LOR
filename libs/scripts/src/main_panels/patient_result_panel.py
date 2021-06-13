@@ -5,7 +5,7 @@ import wx.grid
 import wx.lib.scrolledpanel as scrolled
 from docxtpl import DocxTemplate
 
-from libs.scripts.src.services.sound_service import *
+from services.sound_service import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, '../../bitmaps')

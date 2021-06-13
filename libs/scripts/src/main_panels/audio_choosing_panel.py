@@ -3,9 +3,9 @@ import wx
 import wx.media
 from wx.lib.intctrl import IntCtrl
 
-from libs.scripts.src.models.patient_testing_model import *
-from libs.scripts.src.utils.utils import *
-from libs.scripts.src.utils.constants import WITHOUT_NOISE_OPTION
+from models.patient_testing_model import *
+from utils.utils import *
+from utils.constants import WITHOUT_NOISE_OPTION
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')

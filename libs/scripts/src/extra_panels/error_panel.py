@@ -1,6 +1,6 @@
 import wx.media
 
-from libs.scripts.src.application import *
+from application import *
 
 
 class ErrorPanel(wx.Panel):

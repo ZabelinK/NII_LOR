@@ -2,8 +2,8 @@ import os
 import wx.media
 from datetime import datetime
 
-from libs.scripts.src.extra_panels.error_panel import *
-from libs.scripts.src.utils.constants import *
+from extra_panels.error_panel import *
+from utils.constants import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, '../../bitmaps')

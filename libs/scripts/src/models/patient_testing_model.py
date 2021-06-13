@@ -1,5 +1,5 @@
-from libs.scripts.src.utils.utils import *
-from libs.scripts.src.utils.constants import DEFAULT_WORK_DIR, PATH_TO_WORDS, \
+from utils.utils import *
+from utils.constants import DEFAULT_WORK_DIR, PATH_TO_WORDS, \
     PATH_TO_NOISES, PATH_TO_BITMAPS, PATH_TO_DOCS_TEMPALTES
 
 

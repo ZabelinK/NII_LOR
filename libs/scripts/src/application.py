@@ -2,7 +2,7 @@ import wx
 import sys
 
 import main_panels.main_frame as mf
-import libs.scripts.src.models.patient_testing_model as ptm
+import models.patient_testing_model as ptm
 
 
 if __name__ == "__main__":
