@@ -1,12 +1,13 @@
 import itertools
 
-from extra_panels.error_panel import *
 from main_panels.patient_info_panel import *
 from main_panels.audio_choosing_panel import *
 from main_panels.patient_testing_panel import *
 from main_panels.patient_result_panel import *
+from main_panels.session_settings_panel import *
 from extra_panels.recognition_simple_panel import *
 from extra_panels.about_panel import *
+from extra_panels.error_panel import *
 from utils.constants import *
 
 class MainFrame(wx.Frame):
@@ -42,6 +43,10 @@ class MainFrame(wx.Frame):
 
         # Creating all panels
         self.patient_info = self.addPanel(PatientInfoPanel(self, testing_model=patient_testing_model))
+
+        self.session_settings = self.addPanel(SessionSettingsPanel(self,
+                                                                   testing_model=patient_testing_model,
+                                                                   test_setting=test_settings))
 
         self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
                                                                testing_model=patient_testing_model,
