@@ -15,7 +15,7 @@ call %PYTHON_HOME%\Scripts\pip install -U wxPython
 call %PYTHON_HOME%\Scripts\pip install -U sounddevice
 call %PYTHON_HOME%\Scripts\pip install -U soundfile
 call %PYTHON_HOME%\Scripts\pip install -U requests
-call %PYTHON_HOME%\Scripts\pip install -U numpy
+call %PYTHON_HOME%\Scripts\pip install -v numpy==1.20.2
 call %PYTHON_HOME%\Scripts\pip install -U docx
 call %PYTHON_HOME%\Scripts\pip install -U docxtpl
 @rem ============================================================================================
