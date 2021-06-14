@@ -27,12 +27,14 @@ class SessionSettingsPanel(wx.Panel):
         self.soundToolChoice = wx.Choice(self, choices=soundTools)
         self.soundToolChoice.Bind(wx.EVT_CHOICE, self.setSoundTool)
         self.soundToolChoice.SetSelection(0)
+        self.test_setting.soundTool = 0
 
         voiceChoiceLabel = wx.StaticText(self, -1, "Голос озвучки", size=(125, 25))
         voice = ['Мужчина', 'Женщина']
         self.voiceChoice = wx.Choice(self, choices=voice)
         self.voiceChoice.Bind(wx.EVT_CHOICE, self.setVoice)
         self.voiceChoice.SetSelection(0)
+        self.test_setting.voice = 0
 
         earSettingsLabel = wx.StaticText(self, -1, "Настройки для:", size=(125, 25))
         leftEarLabel = wx.StaticText(self, -1, "Левое ухо", size=(125, 25))
@@ -43,18 +45,22 @@ class SessionSettingsPanel(wx.Panel):
         self.leftToolChoice = wx.Choice(self, choices=hearingTools)
         self.leftToolChoice.Bind(wx.EVT_CHOICE, self.setLeftTool)
         self.leftToolChoice.SetSelection(0)
+        self.test_setting.leftTool = 0
         self.rightToolChoice = wx.Choice(self, choices=hearingTools)
         self.rightToolChoice.Bind(wx.EVT_CHOICE, self.setRightTool)
         self.rightToolChoice.SetSelection(0)
+        self.test_setting.rightTool = 0
 
         hearingMethodLabel = wx.StaticText(self, -1, "Метод коррекции слуха", size=(125, 30))
         methods = ['АД', 'АС', 'Бинаурально']
         self.leftMethodChoice = wx.Choice(self, choices=methods)
         self.leftMethodChoice.Bind(wx.EVT_CHOICE, self.setLeftMethod)
         self.leftMethodChoice.SetSelection(0)
+        self.test_setting.leftMethod = 0
         self.rightMethodChoice = wx.Choice(self, choices=methods)
         self.rightMethodChoice.Bind(wx.EVT_CHOICE, self.setRightMethod)
         self.rightMethodChoice.SetSelection(0)
+        self.test_setting.rightMethod = 0
 
         hearingAidLabel = wx.StaticText(self, -1, "Вид слухового аппарата", size=(125, 25))
         self.hearingAidText = wx.TextCtrl(self, size=(150, 25))
@@ -123,7 +129,7 @@ class SessionSettingsPanel(wx.Panel):
         self.Layout()
 
     def setSoundTool(self, event):
-        self.test_setting.soundTool = self.soundToolChoice.GetSelection()
+        self.test_setting.soundTool = self.soundToolChoice.GetString(self.soundToolChoice.GetSelection())
 
     def setVoice(self, event):
         self.test_setting.voice = self.voiceChoice.GetSelection()

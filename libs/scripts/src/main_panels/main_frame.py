@@ -58,9 +58,8 @@ class MainFrame(wx.Frame):
                                                                  recognition_service_settings=recognition_service_settings))
 
         self.patient_result_panel = self.addPanel(PatientResultPanel(self, testing_model=patient_testing_model, 
-                                                                     test_settings=test_settings,
-                                                                     recognition_service_settings=recognition_service_settings,
-                                                                     session_settings=self.session_settings))
+                                                                     test_settings=self.session_settings.test_setting,
+                                                                     recognition_service_settings=recognition_service_settings,))
 
 
         self.current_panel = itertools.cycle(self.all_panels_in_order)

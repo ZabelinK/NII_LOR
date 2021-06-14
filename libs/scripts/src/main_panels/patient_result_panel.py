@@ -13,14 +13,13 @@ bitmapDir = os.path.join(dirName, '../../bitmaps')
 
 class PatientResultPanel(scrolled.ScrolledPanel):
 
-    def __init__(self, parent, testing_model, test_settings, recognition_service_settings, session_settings):
+    def __init__(self, parent, testing_model, test_settings, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
         self.testing_model = testing_model
         self.test_settings = test_settings
         self.recognition_service_settings = recognition_service_settings
-        self.session_settings = session_settings
 
         self.SetSize((1200, 600))
         self.layoutControls()
@@ -153,10 +152,15 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.testing_model.testingItems[self.comment_count].commentText = event.GetString()
 
     def printResults(self, event):
+        test_methods = ["AS", "AD", "Бинаурально"]
+        play_methods = ["Свободное звуковое поле", "Наушники"]
+        device_types = ["Слуховой аппарат", "Кохлеарный имплантат"]
+        voice_types = ["Мужчина", "Женщина"]
+
         doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
         patient_name = self.testing_model.firstName + " " + self.testing_model.secondName
         doctor_name = self.testing_model.doctorFirstName + " " + self.testing_model.doctorSecondName
-        print(self.session_settings)
+
         context = {
             'test_date': self.testing_model.testDay,
             'patient_name': patient_name,
@@ -164,12 +168,18 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'patient_results': self.testing_model.testingItems,
             'patient_diagnosis': self.testing_model.diagnosis,
             'patient_oper': self.testing_model.operation,
+            'test_method': test_methods[self.test_settings.leftMethod],
+            'test_sound': play_methods[self.test_settings.soundTool],
             'noise': self.test_settings.noiseFile,
+            'noise_prc': "0 db",
+            'voice': voice_types[self.test_settings.voice],
+            'device_info': device_types[self.test_settings.leftTool],
+            'device_model': self.test_settings.hearingAidType,
             'countOfWords': self.test_settings.audioFilesNumber,
             'correctWords': self.count,
             'percentOfCorrect': self._getPercentValue(self.count, self.test_settings.audioFilesNumber),
             'doctor_name': doctor_name,
-            'doctor_rank': "Самый главный доктор"
+            'doctor_rank': self.testing_model.doctorPosition
         }
         doc.render(context)
         result_file = self.recognition_service_settings.temp_dir + "generated_doc.docx"
