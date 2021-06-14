@@ -13,13 +13,14 @@ bitmapDir = os.path.join(dirName, '../../bitmaps')
 
 class PatientResultPanel(scrolled.ScrolledPanel):
 
-    def __init__(self, parent, testing_model, test_settings, recognition_service_settings):
+    def __init__(self, parent, testing_model, test_settings, recognition_service_settings, session_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
         self.testing_model = testing_model
         self.test_settings = test_settings
         self.recognition_service_settings = recognition_service_settings
+        self.session_settings = session_settings
 
         self.SetSize((1200, 600))
         self.layoutControls()
@@ -155,12 +156,14 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
         patient_name = self.testing_model.firstName + " " + self.testing_model.secondName
         doctor_name = self.testing_model.doctorFirstName + " " + self.testing_model.doctorSecondName
-        
+        print(self.session_settings)
         context = {
             'test_date': self.testing_model.testDay,
             'patient_name': patient_name,
             'patient_birthday': self.testing_model.birthday,
             'patient_results': self.testing_model.testingItems,
+            'patient_diagnosis': self.testing_model.diagnosis,
+            'patient_oper': self.testing_model.operation,
             'noise': self.test_settings.noiseFile,
             'countOfWords': self.test_settings.audioFilesNumber,
             'correctWords': self.count,
