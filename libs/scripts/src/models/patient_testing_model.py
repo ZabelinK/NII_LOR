@@ -47,8 +47,7 @@ class TestSettings:
         self.voice = ''
         self.leftTool = ''
         self.rightTool = ''
-        self.leftMethod = ''
-        self.rightMethod = ''
+        self.analysisMethod = ''
         self.hearingAidType = ''
 
     def __repr__(self):

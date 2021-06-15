@@ -36,12 +36,18 @@ class SessionSettingsPanel(wx.Panel):
         self.voiceChoice.SetSelection(0)
         self.test_setting.voice = 0
 
+        hearingMethodLabel = wx.StaticText(self, -1, "Метод коррекции слуха", size=(125, 30))
+        methods = ['AS', 'AD', 'Бинаурально']
+        self.methodChoice = wx.RadioBox(self, choices=methods)
+        self.methodChoice.Bind(wx.EVT_RADIOBOX, self.setAnalysisMethod)
+        #self.methodChoice.SetSelection(0)
+        self.test_setting.leftMethod = 0
+
         earSettingsLabel = wx.StaticText(self, -1, "Настройки для:", size=(125, 25))
+        hearingToolLabel = wx.StaticText(self, -1, "Вид аппарата", size=(125, 25))
         leftEarLabel = wx.StaticText(self, -1, "Левое ухо", size=(125, 25))
         rightEarLabel = wx.StaticText(self, -1, "Правое ухо", size=(125, 25))
-
-        hearingToolLabel = wx.StaticText(self, -1, "Вид аппарата", size=(125, 25))
-        hearingTools = ['Слуховой аппарат', 'Кохлеарный имплантат']
+        hearingTools = ['-', 'Слуховой аппарат', 'Кохлеарный имплантат']
         self.leftToolChoice = wx.Choice(self, choices=hearingTools)
         self.leftToolChoice.Bind(wx.EVT_CHOICE, self.setLeftTool)
         self.leftToolChoice.SetSelection(0)
@@ -51,19 +57,8 @@ class SessionSettingsPanel(wx.Panel):
         self.rightToolChoice.SetSelection(0)
         self.test_setting.rightTool = 0
 
-        hearingMethodLabel = wx.StaticText(self, -1, "Метод коррекции слуха", size=(125, 30))
-        methods = ['АД', 'АС', 'Бинаурально']
-        self.leftMethodChoice = wx.Choice(self, choices=methods)
-        self.leftMethodChoice.Bind(wx.EVT_CHOICE, self.setLeftMethod)
-        self.leftMethodChoice.SetSelection(0)
-        self.test_setting.leftMethod = 0
-        self.rightMethodChoice = wx.Choice(self, choices=methods)
-        self.rightMethodChoice.Bind(wx.EVT_CHOICE, self.setRightMethod)
-        self.rightMethodChoice.SetSelection(0)
-        self.test_setting.rightMethod = 0
-
-        hearingAidLabel = wx.StaticText(self, -1, "Вид слухового аппарата", size=(125, 25))
-        self.hearingAidText = wx.TextCtrl(self, size=(150, 25))
+        hearingAidLabel = wx.StaticText(self, -1, "Информация об устройстве", size=(125, 25))
+        self.hearingAidText = wx.TextCtrl(self, size=(250, 25))
 
         self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ",
                                                                  self.testing_model.firstName + " " + self.testing_model.secondName))
@@ -76,8 +71,8 @@ class SessionSettingsPanel(wx.Panel):
         self.soundToolChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.voiceChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.earSettingsLabelSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.hearingToolChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingMethodChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.hearingToolChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingAidSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.mainSizer.Add(self.fioLabel)
@@ -90,25 +85,22 @@ class SessionSettingsPanel(wx.Panel):
         self.voiceChoiceSizer.Add(self.voiceChoice)
 
         self.earSettingsLabelSizer.Add(earSettingsLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.hearingMethodChoiceSizer.Add(hearingMethodLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.hearingMethodChoiceSizer.Add(self.methodChoice)
         self.earSettingsLabelSizer.Add(leftEarLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.earSettingsLabelSizer.Add(rightEarLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
-
         self.hearingToolChoiceSizer.Add(hearingToolLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.hearingToolChoiceSizer.Add(self.leftToolChoice)
         self.hearingToolChoiceSizer.Add(self.rightToolChoice)
-
-        self.hearingMethodChoiceSizer.Add(hearingMethodLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
-        self.hearingMethodChoiceSizer.Add(self.leftMethodChoice)
-        self.hearingMethodChoiceSizer.Add(self.rightMethodChoice)
 
         self.hearingAidSizer.Add(hearingAidLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.hearingAidSizer.Add(self.hearingAidText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
         self.mainSizer.Add(self.soundToolChoiceSizer)
         self.mainSizer.Add(self.voiceChoiceSizer)
+        self.mainSizer.Add(self.hearingMethodChoiceSizer)
         self.mainSizer.Add(self.earSettingsLabelSizer)
         self.mainSizer.Add(self.hearingToolChoiceSizer)
-        self.mainSizer.Add(self.hearingMethodChoiceSizer)
         self.mainSizer.Add(self.hearingAidSizer)
         self.mainSizer.Add(self.nextBtn)
 
@@ -129,7 +121,7 @@ class SessionSettingsPanel(wx.Panel):
         self.Layout()
 
     def setSoundTool(self, event):
-        self.test_setting.soundTool = self.soundToolChoice.GetString(self.soundToolChoice.GetSelection())
+        self.test_setting.soundTool = self.soundToolChoice.GetSelection()
 
     def setVoice(self, event):
         self.test_setting.voice = self.voiceChoice.GetSelection()
@@ -140,8 +132,23 @@ class SessionSettingsPanel(wx.Panel):
     def setRightTool(self, event):
         self.test_setting.rightTool = self.rightToolChoice.GetSelection()
 
-    def setLeftMethod(self, event):
-        self.test_setting.leftMethod = self.leftMethodChoice.GetSelection()
+    def setAnalysisMethod(self, event):
+        choice = self.methodChoice.GetSelection()
+        if choice == 0:
+            self.leftToolChoice.Enable()
+            self.rightToolChoice.SetSelection(0)
+            self.rightToolChoice.Disable()
+        elif choice == 1:
+            self.leftToolChoice.SetSelection(0)
+            self.leftToolChoice.Disable()
+            self.rightToolChoice.Enable()
+        else:
+            self.leftToolChoice.Enable()
+            self.rightToolChoice.Enable()
+        self.test_setting.analysisMethod = choice
+        self.test_setting.leftTool = self.leftToolChoice.GetSelection()
+        self.test_setting.rightTool = self.rightToolChoice.GetSelection()
 
-    def setRightMethod(self, event):
-        self.test_setting.rightMethod = self.rightMethodChoice.GetSelection()
+
+
+

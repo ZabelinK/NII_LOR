@@ -154,7 +154,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
     def printResults(self, event):
         test_methods = ["AS", "AD", "Бинаурально"]
         play_methods = ["Свободное звуковое поле", "Наушники"]
-        device_types = ["Слуховой аппарат", "Кохлеарный имплантат"]
+        device_types = ["-", "Слуховой аппарат", "Кохлеарный имплантат"]
         voice_types = ["Мужчина", "Женщина"]
 
         doc = DocxTemplate(self.recognition_service_settings.template_dir + "ResultTpl.docx")
@@ -168,12 +168,12 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'patient_results': self.testing_model.testingItems,
             'patient_diagnosis': self.testing_model.diagnosis,
             'patient_oper': self.testing_model.operation,
-            'test_method': test_methods[self.test_settings.leftMethod],
+            'test_method': test_methods[self.test_settings.analysisMethod],
             'test_sound': play_methods[self.test_settings.soundTool],
             'noise': self.test_settings.noiseFile,
             'noise_prc': "0 db",
             'voice': voice_types[self.test_settings.voice],
-            'device_info': device_types[self.test_settings.leftTool],
+            'device_info': device_types[self.test_settings.leftTool] + "/" + device_types[self.test_settings.rightTool],
             'device_model': self.test_settings.hearingAidType,
             'countOfWords': self.test_settings.audioFilesNumber,
             'correctWords': self.count,
