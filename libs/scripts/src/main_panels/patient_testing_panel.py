@@ -48,8 +48,9 @@ class PatientTestingPanel(wx.Panel):
         self.recordLabel = wx.StaticText(self, label="Идет запись")
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
-        self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_WORDWRAP,
+        self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_WORDWRAP,
             value="", name="Результаты распознавания", size=(300, 100))
+        self.textRes.Bind(wx.EVT_TEXT, self.onKeyTyped)
 
 
         self.nextRecBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Следующая запись", size=(120, 30))
@@ -116,6 +117,12 @@ class PatientTestingPanel(wx.Panel):
         play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
         self.playLabel.Hide()
         self.playBtn.Enable()
+
+    def onKeyTyped(self, event):
+        test_item = self.testing_model.testingItems[self.current_testing_item]
+        test_item.resultAudioFilePath = test_item.initialAudioFilePath
+        test_item.resultTest = event.GetString().lower()
+        test_item.isCorrect = test_item.initialText == test_item.resultTest
 
     def onRecord(self, event):
         if self.recordBtn.GetValue() == True:
