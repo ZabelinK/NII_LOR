@@ -1,5 +1,5 @@
 DEFAULT_WORK_DIR = "../workdir"
-PATH_TO_WORDS = "../data_set/"
+PATH_TO_WORDS = "../data_set/words/"
 PATH_TO_NOISES = "../data_set/noises/"
 PATH_TO_BITMAPS = "../libs/scripts/bitmaps/"
 PATH_TO_DOCS_TEMPALTES = "../libs/scripts/templates/"

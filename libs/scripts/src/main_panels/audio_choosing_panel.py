@@ -2,6 +2,9 @@ import random
 import wx
 import wx.media
 from wx.lib.intctrl import IntCtrl
+from wx.lib.agw.customtreectrl import CustomTreeCtrl, EVT_TREE_ITEM_CHECKED
+
+import os
 
 from models.patient_testing_model import *
 from utils.utils import *
@@ -32,13 +35,8 @@ class AudioChoosingPanel(wx.Panel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
-        self.available_words_wav = return_file_names_with_extension(self.recognition_service_settings.words_dir, extension=".wav")
-
         available_noises_wav = [WITHOUT_NOISE_OPTION]
         available_noises_wav.extend(return_file_names_with_extension(self.recognition_service_settings.noises_dir, extension=".wav"))
-
-        self.filesBox = wx.CheckListBox(self, choices=self.available_words_wav)
-        self.filesBox.Bind(wx.EVT_CHECKLISTBOX, self.addOrRemoveTestingItems)
 
         self.noiseLabel = wx.StaticText(self, label="Шумы: ")
 
@@ -48,12 +46,17 @@ class AudioChoosingPanel(wx.Panel):
 
         self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
 
+        self.choosingAudioTree = CustomTreeCtrl(self, style=wx.SL_INVERSE, size=(300, 200))
+        self.constructAudioTree()
+        self.choosingAudioTree.ExpandAll()
+        self.choosingAudioTree.Bind(EVT_TREE_ITEM_CHECKED, self.addOrRemoveTestingItems)
+
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Начать воспроизведение", size=(150, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
         self.randomRecordLabel = wx.StaticText(self, label="Кол-во случайных записей")
-        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.available_words_wav),
-                                                      value=len(self.available_words_wav) // 2, limited=True)
+        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.check_box_items),
+                                                      value=len(self.check_box_items) // 2, limited=True)
         self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150,30))
         self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
 
@@ -69,9 +72,11 @@ class AudioChoosingPanel(wx.Panel):
         self.vRandomSizer.Add(self.randomRecordCnt)
         self.vRandomSizer.Add(self.chooseRandomBtn)
 
-        self.hSizer.Add(self.filesBox)
+#        self.hSizer.Add(self.filesBox)
+        self.hSizer.Add(self.choosingAudioTree)
         self.hSizer.Add(self.vNoiseSizer)
         self.hSizer.Add(self.vRandomSizer)
+
 
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
@@ -96,25 +101,49 @@ class AudioChoosingPanel(wx.Panel):
         next_panel.Show()
         self.Layout()
 
+    def constructAudioTree(self):
+        words_path = self.recognition_service_settings.words_dir
+        self.generic_tree_items = {
+                               words_path : self.choosingAudioTree.AddRoot("words")
+                             }
+        self.check_box_items = []
+
+        for root, dirs, files in os.walk(words_path):
+            root_tree_item = self.generic_tree_items[root]
+            for dir in dirs:
+                self.generic_tree_items[root + dir] = self.choosingAudioTree.AppendItem(root_tree_item, dir)
+
+            for file in files:
+                check_box_item = self.choosingAudioTree.AppendItem(root_tree_item, file, ct_type=1)
+                self.generic_tree_items[root + os.sep + file] = check_box_item
+                self.check_box_items.append(check_box_item)
+
+            print(self.generic_tree_items)
+
     def resetFilesBox(self):
-        for item in self.filesBox.GetCheckedItems():
-            self.filesBox.Check(item, check=False)
+        for check_box_item in self.check_box_items:
+            check_box_item.Check(checked=False)
 
     def chooseRandom(self, event):
         self.resetFilesBox()
-        choosenItems = random.sample(range(len(self.available_words_wav)), self.randomRecordCnt.GetValue())
-        for item in choosenItems:
-            self.filesBox.Check(item, check=True)
+        choosen_items = random.sample(range(len(self.check_box_items)), self.randomRecordCnt.GetValue())
+        for choosen_item_idx in choosen_items:
+            self.check_box_items[choosen_item_idx].Check(checked=True)
         
+        self.choosingAudioTree.Refresh()
+
         self.addOrRemoveTestingItems(None)
 
     def addOrRemoveTestingItems(self, event):
         self.testing_model.testingItems = []
 
-        for item in self.filesBox.GetCheckedStrings():
+        for path, tree_item in self.generic_tree_items.items():
+            if not tree_item.IsChecked():
+                continue
+
             test_item = TestingItem()
-            test_item.initialAudioFilePath = item
-            test_item.initialText = item.split('.')[0].lower()
+            test_item.initialAudioFilePath = path.replace(self.recognition_service_settings.words_dir, '')
+            test_item.initialText = path.split(os.sep)[-1].split('.')[0].lower()
             self.testing_model.testingItems.append(test_item)
 
         self.test_setting.audioFilesNumber = len(self.testing_model.testingItems)
