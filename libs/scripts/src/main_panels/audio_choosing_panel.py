@@ -118,8 +118,6 @@ class AudioChoosingPanel(wx.Panel):
                 self.generic_tree_items[root + os.sep + file] = check_box_item
                 self.check_box_items.append(check_box_item)
 
-            print(self.generic_tree_items)
-
     def resetFilesBox(self):
         for check_box_item in self.check_box_items:
             check_box_item.Check(checked=False)
