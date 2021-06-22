@@ -67,7 +67,7 @@ class AudioChoosingPanel(wx.Panel):
         self.playModeRadioBox.SetSelection(0)
 
         self.delayLabel = wx.StaticText(self, label="Задержка (сек):   ")
-        self.delaySlider = wx.Slider(self, value=3, minValue=1, maxValue=5,
+        self.delaySlider = wx.Slider(self, value=self.test_setting.delay, minValue=1, maxValue=10,
                                      style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
         self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
 
@@ -123,6 +123,8 @@ class AudioChoosingPanel(wx.Panel):
 
         self.Hide()
         next_panel = next(self.parent.current_panel)
+        if self.playModeRadioBox.GetSelection() == 1:   # auto
+            next_panel = next(self.parent.current_panel)
         next_panel.update()
         next_panel.Show()
         self.Layout()
@@ -182,10 +184,10 @@ class AudioChoosingPanel(wx.Panel):
 
     def setPlayMode(self, event):
         choise = self.playModeRadioBox.GetSelection()
-        if choise == 0:
+        if choise == 0:                 # staged
             self.delayLabel.Hide()
             self.delaySlider.Hide()
-        else:
+        else:                           # auto
             self.delayLabel.Show()
             self.delaySlider.Show()
 

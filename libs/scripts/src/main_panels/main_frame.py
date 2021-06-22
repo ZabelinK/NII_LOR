@@ -2,7 +2,8 @@ import itertools
 
 from main_panels.patient_info_panel import *
 from main_panels.audio_choosing_panel import *
-from main_panels.patient_testing_panel import *
+from main_panels.patient_staged_testing_panel import *
+from main_panels.patient_auto_testing_panel import *
 from main_panels.patient_result_panel import *
 from main_panels.session_settings_panel import *
 from extra_panels.recognition_simple_panel import *
@@ -53,7 +54,11 @@ class MainFrame(wx.Frame):
                                                                test_setting=test_settings,
                                                                recognition_service_settings=recognition_service_settings))
 
-        self.patient_testing = self.addPanel(PatientTestingPanel(self, testing_model=patient_testing_model, 
+        self.patient_staged_testing = self.addPanel(PatientStagedTestingPanel(self, testing_model=patient_testing_model,
+                                                                 test_settings=test_settings,
+                                                                 recognition_service_settings=recognition_service_settings))
+
+        self.patient_auto_testing = self.addPanel(PatientAutoTestingPanel(self, testing_model=patient_testing_model,
                                                                  test_settings=test_settings,
                                                                  recognition_service_settings=recognition_service_settings))
 
