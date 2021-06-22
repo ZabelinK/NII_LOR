@@ -71,6 +71,10 @@ class AudioChoosingPanel(wx.Panel):
                                      style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
         self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
 
+        self.title = wx.BoxSizer(wx.HORIZONTAL)
+        self.panel_title = wx.StaticText(self, -1, "Шаг 3. Выбор записей для тестирования")
+        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.vModeSizer = wx.BoxSizer(wx.VERTICAL)
@@ -101,6 +105,7 @@ class AudioChoosingPanel(wx.Panel):
         self.hSizer.Add(self.choosingAudioTree)
         self.hSizer.Add(self.vModeSizer)
 
+        self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
         self.mainSizer.Add(self.nextBtn)

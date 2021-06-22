@@ -31,7 +31,9 @@ class PatientTestingPanel(wx.Panel):
     def layoutControls(self):
         wx.InitAllImageHandlers()
 
-        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.title = wx.BoxSizer(wx.HORIZONTAL)
+        self.panel_title = wx.StaticText(self, -1, "Шаг 4. Тестирование пациента")
+        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
         self.fileLabel = wx.StaticText(self, label="")
@@ -61,6 +63,8 @@ class PatientTestingPanel(wx.Panel):
 
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.fioLabel)
         self.mainSizer.Add(self.birthdayLabel)
         self.mainSizer.Add(self.fileLabel, 0, wx.ALL, 5)

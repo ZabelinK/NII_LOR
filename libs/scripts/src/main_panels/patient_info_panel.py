@@ -31,13 +31,17 @@ class PatientInfoPanel(wx.Panel):
         panel = self
         verticalBoxSizer = wx.BoxSizer(wx.VERTICAL)
 
+        title = wx.BoxSizer(wx.HORIZONTAL)
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
+        panel_title = wx.StaticText(panel, -1, "Шаг 1. Информация о пациенте")
         l4 = wx.StaticText(panel, -1, "Дата тестирования")
 
+        title.Add(panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
         self.t4 = wx.TextCtrl(panel, size=(150,25), value=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), style = wx.TE_READONLY|wx.TE_CENTER)
 
         hbox4.Add(self.t4,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
+        verticalBoxSizer.Add(title)
         verticalBoxSizer.Add(hbox4)
 
         helpBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -80,7 +84,7 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(diagnosisBoxSizer)
 
         operationBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        operationLabel = wx.StaticText(panel, -1, "Инф-ция об оперативном вмешательстве", size=(125, 30))
+        operationLabel = wx.StaticText(panel, -1, "Информация об оперативном вмешательстве", size=(170, 30))
         operationBoxSizer.Add(operationLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
         self.operationText = wx.TextCtrl(panel, size=(150, 25))
