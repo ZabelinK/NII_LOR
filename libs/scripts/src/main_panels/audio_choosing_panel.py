@@ -57,13 +57,27 @@ class AudioChoosingPanel(wx.Panel):
         self.randomRecordLabel = wx.StaticText(self, label="Кол-во случайных записей")
         self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.check_box_items),
                                                       value=len(self.check_box_items) // 2, limited=True)
-        self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150,30))
+        self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150, 30))
         self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
+
+        self.playModeLabel = wx.StaticText(self, label="Режим воспроизведения:")
+        modes = ['поэтапный', 'автоматический']
+        self.playModeRadioBox = wx.RadioBox(self, choices=modes)
+        self.playModeRadioBox.Bind(wx.EVT_RADIOBOX, self.setPlayMode)
+        self.playModeRadioBox.SetSelection(0)
+
+        self.delayLabel = wx.StaticText(self, label="Задержка (сек):   ")
+        self.delaySlider = wx.Slider(self, value=3, minValue=1, maxValue=5,
+                                     style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
+        self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.vModeSizer = wx.BoxSizer(wx.VERTICAL)
+        self.hNoiseRandomSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.vNoiseSizer = wx.BoxSizer(wx.VERTICAL)
         self.vRandomSizer = wx.BoxSizer(wx.VERTICAL)
+        self.hDelaySizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.vNoiseSizer.Add(self.noiseLabel)
         self.vNoiseSizer.Add(self.noisesBox)
@@ -72,11 +86,20 @@ class AudioChoosingPanel(wx.Panel):
         self.vRandomSizer.Add(self.randomRecordCnt)
         self.vRandomSizer.Add(self.chooseRandomBtn)
 
+        self.hNoiseRandomSizer.Add(self.vNoiseSizer)
+        self.hNoiseRandomSizer.Add(self.vRandomSizer)
+
+        self.hDelaySizer.Add(self.delayLabel)
+        self.hDelaySizer.Add(self.delaySlider)
+
+        self.vModeSizer.Add(self.hNoiseRandomSizer)
+        self.vModeSizer.Add(self.playModeLabel)
+        self.vModeSizer.Add(self.playModeRadioBox)
+        self.vModeSizer.Add(self.hDelaySizer)
+
 #        self.hSizer.Add(self.filesBox)
         self.hSizer.Add(self.choosingAudioTree)
-        self.hSizer.Add(self.vNoiseSizer)
-        self.hSizer.Add(self.vRandomSizer)
-
+        self.hSizer.Add(self.vModeSizer)
 
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
@@ -84,6 +107,9 @@ class AudioChoosingPanel(wx.Panel):
 
         self.SetSizer(self.mainSizer)
         self.Layout()
+
+        self.delayLabel.Hide()
+        self.delaySlider.Hide()
 
     def update(self):
         pass
@@ -153,3 +179,15 @@ class AudioChoosingPanel(wx.Panel):
             self.test_setting.noiseFile = ''
         else:
             self.test_setting.noiseFile = selected_item
+
+    def setPlayMode(self, event):
+        choise = self.playModeRadioBox.GetSelection()
+        if choise == 0:
+            self.delayLabel.Hide()
+            self.delaySlider.Hide()
+        else:
+            self.delayLabel.Show()
+            self.delaySlider.Show()
+
+    def setDelay(self, event):
+        self.test_setting.delay = self.delaySlider.GetValue()
