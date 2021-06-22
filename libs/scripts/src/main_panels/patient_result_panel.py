@@ -82,7 +82,9 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
             self.all_check_box[checkBox] = item
 
-        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.title = wx.BoxSizer(wx.HORIZONTAL)
+        self.panel_title = wx.StaticText(self, -1, "Шаг 5. Результаты тестирования")
+        self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
         self.resultsTestingLabel = wx.StaticText(self, label="Результаты тестирования:")
@@ -98,6 +100,8 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.fioLabel)
         self.mainSizer.Add(self.birthdayLabel)
         self.mainSizer.Add(self.resultsTestingLabel)
