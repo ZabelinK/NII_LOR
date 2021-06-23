@@ -49,6 +49,7 @@ class TestSettings:
         self.rightTool = ''
         self.analysisMethod = ''
         self.hearingAidType = ''
+        self.delay = 4
 
     def __repr__(self):
         return obj_to_str(self)

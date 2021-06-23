@@ -63,8 +63,10 @@ class SessionSettingsPanel(wx.Panel):
         hearingAidLabel = wx.StaticText(self, -1, "Информация об устройстве", size=(125, 25))
         self.hearingAidText = wx.TextCtrl(self, size=(250, 25))
 
+        self.title = wx.BoxSizer(wx.HORIZONTAL)
+        self.panel_title = wx.StaticText(self, -1, "Шаг 2. Настройки тестирования аудиометрии")
         self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ",
-                                                                 self.testing_model.firstName + " " + self.testing_model.secondName))
+                                                                 self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
         self.m12BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-12", size=(50, 20))
@@ -105,6 +107,8 @@ class SessionSettingsPanel(wx.Panel):
         self.dbLoudnessSizerNoice.AddSpacer(20)
         self.dbLoudnessSizerNoice.Add((self.volumeLabelNoice))
 
+        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.fioLabel)
         self.mainSizer.Add(self.birthdayLabel)
 

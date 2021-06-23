@@ -10,9 +10,9 @@ def recognize_wav_file(wav_name, recognize_service_url):
     print("Data saved to {}".format(wav_name))
 
     try:
-        rsp = requests.post(recognize_service_url, data = wav_data)
+        rsp = requests.post(recognize_service_url, data=wav_data)
         print("Response from recognize service {}".format(str(rsp)))
         return json.loads(rsp.text)["text"]
     except Exception as e:
         print(e)
-        return "< ERROR > Ошибка в консоле"
+        return "< ERROR > Ошибка в консоли"
