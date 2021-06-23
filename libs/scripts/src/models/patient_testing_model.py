@@ -42,7 +42,7 @@ class TestSettings:
     def __init__(self):
         self.audioFilesNumber = 0
         self.noiseFile = ''
-        self.volumeLevel = 50
+        self.volumeLevelNoice = 0
         self.soundTool = ''
         self.voice = ''
         self.leftTool = ''

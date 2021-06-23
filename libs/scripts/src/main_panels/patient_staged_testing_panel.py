@@ -117,7 +117,7 @@ class PatientStagedTestingPanel(wx.Panel):
         noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
                         if self.test_settings.noiseFile != '' \
                         else None
-        play_file(self.currentVolumeNoice, self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
+        play_file( self.recognition_service_settings.words_dir + test_item.initialAudioFilePath,self.test_settings.volumeLevelNoice, noise_file)
         self.playLabel.Hide()
         self.playBtn.Enable()
 
