@@ -36,29 +36,30 @@ class PatientTestingPanel(wx.Panel):
 
         self.fileLabel = wx.StaticText(self, label="")
 
-        self.playBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Прослушать", size=(120, 30))
+        self.playBtn = wx.Button(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Прослушать", size=(120, 30))
         self.playBtn.Bind(wx.EVT_BUTTON, self.onPlay)
 
         self.playLabel = wx.StaticText(self, label="Звучит запись")
 
-        self.recordBtn = wx.ToggleButton(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Начать запись", size=(120, 30))
+        self.recordBtn = wx.ToggleButton(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Начать запись",
+                                         size=(120, 30))
         self.recordBtn.Bind(wx.EVT_TOGGLEBUTTON, self.onRecord)
 
-#        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_PNG), size=(32, 32))
+        #        self.redCircle = wx.StaticBitmap(self, bitmap=wx.Bitmap("../libs/scripts/bitmaps/circle.png", wx.BITMAP_TYPE_PNG), size=(32, 32))
         self.recordLabel = wx.StaticText(self, label="Идет запись")
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
-        self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_WORDWRAP,
-            value="", name="Результаты распознавания", size=(300, 100))
+        self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_WORDWRAP,
+                                   value="", name="Результаты распознавания", size=(300, 100))
         self.textRes.Bind(wx.EVT_TEXT, self.onKeyTyped)
 
-
-        self.nextRecBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Следующая запись", size=(120, 30))
+        self.nextRecBtn = wx.Button(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Следующая запись",
+                                    size=(120, 30))
         self.nextRecBtn.Bind(wx.EVT_BUTTON, self.nextRecord)
 
-        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Показать результаты", size=(120, 30))
+        self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Показать результаты",
+                                 size=(120, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
-
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.mainSizer.Add(self.fioLabel)
@@ -92,9 +93,10 @@ class PatientTestingPanel(wx.Panel):
 
         self.playLabel.Hide()
         self.recordLabel.Hide()
-    
+
     def update(self):
-        self.fioLabel.SetLabel("{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
+        self.fioLabel.SetLabel(
+            "{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
         self.textRes.Clear()
         if self.current_testing_item < self.test_settings.audioFilesNumber:
@@ -108,13 +110,15 @@ class PatientTestingPanel(wx.Panel):
 
     def onPlay(self, event):
         self.playBtn.Disable()
+        self.currentVolumeNoice = self.test_settings.volumeLevelNoice
         test_item = self.testing_model.testingItems[self.current_testing_item]
 
         self.playLabel.Show()
         noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
-                        if self.test_settings.noiseFile != '' \
-                        else None
-        play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
+            if self.test_settings.noiseFile != '' \
+            else None
+        play_file(self.currentVolumeNoice, self.recognition_service_settings.words_dir + test_item.initialAudioFilePath,
+                  noise_file)
         self.playLabel.Hide()
         self.playBtn.Enable()
 
@@ -139,7 +143,7 @@ class PatientTestingPanel(wx.Panel):
             self.playBtn.Enable()
             self.nextBtn.Enable()
             self.nextRecBtn.Enable()
-        
+
     def nextRecord(self, event):
         self.current_testing_item += 1
         self.update()
@@ -148,13 +152,14 @@ class PatientTestingPanel(wx.Panel):
         self.recordLabel.Show()
         self.recording_data = RecordingData()
         start_recording(self.recording_data, self.recognition_service_settings)
-        #self.showRecordCircle()
+        # self.showRecordCircle()
         print("Start recording")
- 
+
     def stopRecord(self):
         test_item = self.testing_model.testingItems[self.current_testing_item]
         test_item.resultAudioFilePath = test_item.initialAudioFilePath
-        wav_file_with_speech = stop_recording(test_item.resultAudioFilePath, self.recording_data, self.recognition_service_settings)
+        wav_file_with_speech = stop_recording(test_item.resultAudioFilePath, self.recording_data,
+                                              self.recognition_service_settings)
         self.recordLabel.Hide()
         print("Stop Recording")
 
@@ -167,15 +172,13 @@ class PatientTestingPanel(wx.Panel):
         if text is None:
             self.textRes.write("< Произошла ошибка, подробности в консоли >")
             return
- 
+
         self.textRes.write(text)
         test_item.resultTest = text.lower()
         test_item.isCorrect = test_item.initialText == test_item.resultTest
 
-
     def nextPanel(self, event):
         print("Testing Model content {}".format(self.testing_model))
-
         self.Hide()
         next_panel = next(self.parent.current_panel)
         next_panel.update()
