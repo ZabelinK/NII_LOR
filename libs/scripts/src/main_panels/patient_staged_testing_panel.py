@@ -112,12 +112,12 @@ class PatientStagedTestingPanel(wx.Panel):
     def onPlay(self, event):
         self.playBtn.Disable()
         test_item = self.testing_model.testingItems[self.current_testing_item]
-
+        self.currentVolumeNoice = self.test_settings.volumeLevelNoice
         self.playLabel.Show()
         noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
                         if self.test_settings.noiseFile != '' \
                         else None
-        play_file(self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
+        play_file(self.currentVolumeNoice, self.recognition_service_settings.words_dir + test_item.initialAudioFilePath, noise_file)
         self.playLabel.Hide()
         self.playBtn.Enable()
 
