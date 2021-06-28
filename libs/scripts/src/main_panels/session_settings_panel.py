@@ -45,8 +45,7 @@ class SessionSettingsPanel(wx.Panel):
 
         earSettingsLabel = wx.StaticText(self, -1, "Настройки для:", size=(125, 25))
         hearingToolLabel = wx.StaticText(self, -1, "Вид аппарата", size=(125, 25))
-        volumeSettingsLabelNoice = wx.StaticText(self, -1, "Уровень шума", size=(125, 25))
-        self.volumeLabelNoice = wx.StaticText(self, -1, "0", size=(125, 25))
+        volumeSettingsLabelNoice = wx.StaticText(self, -1, "Уровень шума (dB)", size=(125, 25))
         leftEarLabel = wx.StaticText(self, -1, "Левое ухо", size=(125, 25))
         rightEarLabel = wx.StaticText(self, -1, "Правое ухо", size=(125, 25))
         hearingTools = ['-', 'Слуховой аппарат', 'Кохлеарный имплантат']
@@ -69,20 +68,36 @@ class SessionSettingsPanel(wx.Panel):
                                                                  self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
-        self.m12BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-12", size=(50, 20))
+        self.m12BtnNoice = wx.Button(self,name='m12BtnNoice', style=wx.SL_INVERSE, label="-12", size=(50, 20))
         self.m12BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-12))
+        self.m9BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-9", size=(50, 20))
+        self.m9BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-9))
         self.m6BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-6", size=(50, 20))
         self.m6BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-6))
         self.m3BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-3", size=(50, 20))
         self.m3BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-3))
-        self.mp0BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="0", size=(50, 20))
+        self.mp0BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+-0", size=(50, 20))
         self.mp0BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=0))
-        self.p3BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="3", size=(50, 20))
+        self.p3BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+3", size=(50, 20))
         self.p3BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=3))
-        self.p6BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="6", size=(50, 20))
+        self.p6BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+6", size=(50, 20))
         self.p6BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=6))
-        self.p12BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="12", size=(50, 20))
+        self.p9BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+9", size=(50, 20))
+        self.p9BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=9))
+        self.p12BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+12", size=(50, 20))
         self.p12BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=12))
+
+        self.buttons = {
+            -12: self.m12BtnNoice,
+            -9: self.m9BtnNoice,
+            -6: self.m6BtnNoice,
+            -3: self.m3BtnNoice,
+            0: self.mp0BtnNoice,
+            3: self.p3BtnNoice,
+            6: self.p6BtnNoice,
+            9: self.p9BtnNoice,
+            12: self.p12BtnNoice
+        }
 
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Перейти к выбору записей", size=(170, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
@@ -98,14 +113,15 @@ class SessionSettingsPanel(wx.Panel):
 
         self.dbLoudnessSizerNoice.Add(volumeSettingsLabelNoice, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.dbLoudnessSizerNoice.Add(self.m12BtnNoice)
+        self.dbLoudnessSizerNoice.Add(self.m9BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.m6BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.m3BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.mp0BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.p3BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.p6BtnNoice)
+        self.dbLoudnessSizerNoice.Add(self.p9BtnNoice)
         self.dbLoudnessSizerNoice.Add(self.p12BtnNoice)
         self.dbLoudnessSizerNoice.AddSpacer(20)
-        self.dbLoudnessSizerNoice.Add((self.volumeLabelNoice))
 
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.mainSizer.Add(self.title)
@@ -139,11 +155,17 @@ class SessionSettingsPanel(wx.Panel):
         self.SetSizer(self.mainSizer)
         self.Layout()
 
-    def setDbNoice(self, event, flag=None):
+
+    def setDbNoice(self, event, flag=None,name=None):
+        if event.Id==self.buttons[flag].Id:
+            self.buttons[flag].Disable()
+            for i in self.buttons:
+                if self.buttons[flag].Id!=self.buttons[i].Id:
+                    self.buttons[i].Enable()
+
         self.currentVolumeNoice = flag
         print(self.currentVolumeNoice)
         self.test_setting.volumeLevelNoice = self.currentVolumeNoice
-        self.volumeLabelNoice.SetLabel(str(self.currentVolumeNoice))
 
     def update(self):
         self.fioLabel.SetLabel("{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))

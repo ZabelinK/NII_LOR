@@ -139,7 +139,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
                 if self.test_settings.noiseFile != '' \
                 else None
-        play_file(self.btn_to_file[btn.GetId()], noise_file)
+        play_file(self.btn_to_file[btn.GetId()],self.test_settings.volumeLevelNoice, noise_file)
         
     def playCustomerRecord(self, event):
         btn = event.GetEventObject()
