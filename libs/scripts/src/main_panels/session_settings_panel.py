@@ -68,24 +68,24 @@ class SessionSettingsPanel(wx.Panel):
                                                                  self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
-        self.m12BtnNoice = wx.Button(self,name='m12BtnNoice', style=wx.SL_INVERSE, label="-12", size=(50, 20))
-        self.m12BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-12))
-        self.m9BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-9", size=(50, 20))
-        self.m9BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-9))
-        self.m6BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-6", size=(50, 20))
-        self.m6BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-6))
-        self.m3BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="-3", size=(50, 20))
-        self.m3BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=-3))
-        self.mp0BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+-0", size=(50, 20))
-        self.mp0BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=0))
-        self.p3BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+3", size=(50, 20))
-        self.p3BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=3))
-        self.p6BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+6", size=(50, 20))
-        self.p6BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=6))
-        self.p9BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+9", size=(50, 20))
-        self.p9BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=9))
-        self.p12BtnNoice = wx.Button(self, style=wx.SL_INVERSE, label="+12", size=(50, 20))
-        self.p12BtnNoice.Bind(wx.EVT_BUTTON, lambda event: self.setDbNoice(event, flag=12))
+        self.m12BtnNoice = wx.ToggleButton(self,name='m12BtnNoice', style=wx.SL_INVERSE, label="-12", size=(50, 20))
+        self.m12BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-12))
+        self.m9BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-9", size=(50, 20))
+        self.m9BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-9))
+        self.m6BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-6", size=(50, 20))
+        self.m6BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-6))
+        self.m3BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-3", size=(50, 20))
+        self.m3BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-3))
+        self.mp0BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+-0", size=(50, 20))
+        self.mp0BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=0))
+        self.p3BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+3", size=(50, 20))
+        self.p3BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=3))
+        self.p6BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+6", size=(50, 20))
+        self.p6BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=6))
+        self.p9BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+9", size=(50, 20))
+        self.p9BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=9))
+        self.p12BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+12", size=(50, 20))
+        self.p12BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=12))
 
         self.buttons = {
             -12: self.m12BtnNoice,
@@ -158,10 +158,10 @@ class SessionSettingsPanel(wx.Panel):
 
     def setDbNoice(self, event, flag=None,name=None):
         if event.Id==self.buttons[flag].Id:
-            self.buttons[flag].Disable()
+            self.buttons[flag].SetValue(True)
             for i in self.buttons:
                 if self.buttons[flag].Id!=self.buttons[i].Id:
-                    self.buttons[i].Enable()
+                    self.buttons[i].SetValue(False)
 
         self.currentVolumeNoice = flag
         print(self.currentVolumeNoice)
