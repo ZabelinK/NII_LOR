@@ -141,15 +141,18 @@ class AudioChoosingPanel(wx.Panel):
                              }
         self.check_box_items = []
 
-        for root, dirs, files in os.walk(words_path):
-            root_tree_item = self.generic_tree_items[root]
-            for dir in dirs:
-                self.generic_tree_items[root + dir] = self.choosingAudioTree.AppendItem(root_tree_item, dir)
+        try:
+            for root, dirs, files in os.walk(words_path):
+                root_tree_item = self.generic_tree_items[root]
+                for dir in dirs:
+                    self.generic_tree_items[root + dir] = self.choosingAudioTree.AppendItem(root_tree_item, dir)
 
-            for file in files:
-                check_box_item = self.choosingAudioTree.AppendItem(root_tree_item, file, ct_type=1)
-                self.generic_tree_items[root + os.sep + file] = check_box_item
-                self.check_box_items.append(check_box_item)
+                for file in files:
+                    check_box_item = self.choosingAudioTree.AppendItem(root_tree_item, file, ct_type=1)
+                    self.generic_tree_items[root + os.sep + file] = check_box_item
+                    self.check_box_items.append(check_box_item)
+        except KeyError:
+            print("Exception while building file tree")
 
     def resetFilesBox(self):
         for check_box_item in self.check_box_items:
