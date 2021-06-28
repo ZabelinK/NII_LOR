@@ -16,6 +16,8 @@ bitmapDir = os.path.join(dirName, 'bitmaps')
 
 class AudioChoosingPanel(wx.Panel):
 
+    ExpandableType = 0
+    CheckableType = 1
     filesNumberLabel = "Количество файлов: "
 
     def __init__(self, parent, testing_model, test_setting, recognition_service_settings):
@@ -27,7 +29,7 @@ class AudioChoosingPanel(wx.Panel):
         self.test_setting = test_setting
         self.recognition_service_settings = recognition_service_settings
 
-        self.SetSize((800, 600))
+        self.SetSize((1000, 800))
         self.layoutControls()
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
@@ -46,8 +48,24 @@ class AudioChoosingPanel(wx.Panel):
 
         self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
 
-        self.choosingAudioTree = CustomTreeCtrl(self, style=wx.SL_INVERSE, size=(300, 200))
+        self.choosingAudioTree = CustomTreeCtrl(self, style=wx.SL_INVERSE, size=(300, 500))
         self.constructAudioTree()
+        extendables = self.returnAllNonEmptyExtendableItems()
+        self.fields_to_item = {}
+        self.vRandomMenu = wx.BoxSizer(wx.VERTICAL)
+        print(extendables)
+        for extendable in extendables:
+            label = wx.StaticText(self, label="{}".format(extendable.GetText()))
+            randomCnt =  wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=self.getCheckableNumber(extendable),
+                                                      value=self.getCheckableNumber(extendable) // 2, limited=True)
+            self.vRandomMenu.Add(label)
+            self.vRandomMenu.Add(randomCnt)
+            self.fields_to_item[randomCnt] = extendable
+        
+        self.randomByPartBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать случайно для\n каждой категории", size=(150, 50))
+        self.randomByPartBtn.Bind(wx.EVT_BUTTON, self.randomByPart)
+        self.vRandomMenu.Add(self.randomByPartBtn)
+
         self.choosingAudioTree.ExpandAll()
         self.choosingAudioTree.Bind(EVT_TREE_ITEM_CHECKED, self.addOrRemoveTestingItems)
 
@@ -104,6 +122,7 @@ class AudioChoosingPanel(wx.Panel):
 #        self.hSizer.Add(self.filesBox)
         self.hSizer.Add(self.choosingAudioTree)
         self.hSizer.Add(self.vModeSizer)
+        self.hSizer.Add(self.vRandomMenu)
 
         self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.hSizer)
@@ -117,7 +136,8 @@ class AudioChoosingPanel(wx.Panel):
         self.delaySlider.Hide()
 
     def update(self):
-        pass
+        self.prev_size = self.parent.GetSize()
+        self.parent.SetSize(self.GetSize())
 
     def nextPanel(self, event):
         if len(self.testing_model.testingItems) == 0:
@@ -126,6 +146,7 @@ class AudioChoosingPanel(wx.Panel):
             dial.ShowModal()
             return
 
+        self.parent.SetSize(self.prev_size)
         self.Hide()
         next_panel = next(self.parent.current_panel)
         if self.playModeRadioBox.GetSelection() == 1:   # auto
@@ -133,6 +154,28 @@ class AudioChoosingPanel(wx.Panel):
         next_panel.update()
         next_panel.Show()
         self.Layout()
+
+    def returnAllNonEmptyExtendableItemsImpl(self, item):
+        childrens = item.GetChildren()
+        extendable = []
+        for children in childrens:
+            if children.GetType() == self.ExpandableType:
+                extendable.extend(self.returnAllNonEmptyExtendableItemsImpl(children))
+        
+        if self.getCheckableNumber(item):
+            extendable.append(item)
+        
+        return extendable
+        
+    def returnAllNonEmptyExtendableItems(self):
+        root = self.choosingAudioTree.GetRootItem()
+        return self.returnAllNonEmptyExtendableItemsImpl(root)
+
+    def getCheckableNumber(self, item):
+        return sum(1 for children in item.GetChildren() if children.GetType() == self.CheckableType)
+
+    def getCheckable(self, item):
+        return list(filter(lambda item: item.GetType() == self.CheckableType, item.GetChildren()))
 
     def constructAudioTree(self):
         words_path = self.recognition_service_settings.words_dir
@@ -161,6 +204,20 @@ class AudioChoosingPanel(wx.Panel):
         for choosen_item_idx in choosen_items:
             self.check_box_items[choosen_item_idx].Check(checked=True)
         
+        self.choosingAudioTree.Refresh()
+
+        self.addOrRemoveTestingItems(None)
+
+    def randomByPart(self, event):
+        self.resetFilesBox()
+
+        for field, extendable in self.fields_to_item.items():
+            checkable = self.getCheckable(extendable)
+            choosen_items = random.sample(range(len(checkable)), field.GetValue())
+
+            for choosen_item_idx in choosen_items:
+                checkable[choosen_item_idx].Check(checked=True)
+
         self.choosingAudioTree.Refresh()
 
         self.addOrRemoveTestingItems(None)
