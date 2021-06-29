@@ -21,15 +21,15 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.test_settings = test_settings
         self.recognition_service_settings = recognition_service_settings
 
-        self.SetSize((1200, 600))
+        self.SetSize((900, 600))
         self.layoutControls()
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
 
     def update(self):
-
-        self.SetSize((1200, 600))
-        self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 6, 6, 6)
+        self.prev_size = self.parent.GetSize()
+        self.parent.SetSize(self.GetSize())
+        self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 7, 6, 6)
 
         self.all_check_box = {}
         self.count = 0
@@ -40,15 +40,18 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         if self.test_settings.noiseFile:
             noise_path = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile
 
+        index = 0
         for item in self.testing_model.testingItems:
             self.comment_count = 0
+            index += 1
+            labelIndex = wx.StaticText(self, label="  "+str(index)+" аудиозапись: ")
             labelCorrect = wx.StaticText(self, label=item.initialText)
             playOrigBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
             playOrigBtn.Bind(wx.EVT_BUTTON, self.playOrigRecord)
             labelRecord = wx.StaticText(self, label=item.resultTest)
 
             self.btn_to_file[btn_count] = self.recognition_service_settings.words_dir + item.initialAudioFilePath
-            btn_count +=1
+            btn_count += 1
 
             playRecBtn = wx.Button(self, id=btn_count, style=wx.SL_INVERSE, label="Play", size=(100, 30))
             playRecBtn.Bind(wx.EVT_BUTTON, self.playCustomerRecord)
@@ -72,7 +75,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             textComment.Bind(wx.EVT_TEXT, self.updateCommentText)
             self.comment_count += 1
 
-
+            self.grid.Add(labelIndex, 0, wx.EXPAND)
             self.grid.Add(labelCorrect, 0, wx.EXPAND)
             self.grid.Add(playOrigBtn, 0, wx.EXPAND)
             self.grid.Add(labelRecord, 0, wx.EXPAND)
@@ -146,6 +149,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         play_file(self.btn_to_file[btn.GetId()])
 
     def nextPanel(self, event):
+        self.parent.SetSize(self.prev_size)
         self.Hide()
         next_panel = next(self.parent.current_panel)
         next_panel.update()

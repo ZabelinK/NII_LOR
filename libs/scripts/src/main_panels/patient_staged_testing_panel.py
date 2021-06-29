@@ -102,7 +102,8 @@ class PatientStagedTestingPanel(wx.Panel):
         self.textRes.Clear()
         if self.current_testing_item < self.test_settings.audioFilesNumber:
             test_item = self.testing_model.testingItems[self.current_testing_item]
-            self.fileLabel.SetLabel(test_item.initialAudioFilePath)
+            index = str(self.current_testing_item + 1) + " из " + str(self.test_settings.audioFilesNumber) + ":  "
+            self.fileLabel.SetLabel(index + test_item.initialAudioFilePath)
         else:
             self.fileLabel.SetLabel("Все файлы кончились")
             self.playBtn.Disable()
