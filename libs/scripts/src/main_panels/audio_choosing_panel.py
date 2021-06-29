@@ -29,7 +29,7 @@ class AudioChoosingPanel(wx.Panel):
         self.test_setting = test_setting
         self.recognition_service_settings = recognition_service_settings
 
-        self.SetSize((1000, 800))
+        self.SetSize((700, 700))
         self.layoutControls()
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
@@ -40,14 +40,31 @@ class AudioChoosingPanel(wx.Panel):
         available_noises_wav = [WITHOUT_NOISE_OPTION]
         available_noises_wav.extend(return_file_names_with_extension(self.recognition_service_settings.noises_dir, extension=".wav"))
 
+        # Title initialization
+        self.title = wx.BoxSizer(wx.HORIZONTAL)
+        self.panel_title = wx.StaticText(self, -1, "Шаг 3. Выбор записей для тестирования")
+        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+
+        # Play mode initialization
+        self.playModeLabel = wx.StaticText(self, label="Режим воспроизведения:")
+        modes = ['Автоматический            ', 'Поэтапный']
+        self.playModeRadioBox = wx.RadioBox(self, choices=modes)
+        self.playModeRadioBox.Bind(wx.EVT_RADIOBOX, self.setPlayMode)
+        self.playModeRadioBox.SetSelection(0)
+
+        self.delayLabel = wx.StaticText(self, label="Задержка (сек):   ")
+        self.delaySlider = wx.Slider(self, value=self.test_setting.delay, minValue=1, maxValue=10, size=(200, 30),
+                                     style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
+        self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
+
+        # Noise choice initialization
         self.noiseLabel = wx.StaticText(self, label="Шумы: ")
 
-        self.noisesBox = wx.Choice(self, choices=available_noises_wav, size=(150,30))
+        self.noisesBox = wx.Choice(self, choices=available_noises_wav, size=(300, 50))
         self.noisesBox.SetSelection(0)
         self.noisesBox.Bind(wx.EVT_CHOICE, self.setNoise)
 
-        self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel, self.test_setting.audioFilesNumber))
-
+        # AudioTree and random record numbers initialization
         self.choosingAudioTree = CustomTreeCtrl(self, style=wx.SL_INVERSE, size=(300, 500))
         self.constructAudioTree()
         extendables = self.returnAllNonEmptyExtendableItems()
@@ -69,60 +86,51 @@ class AudioChoosingPanel(wx.Panel):
         self.choosingAudioTree.ExpandAll()
         self.choosingAudioTree.Bind(EVT_TREE_ITEM_CHECKED, self.addOrRemoveTestingItems)
 
+        self.randomRecordLabel = wx.StaticText(self, label="             Количество \n      случайных записей")
+        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.check_box_items),
+                                                      value=len(self.check_box_items) // 2, limited=True)
+        self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE,
+                                         label="Выбрать случайно\nбез учёта категории", size=(150, 50))
+        self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
+
+        # Files number and next-button initialization
+        self.filesNumber = wx.StaticText(self, label="{} {}".format(self.filesNumberLabel,
+                                                                    self.test_setting.audioFilesNumber))
+
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Начать воспроизведение", size=(150, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
-        self.randomRecordLabel = wx.StaticText(self, label="Кол-во случайных записей")
-        self.randomRecordCnt = wx.lib.intctrl.IntCtrl(self, size=(150, 25), min=0, max=len(self.check_box_items),
-                                                      value=len(self.check_box_items) // 2, limited=True)
-        self.chooseRandomBtn = wx.Button(self, style=wx.SL_INVERSE, label="Выбрать записи", size=(150, 30))
-        self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
-
-        self.playModeLabel = wx.StaticText(self, label="Режим воспроизведения:")
-        modes = ['Автоматический', 'Поэтапный']
-        self.playModeRadioBox = wx.RadioBox(self, choices=modes)
-        self.playModeRadioBox.Bind(wx.EVT_RADIOBOX, self.setPlayMode)
-        self.playModeRadioBox.SetSelection(0)
-
-        self.delayLabel = wx.StaticText(self, label="Задержка (сек):   ")
-        self.delaySlider = wx.Slider(self, value=self.test_setting.delay, minValue=1, maxValue=10,
-                                     style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
-        self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
-
-        self.title = wx.BoxSizer(wx.HORIZONTAL)
-        self.panel_title = wx.StaticText(self, -1, "Шаг 3. Выбор записей для тестирования")
-        self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
-
+        # Sizers initialization
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.vModeSizer = wx.BoxSizer(wx.VERTICAL)
-        self.hNoiseRandomSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.vNoiseSizer = wx.BoxSizer(wx.VERTICAL)
         self.vRandomSizer = wx.BoxSizer(wx.VERTICAL)
         self.hDelaySizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.vSettingsSizer = wx.BoxSizer(wx.VERTICAL)
+        self.hRandomSizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.vNoiseSizer.Add(self.noiseLabel)
-        self.vNoiseSizer.Add(self.noisesBox)
         
         self.vRandomSizer.Add(self.randomRecordLabel)
         self.vRandomSizer.Add(self.randomRecordCnt)
         self.vRandomSizer.Add(self.chooseRandomBtn)
 
-        self.hNoiseRandomSizer.Add(self.vNoiseSizer)
-        self.hNoiseRandomSizer.Add(self.vRandomSizer)
+
+        self.hRandomSizer.Add(self.vRandomSizer)
+        self.hRandomSizer.Add(self.vRandomMenu)
 
         self.hDelaySizer.Add(self.delayLabel)
         self.hDelaySizer.Add(self.delaySlider)
 
-        self.vModeSizer.Add(self.hNoiseRandomSizer)
-        self.vModeSizer.Add(self.playModeLabel)
-        self.vModeSizer.Add(self.playModeRadioBox)
-        self.vModeSizer.Add(self.hDelaySizer)
+        self.vSettingsSizer.Add(self.playModeLabel)
+        self.vSettingsSizer.Add(self.playModeRadioBox)
+        self.vSettingsSizer.Add(self.hDelaySizer)
+        self.vSettingsSizer.Add(self.hDelaySizer)
+        self.vSettingsSizer.Add(self.noiseLabel)
+        self.vSettingsSizer.Add(self.noisesBox)
+        self.vSettingsSizer.Add(self.hRandomSizer)
 
 #        self.hSizer.Add(self.filesBox)
         self.hSizer.Add(self.choosingAudioTree)
-        self.hSizer.Add(self.vModeSizer)
-        self.hSizer.Add(self.vRandomMenu)
+        self.hSizer.Add(self.vSettingsSizer)
 
         self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.hSizer)
