@@ -179,7 +179,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'test_method': test_methods[self.test_settings.analysisMethod],
             'test_sound': play_methods[self.test_settings.soundTool],
             'noise': self.test_settings.noiseFile,
-            'noise_prc': "0 db",
+            'noise_prc': str(self.test_settings.volumeLevelNoice) + " Дб",
             'voice': voice_types[self.test_settings.voice],
             'device_info': device_types[self.test_settings.leftTool] + "/" + device_types[self.test_settings.rightTool],
             'device_model': self.test_settings.hearingAidType,
