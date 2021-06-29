@@ -79,7 +79,7 @@ class AudioChoosingPanel(wx.Panel):
         self.chooseRandomBtn.Bind(wx.EVT_BUTTON, self.chooseRandom)
 
         self.playModeLabel = wx.StaticText(self, label="Режим воспроизведения:")
-        modes = ['поэтапный', 'автоматический']
+        modes = ['Автоматический', 'Поэтапный']
         self.playModeRadioBox = wx.RadioBox(self, choices=modes)
         self.playModeRadioBox.Bind(wx.EVT_RADIOBOX, self.setPlayMode)
         self.playModeRadioBox.SetSelection(0)
@@ -132,9 +132,6 @@ class AudioChoosingPanel(wx.Panel):
         self.SetSizer(self.mainSizer)
         self.Layout()
 
-        self.delayLabel.Hide()
-        self.delaySlider.Hide()
-
     def update(self):
         self.prev_size = self.parent.GetSize()
         self.parent.SetSize(self.GetSize())
@@ -149,7 +146,7 @@ class AudioChoosingPanel(wx.Panel):
         self.parent.SetSize(self.prev_size)
         self.Hide()
         next_panel = next(self.parent.current_panel)
-        if self.playModeRadioBox.GetSelection() == 1:   # auto
+        if self.playModeRadioBox.GetSelection() == 0:   # auto
             next_panel = next(self.parent.current_panel)
         next_panel.update()
         next_panel.Show()
@@ -249,7 +246,7 @@ class AudioChoosingPanel(wx.Panel):
 
     def setPlayMode(self, event):
         choise = self.playModeRadioBox.GetSelection()
-        if choise == 0:                 # staged
+        if choise == 1:                 # staged
             self.delayLabel.Hide()
             self.delaySlider.Hide()
         else:                           # auto
