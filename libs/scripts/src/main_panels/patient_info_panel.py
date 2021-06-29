@@ -17,7 +17,7 @@ class PatientInfoPanel(wx.Panel):
         self.parent = parent
         self.patient = testing_model
 
-        self.SetSize((800, 600))
+        self.SetSize((1000, 800))
         self.layoutControls()
         sp = wx.StandardPaths.Get()
         self.currentFolder = sp.GetDocumentsDir()
@@ -34,7 +34,7 @@ class PatientInfoPanel(wx.Panel):
         title = wx.BoxSizer(wx.HORIZONTAL)
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
         panel_title = wx.StaticText(panel, -1, "Шаг 1. Информация о пациенте")
-        l4 = wx.StaticText(panel, -1, "Дата тестирования")
+        l4 = wx.StaticText(panel, -1, "Дата тестирования", size=(190,25))
 
         title.Add(panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         hbox4.Add(l4, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
@@ -50,11 +50,11 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(helpBoxSizer)
 
         fioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        fioLabel = wx.StaticText(panel, -1, "ФИО пациента", size=(125,25))
-        fioBoxSizer.Add(fioLabel, 1, wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5)
+        fioLabel = wx.StaticText(panel, -1, "ФИО пациента", size=(170,25))
+        fioBoxSizer.Add(fioLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT,5)
 
-        self.fioText = wx.TextCtrl(panel, size=(150,25))
-        fioBoxSizer.Add(self.fioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.fioText = wx.TextCtrl(panel, size=(220,25))
+        fioBoxSizer.Add(self.fioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
         self.fioText.Bind(wx.EVT_TEXT, self.OnKeyTyped)
         fioExLabel = wx.StaticText(panel, -1, "пр. Иванов Иван Иванович", size=(150, 25))
         fioBoxSizer.Add(fioExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -63,32 +63,36 @@ class PatientInfoPanel(wx.Panel):
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        birthdayLabel = wx.StaticText(panel, -1, "Год гождения")
+        birthdayLabel = wx.StaticText(panel, -1, "Год гождения", size=(170, 25))
 
-        hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT | wx.ALL, 5)
-        self.birthdayText = wx.TextCtrl(panel, size=(150,25))
+        hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT | wx.LEFT, 5)
+        self.birthdayText = wx.TextCtrl(panel, size=(220,25))
         self.birthdayText.SetMaxLength(4)
 
-        hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
         birthdayExLabel = wx.StaticText(panel, -1, "пр. 1990", size=(125, 25))
         hbox2.Add(birthdayExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(hbox2)
         self.birthdayText.Bind(wx.EVT_TEXT_MAXLEN, self.OnMaxLen)
 
         diagnosisBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        diagnosisLabel = wx.StaticText(panel, -1, "Диагноз", size=(125, 25))
-        diagnosisBoxSizer.Add(diagnosisLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        diagnosisLabel = wx.StaticText(panel, -1, "Диагноз", size=(170, 25))
+        diagnosisBoxSizer.Add(diagnosisLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT, 5)
 
-        self.diagnosisText = wx.TextCtrl(panel, size=(150, 25))
-        diagnosisBoxSizer.Add(self.diagnosisText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.diagnosisText = wx.TextCtrl(panel, size=(220, 25))
+        diagnosisBoxSizer.Add(self.diagnosisText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
+        dummyLabel = wx.StaticText(panel, -1, "", size=(150, 25))
+        diagnosisBoxSizer.Add(dummyLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(diagnosisBoxSizer)
 
         operationBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         operationLabel = wx.StaticText(panel, -1, "Информация об оперативном вмешательстве", size=(170, 30))
-        operationBoxSizer.Add(operationLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        operationBoxSizer.Add(operationLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT, 5)
 
-        self.operationText = wx.TextCtrl(panel, size=(150, 25))
-        operationBoxSizer.Add(self.operationText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.operationText = wx.TextCtrl(panel, size=(220, 25))
+        operationBoxSizer.Add(self.operationText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP , 5)
+        dummyLabel1 = wx.StaticText(panel, -1, "", size=(150, 25))
+        operationBoxSizer.Add(dummyLabel1, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(operationBoxSizer)
 
         helpDoctorBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -97,11 +101,11 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(helpDoctorBoxSizer)
 
         doctorFioBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        doctorFioLabel = wx.StaticText(panel, -1, "ФИО врача", size=(125, 25))
-        doctorFioBoxSizer.Add(doctorFioLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        doctorFioLabel = wx.StaticText(panel, -1, "ФИО врача", size=(170, 25))
+        doctorFioBoxSizer.Add(doctorFioLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT, 5)
 
-        self.doctorFioText = wx.TextCtrl(panel, size=(150,25))
-        doctorFioBoxSizer.Add(self.doctorFioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.doctorFioText = wx.TextCtrl(panel, size=(220,25))
+        doctorFioBoxSizer.Add(self.doctorFioText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP , 5)
         self.doctorFioText.Bind(wx.EVT_TEXT, self.OnKeyTyped)
 
         doctorFioExLabel = wx.StaticText(panel, -1, "пр. Иванов Иван Иванович", size=(150, 25))
@@ -109,11 +113,13 @@ class PatientInfoPanel(wx.Panel):
         verticalBoxSizer.Add(doctorFioBoxSizer)
 
         doctorPositionBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
-        doctorPositionLabel = wx.StaticText(panel, -1, "Должность врача", size=(125, 25))
-        doctorPositionBoxSizer.Add(doctorPositionLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        doctorPositionLabel = wx.StaticText(panel, -1, "Должность врача", size=(170, 25))
+        doctorPositionBoxSizer.Add(doctorPositionLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.LEFT, 5)
 
-        self.doctorPositionText = wx.TextCtrl(panel, size=(150,25))
-        doctorPositionBoxSizer.Add(self.doctorPositionText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.doctorPositionText = wx.TextCtrl(panel, size=(220,25))
+        doctorPositionBoxSizer.Add(self.doctorPositionText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
+        dummyLabel2 = wx.StaticText(panel, -1, "", size=(150, 25))
+        doctorPositionBoxSizer.Add(dummyLabel2, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(doctorPositionBoxSizer)
 
         nextButtonBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
