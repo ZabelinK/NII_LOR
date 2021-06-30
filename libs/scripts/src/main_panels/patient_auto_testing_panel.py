@@ -34,8 +34,9 @@ class PatientAutoTestingPanel(wx.Panel):
         self.fioLabel = wx.StaticText(self, label="{} {}".format("ФИО: ",
                                                                  self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
-        self.fileLabel = wx.StaticText(self, label="")
-        self.playRecLabel = wx.StaticText(self, label="Звучит запись")
+        self.fileLabel = wx.StaticText(self, label="", size=(400, 30))
+        self.playRecLabel = wx.StaticText(self, label="", size=(400, 30))
+        self.countdownLabel = wx.StaticText(self, label="", size=(400, 30))
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
         self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_WORDWRAP,
@@ -53,6 +54,7 @@ class PatientAutoTestingPanel(wx.Panel):
         self.mainSizer.Add(self.birthdayLabel)
         self.mainSizer.Add(self.fileLabel, 0, wx.ALL, 5)
         self.mainSizer.Add(self.playRecLabel, 0, wx.ALL, 5)
+        self.mainSizer.Add(self.countdownLabel, 0, wx.ALL, 5)
         self.mainSizer.Add(self.textLabel, 0, wx.ALL, 5)
         self.mainSizer.Add(self.textRes, 0, wx.ALL, 5)
 
@@ -65,8 +67,7 @@ class PatientAutoTestingPanel(wx.Panel):
         self.SetSizer(self.mainSizer)
         self.Layout()
 
-        # self.nextBtn.Disable() TODO: UNCOMMENT!
-        self.playRecLabel.Hide()
+        self.nextBtn.Disable()
 
     def update(self):
         self.fioLabel.SetLabel(
@@ -84,13 +85,12 @@ class PatientAutoTestingPanel(wx.Panel):
         self.update()
         test_item = self.testing_model.testingItems[self.current_testing_item]
 
+        self.textRes.Clear()
         self.playRecLabel.SetLabel("Воспроизведение")
-        self.playRecLabel.Show()
         noise_file = self.recognition_service_settings.noises_dir + self.test_settings.noiseFile \
             if self.test_settings.noiseFile != '' \
             else None
         play_file( self.recognition_service_settings.words_dir + test_item.initialAudioFilePath,self.test_settings.volumeLevelNoice, noise_file)
-        self.playRecLabel.Hide()
 
     def onKeyTyped(self, event):
         test_item = self.testing_model.testingItems[self.current_testing_item]
@@ -100,36 +100,52 @@ class PatientAutoTestingPanel(wx.Panel):
 
     def record(self):
         self.startRecord()
-
-        delay_time = self.test_settings.delay * 4
-        dlg = wx.ProgressDialog("Запись",
-                                "Идёт запись",
-                                maximum=delay_time,
-                                parent=self,
-                                style=wx.PD_APP_MODAL | wx.PD_AUTO_HIDE | wx.PD_REMAINING_TIME
-                                )
-        keepGoing = True
+        self.playRecLabel.SetLabel("Запись")
+        delay_time = self.test_settings.delay * 1000    # getting delay in milliseconds
         count = 0
-        while keepGoing and count < delay_time:
-            count += 1
+        while count < delay_time:
+            count += 250
+            self.countdownLabel.SetLabel(self.get_countdown_text(delay_time, count))
             wx.MilliSleep(250)
-            (keepGoing, skip) = dlg.Update(count)
-        dlg.Update(delay_time)
-        dlg.Hide()
-        dlg.Destroy()
-        wx.MilliSleep(250)
         self.stopRecord()
+        wx.MilliSleep(250)
 
-    # def nextRecord(self):
-    #     self.current_testing_item += 1
-    #     self.update()
+    def get_countdown_text(self, total_time, left_time):
+        left_ticks = 16
+        right_ticks = 16
+        mid_ticks = 5
+        total_ticks = left_ticks + right_ticks + mid_ticks
+        full_sym = '+'
+        empty_sym = '~'
+        edge_sym = '!'
+        ticks = int(left_time / total_time * total_ticks)
+        left_line = edge_sym
+        right_line = ""
+        if ticks <= left_ticks:
+            left_line += full_sym * ticks + empty_sym * (left_ticks - ticks)
+            right_line = empty_sym * right_ticks + edge_sym
+        elif ticks > left_ticks + mid_ticks:
+            left_line += full_sym * left_ticks
+            right_line = (ticks - (left_ticks + mid_ticks)) * full_sym + empty_sym * (total_ticks - ticks) + edge_sym
+        else:
+            left_line += full_sym * left_ticks
+            right_line = empty_sym * right_ticks + edge_sym
+        minutes = (total_time - left_time) // 60000
+        if minutes < 10:
+            minutes = "0" + str(minutes)
+        else:
+            minutes = str(minutes)
+        seconds = ((total_time - left_time) // 1000) % 60
+        if seconds < 10:
+            seconds = "0" + str(seconds)
+        else:
+            seconds = str(seconds)
+        return left_line + " " + minutes + ":" + seconds + " " + right_line
 
     def startRecord(self):
         self.playRecLabel.SetLabel("Запись")
-        self.playRecLabel.Show()
         self.recording_data = RecordingData()
         start_recording(self.recording_data, self.recognition_service_settings)
-        # self.showRecordCircle()
         print("Start recording")
 
     def stopRecord(self):
@@ -138,13 +154,13 @@ class PatientAutoTestingPanel(wx.Panel):
         test_item.resultAudioFilePath = test_item.initialAudioFilePath
         wav_file_with_speech = stop_recording(test_item.resultAudioFilePath, self.recording_data,
                                               self.recognition_service_settings)
-        self.playRecLabel.Hide()
+        self.playRecLabel.SetLabel("Распознавание")
         print("Stop Recording")
 
-        # TODO: UNCOMMENT WHEN DEBUG END
+        # TODO: UNCOMMENT WHEN RECOGNITION SERVICE WILL BE STABLE
         # text = recognize_wav_file(wav_file_with_speech,
         #                           self.recognition_service_settings.recognize_service_url)
-        text = "Заглушечный тЭкст"
+        text = "Текст заглушка"
 
         print("Result : {}".format(text))
 
@@ -176,3 +192,5 @@ class PatientAutoTestingPanel(wx.Panel):
             self.play()
             self.record()
             self.update()
+        self.playRecLabel.SetLabel("Конец сессии")
+        self.nextBtn.Enable()
