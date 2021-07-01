@@ -9,6 +9,7 @@ import os
 from models.patient_testing_model import *
 from utils.utils import *
 from utils.constants import WITHOUT_NOISE_OPTION
+from utils.error_handling import *
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, 'bitmaps')
@@ -199,9 +200,9 @@ class AudioChoosingPanel(wx.Panel):
                     check_box_item = self.choosingAudioTree.AppendItem(root_tree_item, file, ct_type=1)
                     self.generic_tree_items[root + os.sep + file] = check_box_item
                     self.check_box_items.append(check_box_item)
-        except KeyError:
-            print("Exception while building file tree")
-
+        except KeyError as error:
+            exception_logger(error)
+            error_message(self, error)
     def resetFilesBox(self):
         for check_box_item in self.check_box_items:
             check_box_item.Check(checked=False)
