@@ -98,9 +98,16 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
         self.nextBtn.Hide()
 
-        self.printBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Напечатать результаты", size=(200, 30))
+        self.printBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Напечатать результаты", size=(150, 30))
         self.printBtn.Bind(wx.EVT_BUTTON, self.printResults)
 
+        self.graphBtn = wx.Button(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Построить график",
+                                  size=(150, 30))
+        self.graphBtn.Bind(wx.EVT_BUTTON, self.graphPanel)
+
+        self.printAndGraphSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.printAndGraphSizer.Add(self.printBtn, 0, wx.ALL, 5)
+        self.printAndGraphSizer.Add(self.graphBtn, 0, wx.ALL, 5)
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -110,7 +117,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.mainSizer.Add(self.resultsTestingLabel)
         self.mainSizer.Add(self.grid)
         self.mainSizer.Add(self.countLabel)
-        self.mainSizer.Add(self.printBtn)
+        self.mainSizer.Add(self.printAndGraphSizer)
         self.mainSizer.Add(self.nextBtn)
 
         self.SetSizer(self.mainSizer)
@@ -197,3 +204,8 @@ class PatientResultPanel(scrolled.ScrolledPanel):
     def _getPercentValue(self, value, count):
         return str(int(value / count * 100)) + "%" if count > 0 else 0
 
+    def graphPanel(self, event):
+        self.Hide()
+        next_panel = next(self.parent.current_panel)
+        next_panel.Show()
+        self.Layout()

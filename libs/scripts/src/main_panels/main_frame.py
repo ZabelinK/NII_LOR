@@ -7,6 +7,7 @@ from main_panels.patient_auto_testing_panel import *
 from main_panels.patient_result_panel import *
 from main_panels.session_settings_panel import *
 from extra_panels.recognition_simple_panel import *
+from main_panels.intensity_graph_panel import *
 from extra_panels.about_panel import *
 from extra_panels.error_panel import *
 from utils.constants import *
@@ -66,6 +67,9 @@ class MainFrame(wx.Frame):
                                                                      test_settings=self.session_settings.test_setting,
                                                                      recognition_service_settings=recognition_service_settings,))
 
+        self.intensity_graph_panel = self.addPanel(IntensityGraphPanel(self, testing_model=patient_testing_model,
+                                                                     test_settings=self.session_settings.test_setting,
+                                                                     recognition_service_settings=recognition_service_settings, ))
 
         self.current_panel = itertools.cycle(self.all_panels_in_order)
 

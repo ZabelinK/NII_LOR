@@ -68,36 +68,19 @@ class SessionSettingsPanel(wx.Panel):
                                                                  self.testing_model.firstName + " " + self.testing_model.middleName + " " + self.testing_model.secondName))
         self.birthdayLabel = wx.StaticText(self, label="{} {}".format("Год рождения: ", self.testing_model.birthday))
 
-        self.m12BtnNoice = wx.ToggleButton(self,name='m12BtnNoice', style=wx.SL_INVERSE, label="-12", size=(50, 20))
-        self.m12BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-12))
-        self.m9BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-9", size=(50, 20))
-        self.m9BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-9))
-        self.m6BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-6", size=(50, 20))
-        self.m6BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-6))
-        self.m3BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="-3", size=(50, 20))
-        self.m3BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=-3))
-        self.mp0BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+-0", size=(50, 20))
-        self.mp0BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=0))
-        self.p3BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+3", size=(50, 20))
-        self.p3BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=3))
-        self.p6BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+6", size=(50, 20))
-        self.p6BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=6))
-        self.p9BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+9", size=(50, 20))
-        self.p9BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=9))
-        self.p12BtnNoice = wx.ToggleButton(self, style=wx.SL_INVERSE, label="+12", size=(50, 20))
-        self.p12BtnNoice.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event, flag=12))
+        self.noiceButtons = []
+        index = -12
+        for i in range(9):
+            print(i)
+            self.noiceButton = wx.ToggleButton(self, style=wx.SL_INVERSE, label=str(index), size=(50, 20))
+            self.noiceButtons.append(self.noiceButton)
+            index += 3
 
-        self.buttons = {
-            -12: self.m12BtnNoice,
-            -9: self.m9BtnNoice,
-            -6: self.m6BtnNoice,
-            -3: self.m3BtnNoice,
-            0: self.mp0BtnNoice,
-            3: self.p3BtnNoice,
-            6: self.p6BtnNoice,
-            9: self.p9BtnNoice,
-            12: self.p12BtnNoice
-        }
+        self.buttons = {self.noiceButtons[a].Id: b for b, a in zip(range(-12, 15, 3), range(10))}
+
+        for self.noiceButton in self.noiceButtons:
+            print(self.buttons[self.noiceButton.Id])
+            self.noiceButton.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event))
 
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Перейти к выбору записей", size=(170, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
@@ -112,15 +95,9 @@ class SessionSettingsPanel(wx.Panel):
         self.dbLoudnessSizerNoice = wx.BoxSizer(wx.HORIZONTAL)
 
         self.dbLoudnessSizerNoice.Add(volumeSettingsLabelNoice, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
-        self.dbLoudnessSizerNoice.Add(self.m12BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.m9BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.m6BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.m3BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.mp0BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.p3BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.p6BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.p9BtnNoice)
-        self.dbLoudnessSizerNoice.Add(self.p12BtnNoice)
+        for i in range(9):
+            self.dbLoudnessSizerNoice.Add(self.noiceButtons[i])
+
         self.dbLoudnessSizerNoice.AddSpacer(20)
 
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -156,14 +133,16 @@ class SessionSettingsPanel(wx.Panel):
         self.Layout()
 
 
-    def setDbNoice(self, event, flag=None,name=None):
-        if event.Id==self.buttons[flag].Id:
-            self.buttons[flag].SetValue(True)
-            for i in self.buttons:
-                if self.buttons[flag].Id!=self.buttons[i].Id:
-                    self.buttons[i].SetValue(False)
+    def setDbNoice(self, event):
+        print(event.Id)
+        for self.noiceButton in self.noiceButtons:
+            print(self.noiceButton.Id)
+            if self.noiceButton.Id == event.Id:
+                    self.noiceButton.SetValue(True)
+            else:
+                    self.noiceButton.SetValue(False)
 
-        self.currentVolumeNoice = flag
+        self.currentVolumeNoice = self.buttons[event.Id]
         print(self.currentVolumeNoice)
         self.test_setting.volumeLevelNoice = self.currentVolumeNoice
 
