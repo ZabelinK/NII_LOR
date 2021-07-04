@@ -206,6 +206,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
 
     def graphPanel(self, event):
         self.Hide()
-        next_panel = next(self.parent.current_panel)
+        self.parent.current_panel = self.parent.intensity_graph_panel
+        next_panel = self.parent.current_panel
         next_panel.Show()
         self.Layout()
