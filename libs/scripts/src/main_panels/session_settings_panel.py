@@ -40,8 +40,8 @@ class SessionSettingsPanel(wx.Panel):
         methods = ['AS', 'AD', 'Бинаурально']
         self.methodChoice = wx.RadioBox(self, choices=methods)
         self.methodChoice.Bind(wx.EVT_RADIOBOX, self.setAnalysisMethod)
-        self.methodChoice.SetSelection(0)
-        self.test_setting.analysisMethod = 0
+        self.methodChoice.SetSelection(2)
+        self.test_setting.analysisMethod = 2
 
         earSettingsLabel = wx.StaticText(self, -1, "Настройки для:", size=(125, 25))
         hearingToolLabel = wx.StaticText(self, -1, "Вид аппарата", size=(125, 25))
