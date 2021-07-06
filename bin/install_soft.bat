@@ -18,4 +18,5 @@ call %PYTHON_HOME%\Scripts\pip install -U requests
 call %PYTHON_HOME%\Scripts\pip install -v numpy==1.20.2
 call %PYTHON_HOME%\Scripts\pip install -U docx
 call %PYTHON_HOME%\Scripts\pip install -U docxtpl
+call %PYTHON_HOME%\Scripts\pip install -U matplotlib
 @rem ============================================================================================
