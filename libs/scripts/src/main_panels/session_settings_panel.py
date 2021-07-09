@@ -1,6 +1,7 @@
 import wx
 import wx.media
 
+import utils.utils
 from models.patient_testing_model import *
 from utils.utils import *
 
@@ -82,8 +83,11 @@ class SessionSettingsPanel(wx.Panel):
             print(self.buttons[self.noiceButton.Id])
             self.noiceButton.Bind(wx.EVT_TOGGLEBUTTON, lambda event: self.setDbNoice(event))
 
-        self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Перейти к выбору записей", size=(170, 30))
+        self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Перейти к выбору записей", size=(170, 30) )
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
+
+        self.prevBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Назад", size=(170, 30))
+        self.prevBtn.Bind(wx.EVT_BUTTON, self.prevPanel)
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.soundToolChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -93,6 +97,7 @@ class SessionSettingsPanel(wx.Panel):
         self.voiceChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingAidSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.dbLoudnessSizerNoice = wx.BoxSizer(wx.HORIZONTAL)
+        self.prevNextSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.dbLoudnessSizerNoice.Add(volumeSettingsLabelNoice, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         for i in range(9):
@@ -120,6 +125,9 @@ class SessionSettingsPanel(wx.Panel):
         self.hearingAidSizer.Add(hearingAidLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         self.hearingAidSizer.Add(self.hearingAidText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
+        self.prevNextSizer.Add(self.prevBtn)
+        self.prevNextSizer.Add(self.nextBtn)
+
         self.mainSizer.Add(self.soundToolChoiceSizer)
         self.mainSizer.Add(self.voiceChoiceSizer)
         self.mainSizer.Add(self.hearingMethodChoiceSizer)
@@ -127,7 +135,7 @@ class SessionSettingsPanel(wx.Panel):
         self.mainSizer.Add(self.hearingToolChoiceSizer)
         self.mainSizer.Add(self.hearingAidSizer)
         self.mainSizer.Add(self.dbLoudnessSizerNoice)
-        self.mainSizer.Add(self.nextBtn)
+        self.mainSizer.Add(self.prevNextSizer)
 
         self.SetSizer(self.mainSizer)
         self.Layout()
@@ -156,6 +164,15 @@ class SessionSettingsPanel(wx.Panel):
         next_panel = next(self.parent.current_panel)
         next_panel.update()
         next_panel.Show()
+        self.Layout()
+
+    def prevPanel(self, event):
+        self.test_setting.hearingAidType = self.hearingAidText.GetValue()
+        self.Hide()
+        #prev_panel = next(self.parent.current_panel)
+        prev_panel = next(return_to_prev_page(self.parent.current_panel, self.parent.number_of_frames))
+        prev_panel.update()
+        prev_panel.Show()
         self.Layout()
 
     def setSoundTool(self, event):

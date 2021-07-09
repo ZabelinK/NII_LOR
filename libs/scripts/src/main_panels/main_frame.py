@@ -71,10 +71,11 @@ class MainFrame(wx.Frame):
                                                                      test_settings=self.session_settings.test_setting,
                                                                      recognition_service_settings=recognition_service_settings, ))
 
+        self.number_of_frames = len(self.all_panels_in_order)
         self.current_panel = itertools.cycle(self.all_panels_in_order)
-
         # Add them to sized and hide all except first
         show_panel = next(self.current_panel)
+
         for panel in self.all_panels_in_order:
             sizer.Add(panel, 1, wx.EXPAND)
 

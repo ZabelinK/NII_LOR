@@ -14,3 +14,8 @@ def obj_to_str(obj):
         if getattr(obj, field):
             obj_dict[field] = getattr(obj, field)
     return str(obj_dict)
+
+def return_to_prev_page(iterator, len):
+    for i in range(1, len - 1):
+        next(iterator)
+    return iterator

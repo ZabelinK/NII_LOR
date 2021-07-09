@@ -101,6 +101,10 @@ class AudioChoosingPanel(wx.Panel):
         self.nextBtn = wx.Button(self, style=wx.SL_INVERSE, label="Начать воспроизведение", size=(150, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
+        self.prevBtn = wx.Button(self, style=wx.SL_INVERSE, label="Назад", size=(150, 30))
+        self.prevBtn.Bind(wx.EVT_BUTTON, self.prevPanel)
+        #TODO: когда несколько раз щелкаешь вперед-назад окно сворачивается
+
         # Sizers initialization
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.hSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -108,6 +112,7 @@ class AudioChoosingPanel(wx.Panel):
         self.hDelaySizer = wx.BoxSizer(wx.HORIZONTAL)
         self.vSettingsSizer = wx.BoxSizer(wx.VERTICAL)
         self.hRandomSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.prevNextSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         
         self.vRandomSizer.Add(self.randomRecordLabel)
@@ -133,10 +138,13 @@ class AudioChoosingPanel(wx.Panel):
         self.hSizer.Add(self.choosingAudioTree)
         self.hSizer.Add(self.vSettingsSizer)
 
+        self.prevNextSizer.Add(self.prevBtn)
+        self.prevNextSizer.Add(self.nextBtn)
+
         self.mainSizer.Add(self.title)
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
-        self.mainSizer.Add(self.nextBtn)
+        self.mainSizer.Add(self.prevNextSizer)
 
         self.SetSizer(self.mainSizer)
         self.Layout()
@@ -159,6 +167,14 @@ class AudioChoosingPanel(wx.Panel):
             next_panel = next(self.parent.current_panel)
         next_panel.update()
         next_panel.Show()
+        self.Layout()
+
+    def prevPanel(self, event):
+        self.parent.SetSize(self.prev_size)
+        self.Hide()
+        prev_panel = next(return_to_prev_page(self.parent.current_panel, self.parent.number_of_frames))
+        prev_panel.update()
+        prev_panel.Show()
         self.Layout()
 
     def returnAllNonEmptyExtendableItemsImpl(self, item):
@@ -203,6 +219,7 @@ class AudioChoosingPanel(wx.Panel):
         except KeyError as error:
             exception_logger(error)
             error_message(self, error)
+
     def resetFilesBox(self):
         for check_box_item in self.check_box_items:
             check_box_item.Check(checked=False)
