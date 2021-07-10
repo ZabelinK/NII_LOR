@@ -5,6 +5,7 @@ import wx.media
 from services.recognition_service import *
 from services.microphone_service import *
 from services.sound_service import *
+from utils.utils import return_to_prev_page
 
 dirName = os.path.dirname(os.path.abspath(__file__))
 bitmapDir = os.path.join(dirName, '../../bitmaps')
@@ -62,6 +63,8 @@ class PatientStagedTestingPanel(wx.Panel):
         self.nextBtn = wx.Button(self, style=wx.SL_VERTICAL|wx.SL_INVERSE, label="Показать результаты", size=(120, 30))
         self.nextBtn.Bind(wx.EVT_BUTTON, self.nextPanel)
 
+        self.prevBtn = wx.Button(self, style=wx.SL_INVERSE, label="Назад", size=(120, 30))
+        self.prevBtn.Bind(wx.EVT_BUTTON, self.prevPanel)
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -92,6 +95,11 @@ class PatientStagedTestingPanel(wx.Panel):
 
         self.mainSizer.Add(self.hSizerBtn, 0, wx.ALL, 5)
 
+
+        self.prevSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.prevSizer.Add(self.prevBtn, 0, wx.ALL, 10)
+        self.mainSizer.Add(self.prevSizer)
+
         self.SetSizer(self.mainSizer)
         self.Layout()
 
@@ -114,6 +122,7 @@ class PatientStagedTestingPanel(wx.Panel):
 
     def onPlay(self, event):
         self.playBtn.Disable()
+        self.prevBtn.Disable()
         test_item = self.testing_model.testingItems[self.current_testing_item]
         self.currentVolumeNoice = self.test_settings.volumeLevelNoice
         self.playLabel.Show()
@@ -131,6 +140,8 @@ class PatientStagedTestingPanel(wx.Panel):
         test_item.isCorrect = test_item.initialText == test_item.resultTest
 
     def onRecord(self, event):
+        self.prevBtn.Disable()
+        self.update()
         if self.recordBtn.GetValue() == True:
             self.recordBtn.SetLabel("Остановить запись")
             self.playBtn.Disable()
@@ -147,16 +158,19 @@ class PatientStagedTestingPanel(wx.Panel):
             self.nextRecBtn.Enable()
         
     def nextRecord(self, event):
+        self.prevBtn.Disable()
         self.current_testing_item += 1
         self.update()
 
+
     def startRecord(self):
+
         self.recordLabel.Show()
         self.recording_data = RecordingData()
         start_recording(self.recording_data, self.recognition_service_settings)
         #self.showRecordCircle()
         print("Start recording")
- 
+
     def stopRecord(self):
         test_item = self.testing_model.testingItems[self.current_testing_item]
         test_item.resultAudioFilePath = test_item.initialAudioFilePath
@@ -188,4 +202,12 @@ class PatientStagedTestingPanel(wx.Panel):
         next_panel = next(self.parent.current_panel)
         next_panel.update()
         next_panel.Show()
+        self.Layout()
+
+    def prevPanel(self, event):
+        self.Hide()
+        prev_panel = next(return_to_prev_page(self.parent.current_panel, self.parent.number_of_frames))
+        prev_panel.SetSize((700, 700))
+        prev_panel.update()
+        prev_panel.Show()
         self.Layout()

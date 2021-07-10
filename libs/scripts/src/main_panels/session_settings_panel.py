@@ -162,8 +162,10 @@ class SessionSettingsPanel(wx.Panel):
         self.test_setting.hearingAidType = self.hearingAidText.GetValue()
         self.Hide()
         next_panel = next(self.parent.current_panel)
+        next_panel.SetSize((700, 700))
         next_panel.update()
         next_panel.Show()
+
         self.Layout()
 
     def prevPanel(self, event):

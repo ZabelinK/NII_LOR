@@ -36,6 +36,7 @@ class AudioChoosingPanel(wx.Panel):
         self.currentFolder = sp.GetDocumentsDir()
 
     def layoutControls(self):
+
         wx.InitAllImageHandlers()
 
         available_noises_wav = [WITHOUT_NOISE_OPTION]

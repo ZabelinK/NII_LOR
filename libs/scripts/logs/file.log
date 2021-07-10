@@ -1,0 +1,530 @@
+2021-07-04 15:58:38,965 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 15:59:38,106 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:00:36,989 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:01:36,568 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:02:46,274 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:03:44,247 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:05:12,089 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 16:06:31,482 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 17:01:20,472 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 17:06:29,304 - utils.error_handling - ERROR - 'NoneType' object is not iterable
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 75, in __init__
+    for i in self.reverse_all_panels_in_order:
+TypeError: 'NoneType' object is not iterable
+2021-07-04 17:06:29,304 - utils.error_handling - ERROR - 'NoneType' object is not iterable
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 75, in __init__
+    for i in self.reverse_all_panels_in_order:
+TypeError: 'NoneType' object is not iterable
+2021-07-04 17:07:57,633 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 17:08:05,774 - utils.error_handling - ERROR - 'NoneType' object is not reversible
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 74, in __init__
+    self.reverse_all_panels_in_order = reversed(self.all_panels_in_order.reverse())
+TypeError: 'NoneType' object is not reversible
+2021-07-04 17:08:05,774 - utils.error_handling - ERROR - 'NoneType' object is not reversible
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 74, in __init__
+    self.reverse_all_panels_in_order = reversed(self.all_panels_in_order.reverse())
+TypeError: 'NoneType' object is not reversible
+2021-07-04 17:08:28,660 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-04 17:13:20,945 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\Глаголы'
+2021-07-07 13:59:28,638 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:02:57,101 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:04:45,129 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:05:43,253 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:07:23,748 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:12:50,087 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:17:25,350 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:19:34,355 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:24:44,153 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:26:41,575 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:27:07,974 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:27:30,187 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:29:19,585 - utils.error_handling - ERROR - name 'HORIZONTAL' is not defined
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 49, in __init__
+    self.session_settings = self.addPanel(SessionSettingsPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 20, in __init__
+    self.layoutControls()
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 129, in layoutControls
+    self.prevNextSizer.Add(wx.BoxSizer(orient=HORIZONTAL))
+NameError: name 'HORIZONTAL' is not defined
+2021-07-07 14:29:26,275 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:38:07,910 - utils.error_handling - ERROR - Sizer.Add(): arguments did not match any overloaded call:
+  overload 1: not enough arguments
+  overload 2: not enough arguments
+  overload 3: not enough arguments
+  overload 4: not enough arguments
+  overload 5: not enough arguments
+  overload 6: not enough arguments
+  overload 7: not enough arguments
+  overload 8: not enough arguments
+  overload 9: not enough arguments
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 49, in __init__
+    self.session_settings = self.addPanel(SessionSettingsPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 20, in __init__
+    self.layoutControls()
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 129, in layoutControls
+    self.prevNextSizer.Add()
+TypeError: Sizer.Add(): arguments did not match any overloaded call:
+  overload 1: not enough arguments
+  overload 2: not enough arguments
+  overload 3: not enough arguments
+  overload 4: not enough arguments
+  overload 5: not enough arguments
+  overload 6: not enough arguments
+  overload 7: not enough arguments
+  overload 8: not enough arguments
+  overload 9: not enough arguments
+2021-07-07 14:38:38,295 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:39:18,272 - utils.error_handling - ERROR - BoxSizer.AddSpacer(): not enough arguments
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 49, in __init__
+    self.session_settings = self.addPanel(SessionSettingsPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 20, in __init__
+    self.layoutControls()
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 129, in layoutControls
+    self.prevNextSizer.AddSpacer()
+TypeError: BoxSizer.AddSpacer(): not enough arguments
+2021-07-07 14:43:06,879 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:44:20,130 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:46:03,719 - utils.error_handling - ERROR - module 'wx' has no attribute 'SplitSizer'
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 49, in __init__
+    self.session_settings = self.addPanel(SessionSettingsPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 20, in __init__
+    self.layoutControls()
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 129, in layoutControls
+    self.prevNextSizer.Add(wx.SplitSizer.AddStretchSpacer())
+AttributeError: module 'wx' has no attribute 'SplitSizer'
+2021-07-07 14:47:14,363 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:48:12,262 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:48:16,964 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:48:16,964 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:53:00,237 - utils.error_handling - ERROR - C++ assertion "!(flags & wxALIGN_RIGHT)" failed at ..\..\src\common\sizer.cpp(2168) in wxBoxSizer::DoInsert(): Horizontal alignment flags are ignored in horizontal sizers
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 49, in __init__
+    self.session_settings = self.addPanel(SessionSettingsPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 20, in __init__
+    self.layoutControls()
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\session_settings_panel.py", line 129, in layoutControls
+    self.prevNextSizer.Add(self.nextBtn,flag = wx.ALIGN_RIGHT)
+wx._core.wxAssertionError: C++ assertion "!(flags & wxALIGN_RIGHT)" failed at ..\..\src\common\sizer.cpp(2168) in wxBoxSizer::DoInsert(): Horizontal alignment flags are ignored in horizontal sizers
+2021-07-07 14:53:27,492 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:53:38,102 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:53:38,102 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:56:43,500 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:57:18,165 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:57:23,265 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:57:23,265 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 14:58:36,874 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 14:59:09,911 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:00:31,411 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:01:17,016 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:01:53,774 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:02:09,668 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:04:09,525 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:04:30,125 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 15:04:30,125 - utils.error_handling - ERROR - C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 18, in <module>
+    application.MainLoop()
+  File "G:\libraries\Python38\lib\site-packages\wx\core.py", line 2237, in MainLoop
+    rv = wx.PyApp.MainLoop(self)
+wx._core.wxAssertionError: C++ assertion "classTable->Get(m_className) == 0" failed at ..\..\src\common\object.cpp(239) in wxClassInfo::Register(): Class "wxIdleEvent" already in RTTI table - have you used wxIMPLEMENT_DYNAMIC_CLASS() multiple times or linked some object file twice)?
+2021-07-07 15:05:30,847 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:06:38,970 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:10:09,193 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 195, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:14:05,743 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 206, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:16:45,230 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 210, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-07 15:17:14,440 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 210, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:25:58,405 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 217, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:31:23,965 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 217, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:35:28,996 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 217, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:35:55,470 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 217, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:36:39,164 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 219, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:37:08,614 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 219, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:38:31,998 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:39:07,829 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:40:00,966 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:41:04,018 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:41:50,969 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:43:30,524 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:44:18,130 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:44:48,235 - utils.error_handling - ERROR - Window.SetMinSize(): argument 1 has unexpected type 'int'
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 59, in __init__
+    self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 33, in __init__
+    self.SetMinSize(700, 700)
+TypeError: Window.SetMinSize(): argument 1 has unexpected type 'int'
+2021-07-10 21:45:06,257 - utils.error_handling - ERROR - Window.SetMinSize(): argument 1 has unexpected type 'set'
+Traceback (most recent call last):
+  File "G:/Polytech/lor/NII_LOR/libs/scripts/src/application.py", line 16, in <module>
+    main_frame = mf.MainFrame(patient_testing_model, recognition_service_settings, test_settings)
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\main_frame.py", line 59, in __init__
+    self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 33, in __init__
+    self.SetMinSize({700, 700})
+TypeError: Window.SetMinSize(): argument 1 has unexpected type 'set'
+2021-07-10 21:47:04,041 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:50:24,237 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 21:51:24,757 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 22:05:14,943 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 22:06:07,018 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 22:06:55,411 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 22:11:13,145 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 22:58:00,563 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 23:01:03,828 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 23:02:33,374 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 23:02:57,538 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+2021-07-10 23:03:30,949 - utils.error_handling - ERROR - 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
+Traceback (most recent call last):
+  File "G:\Polytech\lor\NII_LOR\libs\scripts\src\main_panels\audio_choosing_panel.py", line 218, in constructAudioTree
+    root_tree_item = self.generic_tree_items[root]
+KeyError: 'G:/Polytech/lor/NII_LOR/data_set/records\\man'
