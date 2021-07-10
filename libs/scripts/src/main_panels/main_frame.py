@@ -1,5 +1,6 @@
 import itertools
 
+from services.recognition_service import *
 from main_panels.patient_info_panel import *
 from main_panels.audio_choosing_panel import *
 from main_panels.patient_staged_testing_panel import *
@@ -42,6 +43,11 @@ class MainFrame(wx.Frame):
         sizer = wx.BoxSizer()
         self.SetSizer(sizer)
         self.all_panels_in_order = []
+
+        # Checking recognition service availability
+        self.recognition_service_settings.is_svc_available = \
+            is_recognition_server_available(self.recognition_service_settings.recognize_service_url)
+        print("AVAILABLE: " + str(self.recognition_service_settings.is_svc_available))
 
         # Creating all panels
         self.patient_info = self.addPanel(PatientInfoPanel(self, testing_model=patient_testing_model))

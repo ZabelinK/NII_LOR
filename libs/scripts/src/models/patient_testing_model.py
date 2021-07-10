@@ -59,6 +59,7 @@ class RecognitionServiceSettings:
 
     def __init__(self, temp_dir, input_dir, words_dir, noises_dir, bitmaps_dir, template_dir):
         self.recognize_service_url = 'https://asr.kube.plintum.dev/recognize?lang=ru'
+        self.is_svc_available = True
         self.tempFileName = "out.wav"
         self.fs = 8000
         if temp_dir:

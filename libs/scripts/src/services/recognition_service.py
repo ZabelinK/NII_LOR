@@ -16,3 +16,11 @@ def recognize_wav_file(wav_name, recognize_service_url):
     except Exception as e:
         print(e)
         return "< ERROR > Ошибка в консоли"
+
+
+def is_recognition_server_available(recognize_service_url):
+    try:
+        requests.get(recognize_service_url, timeout=1)
+        return True
+    except Exception:
+        return False
