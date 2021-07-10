@@ -50,6 +50,8 @@ class PatientStagedTestingPanel(wx.Panel):
         self.recordLabel = wx.StaticText(self, label="Идет запись")
 
         self.textLabel = wx.StaticText(self, label="Распознанный текст")
+        if not self.recognition_service_settings.is_svc_available:
+            self.textLabel.SetLabel("Введите произнесённый текст:")
         self.textRes = wx.TextCtrl(self, style=wx.TE_MULTILINE|wx.TE_WORDWRAP,
             value="", name="Результаты распознавания", size=(300, 100))
         self.textRes.Bind(wx.EVT_TEXT, self.onKeyTyped)
@@ -162,19 +164,20 @@ class PatientStagedTestingPanel(wx.Panel):
         self.recordLabel.Hide()
         print("Stop Recording")
 
-        text = recognize_wav_file(wav_file_with_speech,
-                                  self.recognition_service_settings.recognize_service_url)
+        if self.recognition_service_settings.is_svc_available:
+            text = recognize_wav_file(wav_file_with_speech,
+                                      self.recognition_service_settings.recognize_service_url)
 
-        print("Result : {}".format(text))
+            print("Result : {}".format(text))
 
-        self.textRes.Clear()
-        if text is None:
-            self.textRes.write("< Произошла ошибка, подробности в консоли >")
-            return
- 
-        self.textRes.write(text)
-        test_item.resultTest = text.lower()
-        test_item.isCorrect = test_item.initialText == test_item.resultTest
+            self.textRes.Clear()
+            if text is None:
+                self.textRes.write("< Произошла ошибка, подробности в консоли >")
+                return
+
+            self.textRes.write(text)
+            test_item.resultTest = text.lower()
+            test_item.isCorrect = test_item.initialText == test_item.resultTest
 
 
     def nextPanel(self, event):
