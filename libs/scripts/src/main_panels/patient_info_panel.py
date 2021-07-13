@@ -1,5 +1,6 @@
 import os
 import wx.media
+import wx.adv
 from datetime import datetime
 
 from extra_panels.error_panel import *
@@ -63,17 +64,14 @@ class PatientInfoPanel(wx.Panel):
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        birthdayLabel = wx.StaticText(panel, -1, "Год гождения", size=(170, 25))
+        birthdayLabel = wx.StaticText(panel, -1, "Дата рождения", size=(200, 25))
 
         hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT | wx.LEFT, 5)
-        self.birthdayText = wx.TextCtrl(panel, size=(220,25))
-        self.birthdayText.SetMaxLength(4)
+        self.birthdayText = wx.adv.DatePickerCtrl(self, wx.ID_ANY, wx.DefaultDateTime, style=wx.adv.DP_DROPDOWN)
+        self.birthdayText.SetValue(wx.DateTime.Now())
 
         hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
-        birthdayExLabel = wx.StaticText(panel, -1, "пр. 1990", size=(125, 25))
-        hbox2.Add(birthdayExLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
         verticalBoxSizer.Add(hbox2)
-        self.birthdayText.Bind(wx.EVT_TEXT_MAXLEN, self.OnMaxLen)
 
         diagnosisBoxSizer = wx.BoxSizer(wx.HORIZONTAL)
         diagnosisLabel = wx.StaticText(panel, -1, "Диагноз", size=(170, 25))
@@ -176,24 +174,7 @@ class PatientInfoPanel(wx.Panel):
                 return
             self.patient.middleName = fio_parts[2]
 
-        birthdayText = self.birthdayText.GetValue()
-        if not birthdayText:
-            birthdayText = DEFAULT_BIRTHDAY
-
-        if str.isnumeric(birthdayText) is False:
-            self.error_message = "Год рождения должен содержать только цифры!"
-            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
-                                      style=wx.OK | wx.CENTRE).ShowModal()
-            print("Please enter valid birth year")
-            return
-
-        self.patient.birthday = int(birthdayText, base=10)
-        if self.patient.birthday < 1900:
-            self.error_message = "Год рождения должен быть больше 1900!"
-            dialog = wx.MessageDialog(self.parent, self.error_message, caption="Ошибка ввода данных",
-                                      style=wx.OK | wx.CENTRE).ShowModal()
-            print("Please enter valid birth year")
-            return
+        self.patient.birthday = self.birthdayText.GetValue().Format("%d.%m.%Y")
 
         self.patient.testDay = self.t4.GetValue()
 
