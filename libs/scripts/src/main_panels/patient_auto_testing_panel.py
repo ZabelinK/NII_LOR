@@ -172,7 +172,7 @@ class PatientAutoTestingPanel(wx.Panel):
             test_item.isCorrect = test_item.initialText == test_item.resultTest
         else:
             self.textRes.write("< Сервис распознавания речи недоступен >")
-            test_item.resultTest = "текст заглушка"
+            test_item.resultTest = "автоматически не распознано"
             test_item.isCorrect = test_item.initialText == test_item.resultTest
 
         wx.MilliSleep(1000)
