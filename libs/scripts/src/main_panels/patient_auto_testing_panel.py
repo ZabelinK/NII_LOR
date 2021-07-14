@@ -157,21 +157,24 @@ class PatientAutoTestingPanel(wx.Panel):
         self.playRecLabel.SetLabel("Распознавание")
         print("Stop Recording")
 
-        # TODO: UNCOMMENT WHEN RECOGNITION SERVICE WILL BE STABLE
-        # text = recognize_wav_file(wav_file_with_speech,
-        #                           self.recognition_service_settings.recognize_service_url)
-        text = "Текст заглушка"
+        if self.recognition_service_settings.is_svc_available:
+            text = recognize_wav_file(wav_file_with_speech,
+                                      self.recognition_service_settings.recognize_service_url)
+            print("Result : {}".format(text))
 
-        print("Result : {}".format(text))
+            self.textRes.Clear()
+            if text is None:
+                self.textRes.write("< Произошла ошибка, подробности в консоли >")
+                return
 
-        self.textRes.Clear()
-        if text is None:
-            self.textRes.write("< Произошла ошибка, подробности в консоли >")
-            return
+            self.textRes.write(text)
+            test_item.resultTest = text.lower()
+            test_item.isCorrect = test_item.initialText == test_item.resultTest
+        else:
+            self.textRes.write("< Сервис распознавания речи недоступен >")
+            test_item.resultTest = "текст заглушка"
+            test_item.isCorrect = test_item.initialText == test_item.resultTest
 
-        self.textRes.write(text)
-        test_item.resultTest = text.lower()
-        test_item.isCorrect = test_item.initialText == test_item.resultTest
         wx.MilliSleep(1000)
 
     def nextPanel(self, event):

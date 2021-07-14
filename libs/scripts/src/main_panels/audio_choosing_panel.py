@@ -52,18 +52,12 @@ class AudioChoosingPanel(wx.Panel):
         modes = ['Автоматический            ', 'Поэтапный']
         self.playModeRadioBox = wx.RadioBox(self, choices=modes)
         self.playModeRadioBox.Bind(wx.EVT_RADIOBOX, self.setPlayMode)
-        if self.recognition_service_settings.is_svc_available:
-            self.playModeRadioBox.SetSelection(0)
-        else:
-            self.playModeRadioBox.SetSelection(1)
+        self.playModeRadioBox.SetSelection(0)
 
         self.delayLabel = wx.StaticText(self, label="Задержка (сек):   ")
         self.delaySlider = wx.Slider(self, value=self.test_setting.delay, minValue=1, maxValue=10, size=(200, 30),
                                      style=wx.SL_HORIZONTAL | wx.SL_VALUE_LABEL | wx.SL_MIN_MAX_LABELS | wx.SL_AUTOTICKS)
         self.delaySlider.Bind(wx.EVT_SCROLL, self.setDelay)
-        if not self.recognition_service_settings.is_svc_available:
-            self.delayLabel.Hide()
-            self.delaySlider.Hide()
 
         # Noise choice initialization
         self.noiseLabel = wx.StaticText(self, label="Шумы: ")
@@ -279,12 +273,6 @@ class AudioChoosingPanel(wx.Panel):
 
     def setPlayMode(self, event):
         choise = self.playModeRadioBox.GetSelection()
-        if not self.recognition_service_settings.is_svc_available:
-            if choise == 0:
-                self.playModeRadioBox.SetSelection(1)
-                wx.MessageBox("Автоматический режим воспроизведения недоступен, так как не удаётся "
-                              "подключиться к серверу", style=wx.OK | wx.CENTRE)
-            return
         if choise == 1:                 # staged
             self.delayLabel.Hide()
             self.delaySlider.Hide()
