@@ -69,6 +69,7 @@ class PatientInfoPanel(wx.Panel):
         hbox2.Add(birthdayLabel, 1, wx.ALIGN_LEFT | wx.LEFT, 5)
         self.birthdayText = wx.adv.DatePickerCtrl(self, wx.ID_ANY, wx.DefaultDateTime, style=wx.adv.DP_DROPDOWN)
         self.birthdayText.SetValue(wx.DateTime.Now())
+        self.birthdayText.SetRange(wx.DateTime(1, 1, year=1900), wx.DateTime.Now())
 
         hbox2.Add(self.birthdayText, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.BOTTOM | wx.TOP, 5)
         verticalBoxSizer.Add(hbox2)
