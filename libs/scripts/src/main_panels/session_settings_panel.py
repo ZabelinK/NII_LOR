@@ -7,13 +7,14 @@ from utils.utils import *
 
 class SessionSettingsPanel(wx.Panel):
 
-    def __init__(self, parent, testing_model, test_setting):
+    def __init__(self, parent, testing_model, test_setting, recognition_service_settings):
         wx.Panel.__init__(self, parent=parent)
 
         self.parent = parent
 
         self.testing_model = testing_model
         self.test_setting = test_setting
+        self.recognition_service_settings = recognition_service_settings
         self.currentVolumeNoice = 0
 
         self.SetSize((800, 600))
@@ -29,13 +30,6 @@ class SessionSettingsPanel(wx.Panel):
         self.soundToolChoice.Bind(wx.EVT_CHOICE, self.setSoundTool)
         self.soundToolChoice.SetSelection(0)
         self.test_setting.soundTool = 0
-
-        voiceChoiceLabel = wx.StaticText(self, -1, "Голос озвучки", size=(125, 25))
-        voice = ['Мужчина', 'Женщина']
-        self.voiceChoice = wx.Choice(self, choices=voice)
-        self.voiceChoice.Bind(wx.EVT_CHOICE, self.setVoice)
-        self.voiceChoice.SetSelection(0)
-        self.test_setting.voice = 0
 
         hearingMethodLabel = wx.StaticText(self, -1, "Метод коррекции слуха", size=(125, 30))
         methods = ['AS', 'AD', 'Бинаурально']
@@ -94,7 +88,6 @@ class SessionSettingsPanel(wx.Panel):
         self.earSettingsLabelSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingMethodChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingToolChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.voiceChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.hearingAidSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.dbLoudnessSizerNoice = wx.BoxSizer(wx.HORIZONTAL)
         self.prevNextSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -129,7 +122,6 @@ class SessionSettingsPanel(wx.Panel):
         self.prevNextSizer.Add(self.nextBtn)
 
         self.mainSizer.Add(self.soundToolChoiceSizer)
-        self.mainSizer.Add(self.voiceChoiceSizer)
         self.mainSizer.Add(self.hearingMethodChoiceSizer)
         self.mainSizer.Add(self.earSettingsLabelSizer)
         self.mainSizer.Add(self.hearingToolChoiceSizer)
@@ -179,9 +171,6 @@ class SessionSettingsPanel(wx.Panel):
 
     def setSoundTool(self, event):
         self.test_setting.soundTool = self.soundToolChoice.GetSelection()
-
-    def setVoice(self, event):
-        self.test_setting.voice = self.voiceChoice.GetSelection()
 
     def setLeftTool(self, event):
         self.test_setting.leftTool = self.leftToolChoice.GetSelection()

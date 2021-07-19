@@ -47,6 +47,13 @@ class AudioChoosingPanel(wx.Panel):
         self.panel_title = wx.StaticText(self, -1, "Шаг 3. Выбор записей для тестирования")
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
 
+        # Voice choice initialization
+        voiceChoiceLabel = wx.StaticText(self, -1, "Голос озвучки", size=(125, 25))
+        voice = ['Мужчина', 'Женщина']
+        self.voiceChoice = wx.Choice(self, choices=voice)
+        self.voiceChoice.Bind(wx.EVT_CHOICE, self.setVoice)
+        self.voiceChoice.SetSelection(0)
+
         # Play mode initialization
         self.playModeLabel = wx.StaticText(self, label="Режим воспроизведения:")
         modes = ['Автоматический            ', 'Поэтапный']
@@ -114,6 +121,7 @@ class AudioChoosingPanel(wx.Panel):
         self.vSettingsSizer = wx.BoxSizer(wx.VERTICAL)
         self.hRandomSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.prevNextSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.voiceChoiceSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         
         self.vRandomSizer.Add(self.randomRecordLabel)
@@ -142,7 +150,11 @@ class AudioChoosingPanel(wx.Panel):
         self.prevNextSizer.Add(self.prevBtn)
         self.prevNextSizer.Add(self.nextBtn)
 
+        self.voiceChoiceSizer.Add(voiceChoiceLabel, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
+        self.voiceChoiceSizer.Add(self.voiceChoice)
+
         self.mainSizer.Add(self.title)
+        self.mainSizer.Add(self.voiceChoiceSizer)
         self.mainSizer.Add(self.hSizer)
         self.mainSizer.Add(self.filesNumber)
         self.mainSizer.Add(self.prevNextSizer)
@@ -201,6 +213,10 @@ class AudioChoosingPanel(wx.Panel):
         return list(filter(lambda item: item.GetType() == self.CheckableType, item.GetChildren()))
 
     def constructAudioTree(self):
+        if self.test_setting.voice == 0:
+            self.recognition_service_settings.words_dir = '..\\data_set\\\\records\\man\\'
+        if self.test_setting.voice == 1:
+            self.recognition_service_settings.words_dir = '..\\data_set\\\\records\\woman\\'
         words_path = self.recognition_service_settings.words_dir
         self.generic_tree_items = {
                                words_path : self.choosingAudioTree.AddRoot("words")
@@ -282,3 +298,9 @@ class AudioChoosingPanel(wx.Panel):
 
     def setDelay(self, event):
         self.test_setting.delay = self.delaySlider.GetValue()
+
+    def setVoice(self, event):
+        self.test_setting.voice = self.voiceChoice.GetSelection()
+        self.choosingAudioTree.DeleteAllItems()
+        self.constructAudioTree()
+        self.choosingAudioTree.ExpandAll()

@@ -54,7 +54,8 @@ class MainFrame(wx.Frame):
 
         self.session_settings = self.addPanel(SessionSettingsPanel(self,
                                                                    testing_model=patient_testing_model,
-                                                                   test_setting=test_settings))
+                                                                   test_setting=test_settings,
+                                                                   recognition_service_settings=recognition_service_settings))
 
         self.audio_choosing = self.addPanel(AudioChoosingPanel(self,
                                                                testing_model=patient_testing_model,
