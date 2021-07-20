@@ -70,6 +70,7 @@ class PatientAutoTestingPanel(wx.Panel):
         self.nextBtn.Disable()
 
     def update(self):
+        wx.Yield()
         self.fioLabel.SetLabel(
             "{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
@@ -108,6 +109,7 @@ class PatientAutoTestingPanel(wx.Panel):
             self.countdownLabel.SetLabel(self.get_countdown_text(delay_time, count))
             wx.MilliSleep(250)
         self.stopRecord()
+        wx.Yield()
         wx.MilliSleep(250)
 
     def get_countdown_text(self, total_time, left_time):
@@ -174,7 +176,7 @@ class PatientAutoTestingPanel(wx.Panel):
             self.textRes.write("< Сервис распознавания речи недоступен >")
             test_item.resultTest = "автоматически не распознано"
             test_item.isCorrect = test_item.initialText == test_item.resultTest
-
+        wx.Yield()
         wx.MilliSleep(1000)
 
     def nextPanel(self, event):
@@ -189,11 +191,16 @@ class PatientAutoTestingPanel(wx.Panel):
 
     def startSession(self, event):
         self.startBtn.Disable()
+        blank_cursor = wx.Cursor(wx.CURSOR_BLANK)
+        self.SetCursor(blank_cursor)
 
         for i in range(self.test_settings.audioFilesNumber):
             self.current_testing_item = i
             self.play()
             self.record()
             self.update()
+
+        cursor = wx.Cursor(wx.CURSOR_ARROW)
+        self.SetCursor(cursor)
         self.playRecLabel.SetLabel("Конец сессии")
         self.nextBtn.Enable()
