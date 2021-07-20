@@ -153,7 +153,7 @@ class SessionSettingsPanel(wx.Panel):
     def nextPanel(self, event):
         self.test_setting.hearingAidType = self.hearingAidText.GetValue()
         self.Hide()
-        next_panel = next(self.parent.current_panel)
+        next_panel = self.parent.audio_choosing
         next_panel.SetSize((700, 700))
         next_panel.update()
         next_panel.Show()
@@ -163,8 +163,7 @@ class SessionSettingsPanel(wx.Panel):
     def prevPanel(self, event):
         self.test_setting.hearingAidType = self.hearingAidText.GetValue()
         self.Hide()
-        #prev_panel = next(self.parent.current_panel)
-        prev_panel = next(return_to_prev_page(self.parent.current_panel, self.parent.number_of_frames))
+        prev_panel = self.parent.patient_info
         prev_panel.update()
         prev_panel.Show()
         self.Layout()

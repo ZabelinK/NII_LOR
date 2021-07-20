@@ -234,7 +234,7 @@ class PatientInfoPanel(wx.Panel):
         print(self.patient.doctorMiddleName)
 
         self.Hide()
-        next_panel = next(self.parent.current_panel)
+        next_panel = self.parent.session_settings
         next_panel.update()
         next_panel.Show()
         self.Layout()

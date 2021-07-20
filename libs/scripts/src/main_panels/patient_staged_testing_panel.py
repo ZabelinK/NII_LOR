@@ -106,14 +106,22 @@ class PatientStagedTestingPanel(wx.Panel):
         self.playLabel.Hide()
         self.recordLabel.Hide()
     
+    def cleanCnt(self):
+        self.current_testing_item = 0
+
     def update(self):
         self.fioLabel.SetLabel("{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
         self.textRes.Clear()
+        print(self.current_testing_item, self.test_settings.audioFilesNumber)
         if self.current_testing_item < self.test_settings.audioFilesNumber:
             test_item = self.testing_model.testingItems[self.current_testing_item]
             index = str(self.current_testing_item + 1) + " из " + str(self.test_settings.audioFilesNumber) + ":  "
             self.fileLabel.SetLabel(index + test_item.initialAudioFilePath)
+            self.playBtn.Enable()
+            self.nextRecBtn.Enable()
+            self.recordBtn.Enable()
+            self.prevBtn.Enable()
         else:
             self.fileLabel.SetLabel("Все файлы кончились")
             self.playBtn.Disable()
@@ -199,14 +207,14 @@ class PatientStagedTestingPanel(wx.Panel):
 
         self.Hide()
         next(self.parent.current_panel)
-        next_panel = next(self.parent.current_panel)
+        next_panel = self.parent.patient_result_panel
         next_panel.update()
         next_panel.Show()
         self.Layout()
 
     def prevPanel(self, event):
         self.Hide()
-        prev_panel = next(return_to_prev_page(self.parent.current_panel, self.parent.number_of_frames))
+        prev_panel = self.parent.audio_choosing
         prev_panel.SetSize((700, 700))
         prev_panel.update()
         prev_panel.Show()

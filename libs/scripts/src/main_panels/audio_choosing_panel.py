@@ -163,8 +163,16 @@ class AudioChoosingPanel(wx.Panel):
         self.Layout()
 
     def update(self):
+        for item in self.check_box_items:
+            item.Check(checked=False)
+        
+        self.playModeRadioBox.SetSelection(0)
+        self.setPlayMode(None)
+
         self.prev_size = self.parent.GetSize()
         self.parent.SetSize(self.GetSize())
+        self.Layout()
+        self.choosingAudioTree.Refresh()
 
     def nextPanel(self, event):
         if len(self.testing_model.testingItems) == 0:
@@ -175,9 +183,12 @@ class AudioChoosingPanel(wx.Panel):
 
         self.parent.SetSize(self.prev_size)
         self.Hide()
-        next_panel = next(self.parent.current_panel)
-        if self.playModeRadioBox.GetSelection() == 0:   # auto
-            next_panel = next(self.parent.current_panel)
+        if self.playModeRadioBox.GetSelection() == 0:
+            next_panel = self.parent.patient_auto_testing
+        else:
+            next_panel = self.parent.patient_staged_testing
+            next_panel.cleanCnt()        
+
         next_panel.update()
         next_panel.Show()
         self.Layout()

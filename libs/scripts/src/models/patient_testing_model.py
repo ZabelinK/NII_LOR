@@ -44,7 +44,7 @@ class TestSettings:
         self.noiseFile = ''
         self.volumeLevelNoice = 0
         self.soundTool = ''
-        self.voice = ''
+        self.voice = 0
         self.leftTool = ''
         self.rightTool = ''
         self.analysisMethod = ''

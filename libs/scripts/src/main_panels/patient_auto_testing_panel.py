@@ -66,11 +66,14 @@ class PatientAutoTestingPanel(wx.Panel):
 
         self.SetSizer(self.mainSizer)
         self.Layout()
-
         self.nextBtn.Disable()
 
     def update(self):
         wx.Yield()
+
+        self.startBtn.Enable()
+        self.nextBtn.Disable()
+
         self.fioLabel.SetLabel(
             "{} {}".format("ФИО: ", self.testing_model.firstName + " " + self.testing_model.secondName))
         self.birthdayLabel.SetLabel("{} {}".format("Год рождения: ", self.testing_model.birthday))
@@ -184,7 +187,7 @@ class PatientAutoTestingPanel(wx.Panel):
         print("Testing Model content {}".format(self.testing_model))
 
         self.Hide()
-        next_panel = next(self.parent.current_panel)
+        next_panel = self.parent.patient_result_panel
         next_panel.update()
         next_panel.Show()
         self.Layout()

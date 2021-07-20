@@ -1,4 +1,5 @@
 import os
+import datetime
 import wx
 import wx.media
 import wx.grid
@@ -27,6 +28,9 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         self.currentFolder = sp.GetDocumentsDir()
 
     def update(self):
+
+        self.DestroyChildren()
+
         self.prev_size = self.parent.GetSize()
         self.parent.SetSize(self.GetSize())
         self.grid = wx.GridSizer(self.test_settings.audioFilesNumber, 7, 6, 6)
@@ -105,9 +109,14 @@ class PatientResultPanel(scrolled.ScrolledPanel):
                                   size=(150, 30))
         self.graphBtn.Bind(wx.EVT_BUTTON, self.graphPanel)
 
+        self.nextIterBtn = wx.Button(self, style=wx.SL_VERTICAL | wx.SL_INVERSE, label="Начать новую итерацию",
+                                  size=(150, 30))
+        self.nextIterBtn.Bind(wx.EVT_BUTTON, self.nextIter)
+
         self.printAndGraphSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.printAndGraphSizer.Add(self.printBtn, 0, wx.ALL, 5)
         self.printAndGraphSizer.Add(self.graphBtn, 0, wx.ALL, 5)
+        self.printAndGraphSizer.Add(self.nextIterBtn, 0, wx.ALL, 5)
 
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
         self.title.Add(self.panel_title, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.ALL, 5)
@@ -156,9 +165,12 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         play_file(self.btn_to_file[btn.GetId()])
 
     def nextPanel(self, event):
-        self.parent.SetSize(self.prev_size)
+        pass
+
+    def nextIter(self, event):
         self.Hide()
-        next_panel = next(self.parent.current_panel)
+        self.testing_model.testingItems = []
+        next_panel = self.parent.session_settings
         next_panel.update()
         next_panel.Show()
         self.Layout()
@@ -197,7 +209,8 @@ class PatientResultPanel(scrolled.ScrolledPanel):
             'doctor_rank': self.testing_model.doctorPosition
         }
         doc.render(context)
-        result_file = self.recognition_service_settings.temp_dir + "generated_doc.docx"
+        result_file = self.recognition_service_settings.temp_dir + \
+            "generated_doc_{}.docx".format(str(datetime.datetime.now()).replace(' ', '_').replace(':', '-').replace('.', '_'))
         doc.save(result_file)
         os.system('start ' + result_file)
 
@@ -205,8 +218,7 @@ class PatientResultPanel(scrolled.ScrolledPanel):
         return str(int(value / count * 100)) + "%" if count > 0 else 0
 
     def graphPanel(self, event):
-        self.Hide()
-        self.parent.current_panel = self.parent.intensity_graph_panel
-        next_panel = self.parent.current_panel
+        self.Hide() 
+        next_panel = self.parent.intensity_graph_panel
         next_panel.Show()
         self.Layout()

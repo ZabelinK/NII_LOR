@@ -72,11 +72,13 @@ class MainFrame(wx.Frame):
 
         self.patient_result_panel = self.addPanel(PatientResultPanel(self, testing_model=patient_testing_model, 
                                                                      test_settings=self.session_settings.test_setting,
-                                                                     recognition_service_settings=recognition_service_settings,))
+                                                                     recognition_service_settings=recognition_service_settings))
 
         self.intensity_graph_panel = self.addPanel(IntensityGraphPanel(self, testing_model=patient_testing_model,
                                                                      test_settings=self.session_settings.test_setting,
-                                                                     recognition_service_settings=recognition_service_settings, ))
+                                                                     recognition_service_settings=recognition_service_settings))
+
+        
 
         self.number_of_frames = len(self.all_panels_in_order)
         self.current_panel = itertools.cycle(self.all_panels_in_order)
